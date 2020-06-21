@@ -1,0 +1,13 @@
+.myDropdown {
+    min-width: 200px;
+    display: flex;
+    justify-content: center;
+}
+
+.myBorderRight {
+    border-right: 1px solid white;
+}
+
+.mySpacing {
+    margin-left: 15%;
+}
