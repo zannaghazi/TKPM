@@ -8,14 +8,14 @@ function Login(props) {
     console.log(styles);
     return (
         <div className={styles.myLoginPage}>
-            <div class="fadeInDown my-login">
+            <div className="fadeInDown my-login">
                 <div id="formContent" method="post" novalidate name="formContent">
-                    <div class="fadeIn first">
-                        <label class="my-label">Chào mừng quý khách đến với ZanLib</label>
+                    <div className="fadeIn first">
+                        <label className="my-label">Chào mừng quý khách đến với ZanLib</label>
                     </div>
                     <FormLogin />
                     <div id="formFooter">
-                        <a class="underlineHover my-login-link" href="#">Quên mật khẩu</a>
+                        <a className="underlineHover my-login-link" href="#">Quên mật khẩu</a>
                     </div>
                 </div>
             </div>

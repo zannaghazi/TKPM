@@ -1,5 +1,5 @@
 .myDropdown {
-    min-width: 200px;
+    min-width: 150px;
     display: flex;
     justify-content: center;
 }
@@ -10,4 +10,32 @@
 
 .mySpacing {
     margin-left: 15%;
+}
+
+.myTitle {
+    background-color: #343A40;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+.myBody {
+    width: 1250px;
+    margin: auto;
+    margin-top: 100px;
+}
+
+.myText {
+    margin-left: 10px;
+    font-weight: bold;
+    font-size: 20px;
+    color: #CCCECF;
+}
+
+.myCarousel {
+    height: 500px;
+}
+
+.myImage {
+    height: 300px;
 }
