@@ -1,0 +1,16 @@
+package com.TKPM.bookadministratorservice.model;
+
+import java.util.Date;
+
+import com.TKPM.bookadministratorservice.repository.BookInfoRepository;
+
+public class BookInfo {
+	private String ID;
+	private String ISBN;
+	private String name;
+	private String authorID;
+	private Date releaseDate;
+	private double price;
+	
+	private BookInfoRepository repository;
+}

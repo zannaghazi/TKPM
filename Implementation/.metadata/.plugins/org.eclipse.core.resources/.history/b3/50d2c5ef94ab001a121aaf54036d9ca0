@@ -1,0 +1,12 @@
+package com.TKPM.bookadministratorservice.model;
+
+import com.TKPM.bookadministratorservice.repository.BookRepository;
+
+public class Book {
+	private String ID;
+	private String ISBN;
+	private String name;
+	private String authorID;
+	
+	private BookRepository repository;
+}

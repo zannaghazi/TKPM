@@ -1,0 +1,5 @@
+package com.TKPM.readeradministratorservice.model;
+
+public class ReaderInfo {
+
+}

@@ -1,0 +1,8 @@
+package com.TKPM.bookadministratorservice.repository;
+
+public final class BookRepository {
+	
+	public BookRepository() {
+		
+	}
+}

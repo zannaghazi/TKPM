@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;com.TKPM.readeradministratorservice.model.Reader&apos; to &apos;ReaderInfo&apos;&#x0D;&#x0A;- Original project: &apos;reader-administrator-service&apos;&#x0D;&#x0A;- Original element: &apos;com.TKPM.readeradministratorservice.model.Reader&apos;&#x0D;&#x0A;- Renamed element: &apos;com.TKPM.readeradministratorservice.model.ReaderInfo&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;Reader&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.TKPM.readeradministratorservice.model{Reader.java[Reader" matchStrategy="1" name="ReaderInfo" qualified="false" references="true" similarDeclarations="false" stamp="1591850557405" textual="false" version="1.0"/>
+</session>

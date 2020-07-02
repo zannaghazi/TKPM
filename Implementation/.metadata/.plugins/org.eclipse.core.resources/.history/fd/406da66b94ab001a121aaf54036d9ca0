@@ -1,0 +1,10 @@
+package com.TKPM.bookadministratorservice.repository;
+
+public static class BookRepository {
+
+	public String ID;
+	
+	public BookRepository() {
+		
+	}
+}

@@ -1,0 +1,10 @@
+package com.TKPM.bookadministratorservice.model;
+
+public class Book {
+	private String ID;
+	private String ISBN;
+	private String name;
+	private String authorID;
+	
+	private BookRepository repository;
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete element from project &apos;discovery-server&apos;&#x0D;&#x0A;- Original project: &apos;discovery-server&apos;&#x0D;&#x0A;- Original element: &apos;discovery-server/src/main.java.com.TKPM.discoveryserver.com.TKPM.discoveryserver&apos;" description="Delete element" element1="/src&lt;main.java.com.TKPM.discoveryserver.com.TKPM.discoveryserver" element2="/src&lt;main.java.com.TKPM.discoveryserver.com.TKPM" element3="/src&lt;main.java.com.TKPM.discoveryserver.com" elements="3" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1591895142316" subPackages="false" version="1.0"/>
+</session>
