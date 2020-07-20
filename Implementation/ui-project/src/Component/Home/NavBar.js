@@ -5,11 +5,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function NavBar(props) {
     return (
-        <Navbar bg="dark" expand="lg" variant="dark">
+        <Navbar bg="dark" expand="lg" variant="dark" className={styles.myFixed}>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className={[styles.myNav].join(" ")}>
-                    <Nav.Link href="#home" className={[styles.myDropdown, styles.myBorderRight, styles.mySpacing].join(" ")}>Trang chủ</Nav.Link>
+                    <Nav.Link href="#home" className={[styles.myDropdown, styles.myBorderRight, styles.mySpacing].join(" ")}><b>Trang chủ</b></Nav.Link>
                     <NavDropdown title="Sách bộ môn" id="basic-nav-dropdown" className={[styles.myDropdown, styles.myBorderRight].join(" ")}>
                         <NavDropdown.Item href="#action/3.1">Toán-Tin</NavDropdown.Item>
                         <NavDropdown.Item href="#action/3.2">Công nghệ thông tin</NavDropdown.Item>

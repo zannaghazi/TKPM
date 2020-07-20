@@ -9,8 +9,15 @@
 }
 
 .myNav {
-    width: 1250px;
+    width: 1250px !important;
     margin: auto;
+}
+
+.myFixed {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 100;
 }
 
 .myTitle {
@@ -43,7 +50,7 @@
 .myBody {
     width: 1250px;
     margin: auto;
-    margin-top: 20px;
+    margin-top: 100px;
 }
 
 .myText {
@@ -76,6 +83,8 @@
     min-width: 50%;
     border: 1px solid black !important;
     height: 50px;
+    margin: 0px 2px 0px 0px !important;
+    border-radius: 0px 6px 6px 0px !important;
 }
 
 .myLogo {
@@ -91,14 +100,23 @@
     padding: 12px 24px;
 }
 
-.box {}
+.box {
+    width: 150px;
+    height: 50px;
+}
+
+.mySelect {
+    border-top-left-radius: 5px !important;
+    border-bottom-left-radius: 5px !important;
+}
 
 .box select {
     background-color: white;
     color: black;
-    padding: 12px;
-    width: 250px;
-    border: none;
+    padding: 10px;
+    width: 150px;
+    height: 50px;
+    border: 1px solid black;
     font-size: 20px;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
     -webkit-appearance: button;
@@ -107,7 +125,6 @@
 }
 
 .box::before {
-    content: "\f13a";
     font-family: FontAwesome;
     width: 20%;
     height: 100%;
@@ -126,4 +143,33 @@
 
 .box select option {
     padding: 30px;
+}
+
+.myLoginComponent {
+    margin-top: 15%;
+}
+
+.myAccount {
+    width: 50px;
+    height: 50px;
+}
+
+.smallFont {
+    font-size: 10px;
+}
+
+.myFooterColor {
+    background-color: #212121 !important;
+}
+
+.styleIcon {
+    width: 15px;
+    height: 15px;
+}
+
+.myHrTag {
+    margin-top: 50px !important;
+    margin-bottom: 50px !important;
+    width: 1250px;
+    margin: auto;
 }
