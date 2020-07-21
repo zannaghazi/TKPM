@@ -18,16 +18,16 @@ function Footer(props) {
                         <h5 className="title">Thông tin liên hệ</h5>
                         <ul>
                             <li className="list-unstyled">
-                                <a href="#!"><i class={["fa fa-phone", styles.styleIcon].join(" ")}></i>&nbsp;0936252722</a>
+                                <a href="#!"><i className={["fa fa-phone", styles.styleIcon].join(" ")}></i>&nbsp;0936252722</a>
                             </li>
                             <li className="list-unstyled">
-                                <a href="#!"><i class={["fa fa-envelope-open", styles.styleIcon].join(" ")}></i>&nbsp;nthoang1996@gmail.com</a>
+                                <a href="#!"><i className={["fa fa-envelope-open", styles.styleIcon].join(" ")}></i>&nbsp;nthoang1996@gmail.com</a>
                             </li>
                             <li className="list-unstyled">
-                                <a href="#!"><i class={["fa fa-map-marker", styles.styleIcon].join(" ")}></i>&nbsp;33/29 ĐHT 21 phường Đông Hưng Thuận quận 12 TP HCM</a>
+                                <a href="#!"><i className={["fa fa-map-marker", styles.styleIcon].join(" ")}></i>&nbsp;33/29 ĐHT 21 phường Đông Hưng Thuận quận 12 TP HCM</a>
                             </li>
                             <li className="list-unstyled">
-                                <a href="#!"><i class={["fa fa-building", styles.styleIcon].join(" ")}></i>&nbsp;Trường Đại học Khoa học Tự nhiên</a>
+                                <a href="#!"><i className={["fa fa-building", styles.styleIcon].join(" ")}></i>&nbsp;Trường Đại học Khoa học Tự nhiên</a>
                             </li>
                         </ul>
                     </MDBCol>

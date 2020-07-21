@@ -146,7 +146,7 @@
 }
 
 .myLoginComponent {
-    margin-top: 15%;
+    margin-top: 20%;
 }
 
 .myAccount {
@@ -156,6 +156,10 @@
 
 .smallFont {
     font-size: 10px;
+}
+
+.normalFont {
+    font-size: 14px;
 }
 
 .myFooterColor {
@@ -172,4 +176,28 @@
     margin-bottom: 50px !important;
     width: 1250px;
     margin: auto;
+}
+
+.myDropdownHome {
+    position: relative;
+    display: inline-block;
+    font-size: 12px;
+}
+
+.myDropdownContent {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 100px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.myDropdownHome:hover .myDropdownContent {
+    display: block;
+}
+
+.black {
+    color: black;
 }
