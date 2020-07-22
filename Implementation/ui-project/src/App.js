@@ -1,6 +1,8 @@
 import React from "react";
 import Login from './Component/Login/Login'
 import Home from './Component/Home/Home'
+import Dashboard from './Component/DashBoard/Body'
+import styles from './Component/DashBoard/static/styles.module.css'
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,10 +15,13 @@ import {
 export default function App() {
   return (
     <Router>
-      <div>
+      <div className = {styles.maxHeigt}>
         <Switch>
           <Route path="/Login">
             <Login />
+          </Route>
+          <Route path="/dashboard">
+            <Dashboard />
           </Route>
           <Route path="/">
             <Home />

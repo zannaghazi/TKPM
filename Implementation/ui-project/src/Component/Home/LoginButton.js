@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom'
 function LoginButton(props) {
     const [reload, setReload] = useState(false);
     function renderDropdown() {
-        console.log("token",localStorage.librarymanagement_token);
         if (!localStorage.librarymanagement_token || localStorage.librarymanagement_token === "") {
             return (
                 <Col lg={9}>
