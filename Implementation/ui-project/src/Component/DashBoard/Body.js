@@ -4,6 +4,7 @@ import SideBar from './SideBar';
 import styles from './static/styles.module.css'
 import UserManagement from './UserManagement.js/Body'
 import BookManagement from './BookManagement/Body'
+import {Container, Row, Col} from 'react-bootstrap'
 
 import {
     BrowserRouter as Router,
@@ -19,21 +20,23 @@ function Body(props) {
     return (
         <div className={styles.maxHeigh}>
             <Header />
-            <div className={["row", styles.fullHeigh, styles.myContainer].join(" ")}>
-                <div className="col-xs-2">
-                    <SideBar />
-                </div>
-                <div className="col-xs-10">
-                    <Switch>
-                        <Route exact path="/dashboard">
-                            <UserManagement />
-                        </Route>
-                        <Route path="/dashboard/book_management">
-                            <BookManagement />
-                        </Route>
-                    </Switch>
-                </div>
-            </div>
+            <Container className={[styles.myContainer].join(" ")}>
+                <Row className = {[styles.maxHeigh, styles.myRow].join(" ")}>
+                    <Col className={styles.myCol} sm={2}>
+                        <SideBar />
+                    </Col>
+                    <Col className={styles.myCol} sm = {10}>
+                        <Switch>
+                            <Route exact path="/dashboard">
+                                <UserManagement />
+                            </Route>
+                            <Route path="/dashboard/book_management">
+                                <BookManagement />
+                            </Route>
+                        </Switch>
+                    </Col>
+                </Row>
+            </Container>
         </div>
     );
 }

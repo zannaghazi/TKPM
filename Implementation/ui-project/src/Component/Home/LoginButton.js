@@ -17,7 +17,7 @@ function LoginButton(props) {
             return (
                 <Col lg={9}>
                     <div className={styles.myDropdownHome}>
-                        <span>Hi, <b>Hoàng NT</b>!</span> &nbsp;<i class="fa fa-caret-down"></i>
+                        <span>Hi, <b>Hoàng NT</b>!</span> &nbsp;<i className="fa fa-caret-down"></i>
                         <div className={styles.myDropdownContent}>
                         <a className={styles.black} href = "#" onClick = {SignOut}>Quản lý</a><br/>
                         <a className={styles.black} href = "#" onClick = {SignOut}>Đăng xuất</a>

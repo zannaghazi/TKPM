@@ -16,7 +16,7 @@ function Header(props) {
             <div className="col-sm-1" >
                 <div className={[styles.myDropdownHome].join(" ")}>
                     <i className={["fa fa-user-circle fa-2x", styles.logoAccount].join(" ")}></i>
-                    <span className={[styles.white].join(" ")}> <b>Hoàng NT</b>!&nbsp;<i class="fa fa-caret-down"></i></span> 
+                    <span className={[styles.white].join(" ")}> <b>Hoàng NT</b>!&nbsp;<i className="fa fa-caret-down"></i></span> 
                     <div className={styles.myDropdownContent}>
                         <a className={styles.black} href="#" onClick={SignOut}>Đăng xuất</a>
                     </div>
