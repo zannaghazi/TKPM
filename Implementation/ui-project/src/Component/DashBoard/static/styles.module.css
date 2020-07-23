@@ -53,15 +53,19 @@
     display: inline-block;
     width: 300px;
     background-color: #1C1C1C;
-    height: 94.2%;
+    height: 100%;
     margin: 0;
     color: white;
     font-size: 20px;
     font-weight: bold;
 }
 
-.maxHeigt {
+.maxHeigh {
     height: 100%;
+}
+
+.fullHeigh {
+    height: 94.1%;
 }
 
 .sideBarTitle {
@@ -92,4 +96,8 @@
 
 .containerButtonSideBar {
     padding: 5px;
+}
+
+.myContainer {
+    margin: 0;
 }

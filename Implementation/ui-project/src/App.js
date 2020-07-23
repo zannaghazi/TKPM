@@ -15,7 +15,7 @@ import {
 export default function App() {
   return (
     <Router>
-      <div className = {styles.maxHeigt}>
+      <div className = {styles.maxHeigh}>
         <Switch>
           <Route path="/Login">
             <Login />
