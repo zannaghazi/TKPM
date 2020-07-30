@@ -13,11 +13,12 @@ function Body(props) {
                 </Form>
             </Row>
             <Row className="mt-4 mb-4">
-                <Col xs={9}>
+                <Col xs={5}>
 
                 </Col>
-                <Col xs={3}>
-                    <Button variant="success" className={styles.myButtonSearch}>Tìm kiếm</Button>
+                <Col xs={7} className="d-flex justify-content-end">
+                    <Button variant="primary" className={styles.myButtonSearch}><i class="fa fa-plus"></i>&nbsp;Tạo tài khoản</Button>
+                    <Button variant="success" className={styles.myButtonSearch}><i className="fa fa-search"></i>&nbsp;Tìm kiếm</Button>
                 </Col>
             </Row>
         </Container>

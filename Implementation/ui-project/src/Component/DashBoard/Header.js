@@ -12,8 +12,8 @@ function Header(props) {
         <nav className={["navbar navbar-expand-lg navbar-light bg-light my-nav", styles.myNav].join(" ")}>
             <div className="col-sm-1" />
             <div className={["col-sm-3", styles.companyName].join(" ")}>Zan Library</div>
-            <div className="col-sm-7"></div>
-            <div className="col-sm-1" >
+            <div className="col-sm-6"></div>
+            <div className="col-sm-2 d-flex justify-content-end" >
                 <div className={[styles.myDropdownHome].join(" ")}>
                     <i className={["fa fa-user-circle fa-2x", styles.logoAccount].join(" ")}></i>
                     <span className={[styles.white].join(" ")}> <b>Hoàng NT</b>!&nbsp;<i className="fa fa-caret-down"></i></span> 

@@ -3,12 +3,12 @@ import {Modal} from 'react-bootstrap';
 import Body from './Body';
 
 function UserModal(props) {
-    const [show, setShow] = useState(true);
+    
     return (
         <Modal
             size="lg"
-            show={show}
-            onHide={() => setShow(false)}
+            show={props.show}
+            onHide={() => props.bindEventShow(false)}
             aria-labelledby="example-modal-sizes-title-lg"
         >
             <Modal.Header closeButton>
