@@ -4,6 +4,7 @@ import SideBar from './SideBar';
 import styles from './static/styles.module.css'
 import UserManagement from './UserManagement.js/Body'
 import BookManagement from './BookManagement/Body'
+import PublishManagement from './PublishManagement/Body'
 import {Container, Row, Col} from 'react-bootstrap'
 
 import {
@@ -27,11 +28,14 @@ function Body(props) {
                     </Col>
                     <Col className={styles.myCol} sm = {10}>
                         <Switch>
-                            <Route exact path="/dashboard">
+                            <Route exact path="/dashboard/user_management">
                                 <UserManagement />
                             </Route>
                             <Route path="/dashboard/book_management">
                                 <BookManagement />
+                            </Route>
+                            <Route path="/dashboard/publish_management">
+                                <PublishManagement />
                             </Route>
                         </Switch>
                     </Col>

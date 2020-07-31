@@ -17,7 +17,7 @@ function Body(props) {
 
                 </Col>
                 <Col xs={7} className="d-flex justify-content-end">
-                    <Button variant="primary" className={styles.myButtonSearch}><i className="fa fa-plus"></i>&nbsp;Tạo tài khoản</Button>
+                    <Button variant="primary" className={styles.myButtonSearch}><i className="fa fa-plus"></i>&nbsp;Thêm sách mới</Button>
                     <Button variant="success" className={styles.myButtonSearch}><i className="fa fa-search"></i>&nbsp;Tìm kiếm</Button>
                 </Col>
             </Row>

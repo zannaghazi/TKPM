@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import styles from '../static/styles.module.css'
-import UserQueryModal from './Modal/Query/Index'
 import TableContainer from './TableContainer'
 import MyTablePagination from './MyTablePagination'
 
@@ -12,7 +11,7 @@ function Body(props) {
             <Container className={[styles.maxWidth, "mt-3"].join(" ")}>
                 <Row className={styles.myMarginBottom}>
                     <Col xs={9}>
-                        <h3>Danh sách độc giả</h3>
+                        <h3>Danh sách nhà xuất bản</h3>
                     </Col>
                     <Col xs = {3} className="d-flex justify-content-end">
                     <Button variant="success" className={styles.myButtonSearch} onClick={() => setShow(true)}><i className="fa fa-search"></i>&nbsp;Tìm kiếm khác</Button>
@@ -25,7 +24,6 @@ function Body(props) {
                     <MyTablePagination />
                 </Row>
             </Container>
-            <UserQueryModal show = {show} bindEventShow = {setShow}/>
         </div>
     );
 }
