@@ -5,6 +5,8 @@ import styles from './static/styles.module.css'
 import UserManagement from './UserManagement.js/Body'
 import BookManagement from './BookManagement/Body'
 import PublishManagement from './PublishManagement/Body'
+import AuthorManagement from './AuthorManagement/Body'
+import BookTitleManagement from './TitleBookManagement/Body'
 import {Container, Row, Col} from 'react-bootstrap'
 
 import {
@@ -36,6 +38,12 @@ function Body(props) {
                             </Route>
                             <Route path="/dashboard/publish_management">
                                 <PublishManagement />
+                            </Route>
+                            <Route path="/dashboard/author_management">
+                                <AuthorManagement />
+                            </Route>
+                            <Route path="/dashboard/booktitle_management">
+                                <BookTitleManagement />
                             </Route>
                         </Switch>
                     </Col>

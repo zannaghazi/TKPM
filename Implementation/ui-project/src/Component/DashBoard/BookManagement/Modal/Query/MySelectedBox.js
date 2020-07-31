@@ -7,8 +7,8 @@ function MySelectedBox(props) {
             <select className={styles.mySelect}>
                 <option value="0">Trạng thái</option>
                 <option value="1">Mã thư viện</option>
-                <option value="1">Tên người mượn</option>
-                <option value="1">ID người mượn</option>
+                <option value="2">Tên người mượn</option>
+                <option value="3">ID người mượn</option>
             </select>
         </div>
     );

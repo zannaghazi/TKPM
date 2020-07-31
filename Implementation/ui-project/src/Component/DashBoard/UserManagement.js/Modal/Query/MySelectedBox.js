@@ -6,7 +6,7 @@ function MySelectedBox(props) {
         <div className={styles.box}>
             <select className={styles.mySelect}>
                 <option value="0">Tên đăng nhập</option>
-                <option value="0">Tên riêng</option>
+                <option value="1">Tên riêng</option>
             </select>
         </div>
     );
