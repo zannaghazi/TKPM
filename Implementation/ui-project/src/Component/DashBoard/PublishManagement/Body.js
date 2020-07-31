@@ -5,7 +5,6 @@ import TableContainer from './TableContainer'
 import MyTablePagination from './MyTablePagination'
 
 function Body(props) {
-    const [show, setShow] = useState(true);
     return (
         <div>
             <Container className={[styles.maxWidth, "mt-3"].join(" ")}>
@@ -14,7 +13,7 @@ function Body(props) {
                         <h3>Danh sách nhà xuất bản</h3>
                     </Col>
                     <Col xs = {3} className="d-flex justify-content-end">
-                    <Button variant="success" className={styles.myButtonSearch} onClick={() => setShow(true)}><i className="fa fa-search"></i>&nbsp;Tìm kiếm khác</Button>
+                    <Button variant="success" className={styles.myButtonSearch} ><i className="fa fa-plus"></i>&nbsp;Thêm nhà xuất bản</Button>
                     </Col>
                 </Row>
                 <Row className = "mt-3">

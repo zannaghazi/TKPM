@@ -5,15 +5,13 @@ function MyTablePagination(props) {
     const [active, setActive] = useState(2);
     const [items, setItems] = useState([]);
 
-    useEffect(() => {
-        for (let number = 1; number <= 5; number++) {
-            items.push(
-              <Pagination.Item key={number} active={number === active}>
-                {number}
-              </Pagination.Item>,
-            );
-          }
-      }, []);
+    for (let number = 1; number <= 5; number++) {
+      items.push(
+        <Pagination.Item key={number} active={number === active}>
+          {number}
+        </Pagination.Item>,
+      );
+    }
 
     return (
         <div>
