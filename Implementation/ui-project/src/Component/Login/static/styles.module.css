@@ -11,3 +11,9 @@
 .myFont {
     color: aqua;
 }
+
+.myErrMessage {
+    color: red;
+    font-size: 10px;
+    font-family: "Signika", sans-serif;
+}

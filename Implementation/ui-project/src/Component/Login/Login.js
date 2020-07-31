@@ -9,7 +9,7 @@ function Login(props) {
     return (
         <div className={styles.myLoginPage}>
             <div className="fadeInDown my-login">
-                <div id="formContent" method="post" novalidate name="formContent">
+                <div id="formContent" method="post" noValidate name="formContent">
                     <div className="fadeIn first">
                         <label className="my-label">Chào mừng quý khách đến với ZanLib</label>
                     </div>
