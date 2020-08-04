@@ -1,5 +1,5 @@
 import React from 'react';
-import MyLogo from '../../asset/logo/logo.png'
+import MyLogo from '../../../asset/logo/logo.png'
 import styles from './static/styles.module.css'
 
 function Logo(props) {

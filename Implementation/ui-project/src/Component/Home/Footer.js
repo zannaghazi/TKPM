@@ -7,8 +7,8 @@ import config from '../../asset/config.json'
 function Footer(props) {
     function renderContact(){
         let renderItem = [];
-        config.footer.contact.forEach(element =>{
-            renderItem.push(<li className="list-unstyled">
+        config.footer.contact.forEach((element, index) =>{
+            renderItem.push(<li key={index} className="list-unstyled">
             <a href="#"><i className={[element.icon_class, styles.styleIcon].join(" ")}></i>&nbsp;{element.title}</a>
         </li>)
         })
@@ -17,8 +17,8 @@ function Footer(props) {
 
     function renderCommunity(){
         let renderItem = [];
-        config.footer.community.forEach(element =>{
-            renderItem.push( <li className="list-unstyled">
+        config.footer.community.forEach((element, index) =>{
+            renderItem.push( <li key = {index} className="list-unstyled">
             <a href={element.url}><i className={[element.icon_class, styles.styleIcon].join(" ")}></i>&nbsp;{element.title}</a>
         </li>)
         })

@@ -30,7 +30,7 @@
         ]
     },
     "dashboard": [{
-            "url": "#",
+            "url": "/dashboard/account_management",
             "icon_class": "fa fa-user",
             "title": "Quản lý tài khoản"
         },

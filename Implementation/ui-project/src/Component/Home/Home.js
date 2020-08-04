@@ -1,23 +1,30 @@
 import React from 'react';
 import NavBar from './NavBar'
-import NewFeed from './NewFeed'
-import HotBook from './HotBook'
-import Header from './Header'
 import styles from './static/styles.module.css'
 import Footer from './Footer'
+import HomeContainer from './HomeContainer/Index'
+import BookDetail from './DetailBook/Index'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    useRouteMatch,
+    useParams
+} from "react-router-dom";
 
 function Home(props) {
     return (
         <div>
             <NavBar />
-
-            <div className={styles.myBody}>
-                <Header />
-                <NewFeed />
-                <HotBook />
-            </div>
-            <hr className = {styles.myHrTag}/>
-            <Footer className={styles.myMarginTop}/>
+            <Switch>
+                <Route exact path="/">
+                    <HomeContainer/>
+                </Route>
+                <Route path="/book/:id" component={BookDetail}/>
+            </Switch>
+            <hr className={styles.myHrTag} />
+            <Footer className={styles.myMarginTop} />
         </div>
     );
 }

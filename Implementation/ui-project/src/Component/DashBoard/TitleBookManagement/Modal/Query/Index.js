@@ -13,7 +13,7 @@ function UserModal(props) {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="example-modal-sizes-title-lg">
-                    Tìm kiếm tài khoản
+                    Tìm kiếm đầu sách
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
