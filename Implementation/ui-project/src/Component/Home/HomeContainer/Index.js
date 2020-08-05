@@ -5,7 +5,7 @@ import HotBook from './HotBook'
 
 function Index(props) {
     return (
-        <div className={styles.myBody}>
+        <div>
             <NewFeed />
             <HotBook />
         </div>
