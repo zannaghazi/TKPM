@@ -1,0 +1,22 @@
+.myTitle {
+    background-color: #343A40;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.myText {
+    margin-left: 10px;
+    font-weight: bold;
+    font-size: 20px;
+    color: #CCCECF;
+}
+
+.myCarousel {
+    height: 500px;
+}
+
+.myMarginBottom {
+    border-bottom: 1px solid black;
+}

@@ -4,6 +4,7 @@ import styles from './static/styles.module.css'
 import Footer from './Footer'
 import HomeContainer from './HomeContainer/Index'
 import BookDetail from './DetailBook/Index'
+import Header from './Header'
 import {
     BrowserRouter as Router,
     Switch,
@@ -17,6 +18,7 @@ function Home(props) {
     return (
         <div>
             <NavBar />
+            <Header />
             <Switch>
                 <Route exact path="/">
                     <HomeContainer/>
