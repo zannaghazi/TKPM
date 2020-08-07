@@ -123,3 +123,16 @@
 .myMarginBottom {
     border-bottom: 2px solid black;
 }
+
+.myButtonDetail {
+    padding: 5px 10px;
+    margin: 0;
+}
+
+.myInput {
+    padding: 5px !important;
+}
+
+.myLabel {
+    font-size: 20px;
+}

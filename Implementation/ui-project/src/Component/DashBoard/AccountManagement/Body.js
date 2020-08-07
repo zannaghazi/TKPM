@@ -15,7 +15,7 @@ function Body(props) {
                         <h3>Danh sách tài khoản</h3>
                     </Col>
                     <Col xs = {3} className="d-flex justify-content-end">
-                    <Button variant="success" className={styles.myButtonSearch} onClick={() => setShow(true)}><i className="fa fa-search"></i>&nbsp;Tìm kiếm khác</Button>
+                    <Button variant="success" className={styles.myButtonSearch} onClick={() => setShow(true)}><i className="fa fa-asterisk"></i>&nbsp;Thao tác khác</Button>
                     </Col>
                 </Row>
                 <Row className = "mt-3">

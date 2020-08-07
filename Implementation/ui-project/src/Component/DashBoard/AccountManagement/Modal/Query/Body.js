@@ -2,8 +2,14 @@ import React from 'react';
 import { Row, Container, Col, Form, FormControl, Button } from 'react-bootstrap';
 import MySelectedBox from './MySelectedBox'
 import styles from '../static/styles.module.css'
+import { useHistory } from "react-router-dom";
 
 function Body(props) {
+    const history = useHistory();
+    function NewAccount(event){
+        history.push("/dashboard/new_account");
+    }
+
     return (
         <Container>
             <Row className="mt-5 ml-5">
@@ -17,7 +23,7 @@ function Body(props) {
 
                 </Col>
                 <Col xs={7} className="d-flex justify-content-end">
-                    <Button variant="primary" className={styles.myButtonSearch}><i className="fa fa-plus"></i>&nbsp;Tạo tài khoản</Button>
+                    <Button variant="primary" className={styles.myButtonSearch}  onClick={NewAccount}><i className="fa fa-plus"></i>&nbsp;Tạo tài khoản</Button>
                     <Button variant="success" className={styles.myButtonSearch}><i className="fa fa-search"></i>&nbsp;Tìm kiếm</Button>
                 </Col>
             </Row>

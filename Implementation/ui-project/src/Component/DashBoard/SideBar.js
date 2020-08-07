@@ -16,9 +16,11 @@ function SideBar(props) {
     function renderButton() {
         let renderItem = [];
         config.dashboard.forEach((element, index) => {
-            renderItem.push(
-                <div key={index} className={[styles.marginLeftSidebar, styles.containerButtonSideBar].join(" ")}><Link to={element.url} className={[styles.myLink, styles.myButtonSideBar].join(" ")} onClick={() => resetPageTitle(element.url)}><i className={element.icon_class}></i>&nbsp;{element.title}</Link></div>
-            )
+            if(element.is_display){
+                renderItem.push(
+                    <div key={index} className={[styles.marginLeftSidebar, styles.containerButtonSideBar].join(" ")}><Link to={element.url} className={[styles.myLink, styles.myButtonSideBar].join(" ")} onClick={() => resetPageTitle(element.url)}><i className={element.icon_class}></i>&nbsp;{element.title}</Link></div>
+                )
+            }
         })
         return renderItem;
     }

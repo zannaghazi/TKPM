@@ -9,6 +9,7 @@ import AuthorManagement from './AuthorManagement/Body'
 import BookTitleManagement from './TitleBookManagement/Body'
 import {Container, Row, Col} from 'react-bootstrap'
 import AccountManagement from './AccountManagement/Body'
+import NewAccount from './NewAccount/Body'
 
 import {
     BrowserRouter as Router,
@@ -46,7 +47,10 @@ function Body(props) {
                             <Route path="/dashboard/booktitle_management">
                                 <BookTitleManagement />
                             </Route>
-                            <Route path="/dashboard/account_management">
+                            <Route path="/dashboard/new_account">
+                                <NewAccount />
+                            </Route>
+                            <Route path="/dashboard">
                                 <AccountManagement />
                             </Route>
                         </Switch>
