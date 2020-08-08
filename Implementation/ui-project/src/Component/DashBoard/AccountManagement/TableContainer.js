@@ -13,6 +13,7 @@ function TableContainer(props) {
                     <th width={'10%'}>Ngày sinh</th>
                     <th>Địa chỉ</th>
                     <th width={'10%'}>Giới tính</th>
+                    <th width={'10%'}>Vai trò</th>
                     <th width={'8%'}>
                     </th>
                 </tr>
@@ -25,6 +26,7 @@ function TableContainer(props) {
                     <td>13/07/1996</td>
                     <td>33/29 ĐHT 21 phường Đông Hưng Thuận quận 12 tp Hồ Chí Minh</td>
                     <td>Nam</td>
+                    <td>Thủ thư</td>
                     <td>
                         <Button variant="primary" className={styles.myButtonDetail}><i className="fa fa-edit"></i></Button>
                         <Button variant="danger" className={[styles.myButtonDetail, "ml-2"].join(" ")}><i className="fa fa-trash"></i></Button>
@@ -37,6 +39,7 @@ function TableContainer(props) {
                     <td>05/08/1996</td>
                     <td>c4/6d Lê Đình Chi huyện Bình Chánh tp Hồ Chí Minh</td>
                     <td>Nam</td>
+                    <td>Độc giả</td>
                     <td>
                         <Button variant="primary" className={styles.myButtonDetail}><i className="fa fa-edit"></i></Button>
                         <Button variant="danger" className={[styles.myButtonDetail, "ml-2"].join(" ")}><i className="fa fa-trash"></i></Button>
@@ -49,6 +52,7 @@ function TableContainer(props) {
                     <td>22/10/1996</td>
                     <td>799 Trần Xuân Soạn phường Tân Hưng quận 7 tp Hồ Chí Minh</td>
                     <td>Nam</td>
+                    <td>Độc giả</td>
                     <td>
                         <Button variant="primary" className={styles.myButtonDetail}><i className="fa fa-edit"></i></Button>
                         <Button variant="danger" className={[styles.myButtonDetail, "ml-2"].join(" ")}><i className="fa fa-trash"></i></Button>
