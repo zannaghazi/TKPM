@@ -136,3 +136,12 @@
 .myLabel {
     font-size: 20px;
 }
+
+.myAuthorSelect {
+    width: 50%;
+}
+
+.myContainerAuthor {
+    height: 38px;
+    padding: 0;
+}

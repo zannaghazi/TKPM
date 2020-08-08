@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import styles from '../static/styles.module.css'
 import BookQueryModal from './Modal/Query/Index'
@@ -14,18 +14,23 @@ function Body(props) {
                     <Col xs={9}>
                         <h3>Danh sách sách</h3>
                     </Col>
-                    <Col xs = {3} className="d-flex justify-content-end">
-                    <Button variant="success" className={styles.myButtonSearch} onClick={() => setShow(true)}><i className="fa fa-search"></i>&nbsp;Tìm kiếm khác</Button>
+                    <Col xs={3} className="d-flex justify-content-end">
+                        <Button variant="success" className={styles.myButtonSearch} onClick={() => setShow(true)}><i className="fa fa-asterisk"></i>&nbsp;Thao tác khác</Button>
                     </Col>
                 </Row>
-                <Row className = "mt-3">
-                    <TableContainer />
+                <Row className="mt-3">
+                    <Col xs={10}>
+                        <Row>
+                            <TableContainer />
+                        </Row>
+                        <Row className="mt-1 d-flex justify-content-center">
+                            <MyTablePagination />
+                        </Row>
+                    </Col>
                 </Row>
-                <Row className = "mt-1 d-flex justify-content-center">
-                    <MyTablePagination />
-                </Row>
+
             </Container>
-            <BookQueryModal show = {show} bindEventShow = {setShow}/>
+            <BookQueryModal show={show} bindEventShow={setShow} />
         </div>
     );
 }
