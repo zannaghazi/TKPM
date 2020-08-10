@@ -1,17 +1,16 @@
 import React from 'react';
 import NavBar from './NavBar'
-import NewFeed from './NewFeed'
-import HotBook from './HotBook'
 import styles from './static/styles.module.css'
+import Footer from './Footer'
+import Body from './Body'
 
 function Home(props) {
     return (
         <div>
             <NavBar />
-            <div className={styles.myBody}>
-                <NewFeed />
-                <HotBook />
-            </div>
+            <Body />
+
+            <Footer className={styles.myMarginTop} />
         </div>
     );
 }

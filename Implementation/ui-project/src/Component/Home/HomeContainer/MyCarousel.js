@@ -1,8 +1,8 @@
 import React from 'react';
 import {Carousel} from 'react-bootstrap';
-import Carousel1 from '../../asset/picture/srcTest/sach1.jpg'
-import Carousel2 from '../../asset/picture/srcTest/sach2.jpg'
-import Carousel3 from '../../asset/picture/srcTest/sach3.jpg'
+import Carousel1 from '../../../asset/picture/srcTest/sach1.jpg'
+import Carousel2 from '../../../asset/picture/srcTest/sach2.jpg'
+import Carousel3 from '../../../asset/picture/srcTest/sach3.jpg'
 import styles from './static/styles.module.css'
 
 function MyCarousel(props) {

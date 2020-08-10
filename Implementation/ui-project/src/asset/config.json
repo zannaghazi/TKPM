@@ -1,0 +1,105 @@
+{
+    "footer": {
+        "contact": [{
+                "title": "0936252722",
+                "icon_class": "fa fa-phone"
+            },
+            {
+                "title": "nthoang1996@gmail.com",
+                "icon_class": "fa fa-envelope-open"
+            },
+            {
+                "title": "33/29 ĐHT 21 phường Đông Hưng Thuận quận 12 TP HCM",
+                "icon_class": "fa fa-map-marker"
+            },
+            {
+                "title": "Trường Đại học Khoa học Tự nhiên",
+                "icon_class": "fa fa-building"
+            }
+        ],
+        "community": [{
+                "title": "Facebook Page",
+                "icon_class": "fa fa-facebook-f",
+                "url": "#"
+            },
+            {
+                "title": "Youtube Channel",
+                "icon_class": "fa fa-youtube",
+                "url": "#"
+            }
+        ]
+    },
+    "dashboard": [{
+            "url": "/dashboard",
+            "icon_class": "fa fa-user",
+            "title": "Quản lý tài khoản",
+            "is_display": true
+        },
+        {
+            "url": "/dashboard/booktitle_management",
+            "icon_class": "fa fa-bookmark",
+            "title": "Quản lý đầu sách",
+            "is_display": true
+        },
+        {
+            "url": "/dashboard/book_management",
+            "icon_class": "fa fa-book",
+            "title": "Quản lý sách",
+            "is_display": true
+        }, {
+            "url": "/dashboard/user_management",
+            "icon_class": "fa fa-users",
+            "title": "Quản lý độc giả",
+            "is_display": true
+
+        },
+        {
+            "url": "/dashboard/publish_management",
+            "icon_class": "fa fa-upload",
+            "title": "Quản lý nhà xuất bản",
+            "is_display": true
+        },
+        {
+            "url": "/dashboard/author_management",
+            "icon_class": "fa fa-pencil",
+            "title": "Quản lý tác giả",
+            "is_display": true
+        },
+        {
+            "url": "#",
+            "icon_class": "fa fa-arrows-alt",
+            "title": "Quản lý mượn trả",
+            "is_display": true
+        },
+        {
+            "url": "#",
+            "icon_class": "fa fa-file",
+            "title": "Lập báo cáo",
+            "is_display": true
+        },
+        {
+            "url": "/dashboard/new_account",
+            "icon_class": "",
+            "title": "Tạo tài khoản",
+            "is_display": false
+        },
+        {
+            "url": "/dashboard/new_book_title",
+            "icon_class": "",
+            "title": "Tạo đầu sách",
+            "is_display": false
+        },
+        {
+            "url": "/dashboard/new_book",
+            "icon_class": "",
+            "title": "Tạo sách",
+            "is_display": false
+        },
+        {
+            "url": "/dashboard/new_author",
+            "icon_class": "",
+            "title": "Tạo tác giả",
+            "is_display": false
+        }
+    ]
+}
