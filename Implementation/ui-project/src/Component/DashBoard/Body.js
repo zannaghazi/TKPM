@@ -12,6 +12,7 @@ import AccountManagement from './AccountManagement/Body'
 import NewAccount from './NewAccount/Body'
 import NewBookTitle from './NewBookTitle/Body'
 import NewBook from './NewBook/Body'
+import NewAuthor from './NewAuthor/Body'
 
 import {
     BrowserRouter as Router,
@@ -57,6 +58,9 @@ function Body(props) {
                             </Route>
                             <Route path="/dashboard/new_book">
                                 <NewBook />
+                            </Route>
+                            <Route path="/dashboard/new_author">
+                                <NewAuthor />
                             </Route>
                             <Route path="/dashboard">
                                 <AccountManagement />

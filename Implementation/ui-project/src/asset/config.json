@@ -94,6 +94,12 @@
             "icon_class": "",
             "title": "Tạo sách",
             "is_display": false
+        },
+        {
+            "url": "/dashboard/new_author",
+            "icon_class": "",
+            "title": "Tạo tác giả",
+            "is_display": false
         }
     ]
 }
