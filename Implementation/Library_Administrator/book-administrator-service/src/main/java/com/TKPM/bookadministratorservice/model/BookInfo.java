@@ -5,31 +5,78 @@ import java.util.Date;
 import com.TKPM.bookadministratorservice.repository.BookInfoRepository;
 
 public class BookInfo {
-	private String ID;
 	private String ISBN;
 	private String name;
-	private String authorID;
+	private int authorID;
+	private int publisherID;
 	private Date releaseDate;
-	private double price;
+	private int type;
+	private String location;
+	private String path;
+	private Boolean isDeleted;
 	
 	private BookInfoRepository repository;
 
-	public BookInfo(String iD, String iSBN, String name, String authorID, Date releaseDate, double price) {
+	public BookInfo(String iSBN, String name, int authorID, int publisherID, Date releaseDate, int type,
+			String location, String path, Boolean isDeleted) {
 		super();
-		ID = iD;
 		ISBN = iSBN;
 		this.name = name;
 		this.authorID = authorID;
+		this.publisherID = publisherID;
 		this.releaseDate = releaseDate;
-		this.price = price;
+		this.type = type;
+		this.location = location;
+		this.path = path;
+		this.isDeleted = isDeleted;
 	}
 
-	public String getID() {
-		return ID;
+	public int getPublisherID() {
+		return publisherID;
 	}
 
-	public void setID(String iD) {
-		ID = iD;
+	public void setPublisherID(int publisherID) {
+		this.publisherID = publisherID;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public BookInfoRepository getRepository() {
+		return repository;
+	}
+
+	public void setRepository(BookInfoRepository repository) {
+		this.repository = repository;
 	}
 
 	public String getISBN() {
@@ -48,11 +95,11 @@ public class BookInfo {
 		this.name = name;
 	}
 
-	public String getAuthorID() {
+	public int getAuthorID() {
 		return authorID;
 	}
 
-	public void setAuthorID(String authorID) {
+	public void setAuthorID(int authorID) {
 		this.authorID = authorID;
 	}
 
@@ -63,14 +110,5 @@ public class BookInfo {
 	public void setReleaseDate(Date releaseDate) {
 		this.releaseDate = releaseDate;
 	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-	
 	
 }

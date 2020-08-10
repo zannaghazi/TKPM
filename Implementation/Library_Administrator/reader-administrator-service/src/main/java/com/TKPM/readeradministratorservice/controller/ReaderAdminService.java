@@ -1,6 +1,7 @@
 package com.TKPM.readeradministratorservice.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,20 +11,27 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.TKPM.readeradministratorservice.model.ReaderInfo;
+import com.TKPM.readeradministratorservice.repository.ReaderInfoRepository;
 
 @RestController
 @RequestMapping("/reader")
 public class ReaderAdminService {
-	@Autowired
-	private RestTemplate restTemplate;
+	
+	private ReaderInfoRepository repository = new ReaderInfoRepository();
 	
 	@RequestMapping("/ping")
 	public String Hello() {
 		return "Hello";
 	}
 	
+	@GetMapping("/get_list_reader")
+	public List<ReaderInfo> getAllReader() {
+		List<ReaderInfo> result = repository.getAllReader();
+		return result;
+	}
+	
 	@GetMapping("/info/{readerId}")
 	public ReaderInfo getReaderByID(@PathVariable("readerId")String readerID) {
-		return new ReaderInfo(readerID, "Võ Thanh Hiếu", new Date(1996, 7, 3), "123123123", "thanhhieu@yahoo.com");
+		return null;
 	}
 }

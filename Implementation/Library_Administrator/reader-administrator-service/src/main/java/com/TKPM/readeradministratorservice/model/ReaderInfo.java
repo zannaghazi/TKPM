@@ -2,72 +2,111 @@ package com.TKPM.readeradministratorservice.model;
 
 import java.util.Date;
 
-import com.TKPM.readeradministratorservice.repository.ReaderInfoRepository;
-
 public class ReaderInfo {
-	private String ID;
-	private String name;
-	private Date birth;
-	private String certifiedNumber;
-	private String email;
+	private int ID;
+	private String fullName;
+	private String address;
+	private Boolean gender;
+	private Date birthday;
+	private Boolean isDeleted;
+	private Boolean isReader;
+	private int role;
+	private String username;
+	private String password;
 	
-	private ReaderInfoRepository repository;
-	
-	public ReaderInfo(String iD, String name, Date birth, String certifiedNumber, String email) {
+	public ReaderInfo(int iD, String fullName, String address, Boolean gender, Date birthday, Boolean isDeleted,
+			Boolean isReader, int role, String username, String password) {
 		super();
 		ID = iD;
-		this.name = name;
-		this.birth = birth;
-		this.certifiedNumber = certifiedNumber;
-		this.email = email;
+		this.fullName = fullName;
+		this.address = address;
+		this.gender = gender;
+		this.birthday = birthday;
+		this.isDeleted = isDeleted;
+		this.isReader = isReader;
+		this.role = role;
+		this.username = username;
+		this.password = password;
 	}
 
-	@Override
-	public String toString() {
-		return "ReaderInfo [ID=" + ID + ", name=" + name + ", birth=" + birth + ", certifiedNumber=" + certifiedNumber
-				+ ", email=" + email + "]";
-	}
-
-
-	public String getID() {
+	public int getID() {
 		return ID;
 	}
 
-	public void setID(String iD) {
+	public void setID(int iD) {
 		ID = iD;
 	}
 
-	public String getName() {
-		return name;
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
-	public Date getBirth() {
-		return birth;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setBirth(Date birth) {
-		this.birth = birth;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
-	public String getCertifiedNumber() {
-		return certifiedNumber;
+	public Boolean getGender() {
+		return gender;
 	}
 
-	public void setCertifiedNumber(String certifiedNumber) {
-		this.certifiedNumber = certifiedNumber;
+	public void setGender(Boolean gender) {
+		this.gender = gender;
 	}
 
-	public String getEmail() {
-		return email;
+	public Date getBirthday() {
+		return birthday;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
-	
+
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public Boolean getIsReader() {
+		return isReader;
+	}
+
+	public void setIsReader(Boolean isReader) {
+		this.isReader = isReader;
+	}
+
+	public int getRole() {
+		return role;
+	}
+
+	public void setRole(int role) {
+		this.role = role;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	
 }

@@ -5,18 +5,17 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.0.RELEASE</version>
+		<version>2.3.2.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.TKPM</groupId>
-	<artifactId>book-administrator-service</artifactId>
+	<artifactId>system-administrator-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>book-administrator-service</name>
-	<description>Microservice for the book administrator feature</description>
+	<name>system-administrator-service</name>
+	<description>Demo project for Spring Boot</description>
 
 	<properties>
 		<java.version>11</java.version>
-                <spring-cloud.version>Hoxton.SR5</spring-cloud.version>
 	</properties>
 
 	<dependencies>
@@ -43,9 +42,9 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-		    <groupId>mysql</groupId>
-		    <artifactId>mysql-connector-java</artifactId>
-		    <version>8.0.20</version>
+    		<groupId>mysql</groupId>
+    		<artifactId>mysql-connector-java</artifactId>
+    		<version>8.0.21</version>
 		</dependency>
 	</dependencies>
 
