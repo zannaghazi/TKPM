@@ -34,3 +34,17 @@ export const addAuthor = (item) =>{
         item,
     }
 }
+
+export const setListNewBookTitle = (listNewBookTitle) =>{
+    return {
+        type: types.SET_LIST_NEW_BOOK_TITLE,
+        listNewBookTitle,
+    }
+}
+
+export const setHotNewBookTitle = (listHotBookTitle) =>{
+    return {
+        type: types.SET_LIST_HOT_BOOK_TITLE,
+        listHotBookTitle,
+    }
+}
