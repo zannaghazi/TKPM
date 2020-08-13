@@ -27,3 +27,10 @@ export const setListAuthor = (listAuthor) =>{
         listAuthor,
     }
 }
+
+export const addAuthor = (item) =>{
+    return {
+        type: types.SET_LIST_AUTHOR,
+        item,
+    }
+}
