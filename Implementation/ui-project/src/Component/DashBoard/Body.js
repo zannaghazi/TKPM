@@ -13,6 +13,7 @@ import NewAccount from './NewAccount/Body'
 import NewBookTitle from './NewBookTitle/Body'
 import NewBook from './NewBook/Body'
 import NewAuthor from './NewAuthor/Body'
+import EditBookTitle from './EditTitleBook/Body'
 
 import {
     BrowserRouter as Router,
@@ -61,6 +62,9 @@ function Body(props) {
                             </Route>
                             <Route path="/dashboard/new_author">
                                 <NewAuthor />
+                            </Route>
+                            <Route path="/dashboard/edit_book_title">
+                                <EditBookTitle />
                             </Route>
                             <Route path="/dashboard">
                                 <AccountManagement />

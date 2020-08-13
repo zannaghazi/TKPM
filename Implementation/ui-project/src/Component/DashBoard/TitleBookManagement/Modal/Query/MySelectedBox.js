@@ -2,9 +2,14 @@ import React from 'react';
 import styles from '../static/styles.module.css'
 
 function MySelectedBox(props) {
+
+    function handleChange(event){
+        props.byValue(event.target.value);
+    }
+
     return (
         <div className={styles.box}>
-            <select className={styles.mySelect}>
+            <select className={styles.mySelect} onChange={handleChange}>
                 <option value="0">Tên</option>
                 <option value="1">Mã ISBN</option>
                 <option value="2">Mã sách</option>

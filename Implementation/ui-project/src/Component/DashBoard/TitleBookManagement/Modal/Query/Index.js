@@ -17,7 +17,7 @@ function UserModal(props) {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Body/>
+                <Body bindEventShow= {props.bindEventShow}/>
             </Modal.Body>
         </Modal>
     );
