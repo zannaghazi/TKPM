@@ -20,3 +20,10 @@ export const setBookTitleEdit = (item) =>{
         item,
     }
 }
+
+export const setListAuthor = (listAuthor) =>{
+    return {
+        type: types.SET_LIST_AUTHOR,
+        listAuthor,
+    }
+}

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Pagination } from 'react-bootstrap';
 import config from '../../../asset/config.json'
 import styles from '../static/styles.module.css'
 
