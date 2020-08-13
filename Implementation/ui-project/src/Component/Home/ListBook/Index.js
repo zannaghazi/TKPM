@@ -1,12 +1,10 @@
 import React from 'react';
-import NewFeed from './NewFeed'
-import HotBook from './HotBook'
+import ListBookRequest from './ListBookRequest'
 
 function Index(props) {
     return (
         <div>
-            <NewFeed />
-            <HotBook />
+            <ListBookRequest />
         </div>
     );
 }
