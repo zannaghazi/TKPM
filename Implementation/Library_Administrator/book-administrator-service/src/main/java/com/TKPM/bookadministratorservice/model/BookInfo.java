@@ -110,5 +110,12 @@ public class BookInfo {
 	public void setReleaseDate(Date releaseDate) {
 		this.releaseDate = releaseDate;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "BookInfo [ISBN=" + ISBN + ", name=" + name + ", authorID=" + authorID + ", publisherID=" + publisherID
+				+ ", releaseDate=" + releaseDate + ", type=" + type + ", location=" + location + ", path=" + path
+				+ ", isDeleted=" + isDeleted + "]";
+	}
+
 }

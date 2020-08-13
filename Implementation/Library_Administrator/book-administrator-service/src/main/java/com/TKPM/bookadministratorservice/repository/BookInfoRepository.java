@@ -52,10 +52,55 @@ public class BookInfoRepository {
 		return result;
 	}
 	
+	public List<BookInfo> getTopNewBook() {
+		List<BookInfo> result = new ArrayList<BookInfo>();
+		
+		try {
+			String sql = "select* from bookinformation " + 
+					"where isDeleted=false " + 
+					"order by releasedate desc " + 
+					"limit 6";
+			ResultSet rs = this.stmt.executeQuery(sql);
+			while (rs.next()) {
+				BookInfo temp = new BookInfo(
+						rs.getString(1),
+						rs.getString(2),
+						rs.getInt(3),
+						rs.getInt(4),
+						rs.getDate(5),
+						rs.getInt(6),
+						rs.getString(7),
+						rs.getString(8),
+						rs.getBoolean(9));
+				result.add(temp);
+			}
+		}catch(Exception e) {
+			System.out.println(e.getStackTrace());
+		}
+		return result;
+	}
+	
 	/*AUTHOR CONTROL*/
 	public AuthorInfo getAuthorByName(String name) {
 		try {
 			ResultSet rs = this.stmt.executeQuery("select * from author where name like '%" + name + "%'");
+			while (rs.next()) {
+				AuthorInfo temp = new AuthorInfo(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getBoolean(3));
+				return temp;
+			}
+		}catch (Exception e) {
+			System.out.println(e.getStackTrace());
+			return null;
+		}
+		return null;
+	}
+	
+	public AuthorInfo getAuthorByID(int id) {
+		try {
+			ResultSet rs = this.stmt.executeQuery("select * from author where id = " + id);
 			while (rs.next()) {
 				AuthorInfo temp = new AuthorInfo(
 						rs.getInt(1),
@@ -105,6 +150,23 @@ public class BookInfoRepository {
 	public Publisher getPublisherByName(String name) {
 		try {
 			ResultSet rs = this.stmt.executeQuery("select * from publisher where name like '%" + name + "%'");
+			while (rs.next()) {
+				Publisher temp = new Publisher(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getBoolean(3));
+				return temp;
+			}
+		}catch (Exception e) {
+			System.out.println(e.getStackTrace());
+			return null;
+		}
+		return null;
+	}
+	
+	public Publisher getPublisherByID(int i) {
+		try {
+			ResultSet rs = this.stmt.executeQuery("select * from publisher where id =" + i);
 			while (rs.next()) {
 				Publisher temp = new Publisher(
 						rs.getInt(1),
