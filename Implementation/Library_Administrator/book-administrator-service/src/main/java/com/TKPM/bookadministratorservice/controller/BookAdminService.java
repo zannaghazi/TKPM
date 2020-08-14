@@ -1,6 +1,5 @@
 package com.TKPM.bookadministratorservice.controller;
 
-import java.awt.Image;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,34 +7,36 @@ import java.io.FileWriter;
 import java.io.InputStream;
 import java.net.URLConnection;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.TKPM.bookadministratorservice.model.*;
 import com.TKPM.bookadministratorservice.repository.BookInfoRepository;
 import com.TKPM.bookadministratorservice.viewmodel.AddAuthorRequest;
 import com.TKPM.bookadministratorservice.viewmodel.AddPublisherRequest;
+import com.TKPM.bookadministratorservice.viewmodel.AuthorDetailInfo;
 import com.TKPM.bookadministratorservice.viewmodel.BookInfoSearchResult;
 import com.TKPM.bookadministratorservice.viewmodel.Message;
+import com.TKPM.bookadministratorservice.viewmodel.MessageData;
 import com.TKPM.bookadministratorservice.viewmodel.VNDateTime;
 
 
@@ -46,7 +47,9 @@ public class BookAdminService {
 	private BookInfoRepository repo = new BookInfoRepository();
         
 	@RequestMapping("/ping")
-	public String Hello() {
+	public String Hello(@RequestHeader("x-access-token") String token) {
+		System.out.println(token);
+		//throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Login token incorected!");
 		return "Hello";
 	}
 	
@@ -54,7 +57,6 @@ public class BookAdminService {
 	@CrossOrigin
 	@RequestMapping("/get_all_book") 
 	public List<BookInfo> GetListBookInformation() {
-		// TODO: change to real data
 		List<BookInfo> temp = repo.getAllBook();
 		return temp;
 	}
@@ -116,6 +118,12 @@ public class BookAdminService {
 	}
 	
 	@CrossOrigin
+	@RequestMapping("/get_top_renting")
+	public List<BookInfoSearchResult> GetListTopRentingBook() {
+		return repo.getTopRentinhBook();
+	}
+	
+	@CrossOrigin
 	@RequestMapping("/get_image/{fileName}") 
 	public void getImage(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName){
 		try {
@@ -167,7 +175,11 @@ public class BookAdminService {
 	/*TYPE CONTROL*/
 	@CrossOrigin
 	@RequestMapping("/get_all_type")
-	public List<String> getAllType() {
+	public List<String> getAllType(@RequestHeader("x-access-token") String token) {
+		if (!repo.VerifyToken(token)) {
+			System.out.print(repo.VerifyToken(token));
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorected!");
+		}
 		BookType booktype = new BookType();
 		return booktype.getListType();
 	}
@@ -175,14 +187,21 @@ public class BookAdminService {
 	/*AUTHOR CONTROL*/
 	@CrossOrigin
 	@RequestMapping("get_all_author")
-	public List<AuthorInfo> getAllAuthor() {
-		List<AuthorInfo> result = repo.getListAuthor();
+	public List<AuthorDetailInfo> getAllAuthor(@RequestHeader("x-access-token") String token) {
+		if (!repo.VerifyToken(token)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorected!");
+		}
+		List<AuthorInfo> data = repo.getListAuthor();
+		List<AuthorDetailInfo> result = new ArrayList<AuthorDetailInfo>();
+		for (int i = 0; i < data.size(); i++) {
+			result.add(new AuthorDetailInfo(data.get(i), repo));
+		}
 		return result;
 	}
 	
 	@CrossOrigin
 	@RequestMapping("add_author")
-	public Message AddNewAuthor(@RequestBody AddAuthorRequest request) {
+	public MessageData<AuthorDetailInfo> AddNewAuthor(@RequestBody AddAuthorRequest request) {
 		return repo.createNewAuthor(request.name, request.currentUserID);
 	}
 	

@@ -11,6 +11,7 @@ public class BookInfoSearchResult {
 	public String type;
 	public String location;
 	public String path;
+	public int rentingCount;
 	
 	public BookInfoSearchResult(String iSBN, String name, String author, String publisherID, String releaseDate,
 			String type, String location, String path) {
@@ -23,6 +24,21 @@ public class BookInfoSearchResult {
 		this.type = type;
 		this.location = location;
 		this.path = path;
+		this.rentingCount = 0;
+	}
+	
+	public BookInfoSearchResult(String iSBN, String name, String author, String publisherID, String releaseDate,
+			String type, String location, String path, int rentingCount) {
+		super();
+		ISBN = iSBN;
+		this.name = name;
+		this.author = author;
+		this.publisher = publisherID;
+		this.releaseDate = releaseDate;
+		this.type = type;
+		this.location = location;
+		this.path = path;
+		this.rentingCount = rentingCount;
 	}
 
 	@Override

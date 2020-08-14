@@ -10,7 +10,11 @@ import com.TKPM.bookadministratorservice.model.BookInfo;
 import com.TKPM.bookadministratorservice.model.BookType;
 import com.TKPM.bookadministratorservice.model.Publisher;
 import com.TKPM.bookadministratorservice.model.SearchRequest;
+import com.TKPM.bookadministratorservice.viewmodel.AuthorDetailInfo;
+import com.TKPM.bookadministratorservice.viewmodel.BookInfoSearchResult;
 import com.TKPM.bookadministratorservice.viewmodel.Message;
+import com.TKPM.bookadministratorservice.viewmodel.MessageData;
+import com.TKPM.bookadministratorservice.viewmodel.VNDateTime;
 
 public class BookInfoRepository {
 	private Connection conn = null;
@@ -29,6 +33,42 @@ public class BookInfoRepository {
 		}
 	}
 	
+	/*Verify token*/
+	public boolean VerifyToken(String token) {
+		try {
+			ResultSet rs = this.stmt.executeQuery("select * from SESSIONTOKEN where isDeleted=false and token like '"
+					+ token + "';");
+			if (!rs.isBeforeFirst()) {
+				return false;
+			}else {
+				return true;
+			}
+		}catch (Exception e) {
+			System.out.println(e.getStackTrace());
+			return false;
+		}
+	}
+	
+	public String getAccountNameByID(int id) {
+		String result = "";
+		try {
+			ResultSet rs = this.stmt.executeQuery("select * from account where isDeleted = false and id = '"
+					+ id + "'");
+			if (!rs.isBeforeFirst()) {
+				return null;
+			}
+			while (rs.next()) {
+				result = rs.getString(2);
+				return result;
+			}
+		}catch (Exception e) {
+			System.out.println(e.getStackTrace());
+			return null;
+		}
+		return result;
+	}
+	
+	/*BOOK CONTROL*/
 	public ArrayList<BookInfo> getAllBook() {
 		ArrayList<BookInfo> result = new ArrayList<BookInfo>();
 		try {
@@ -80,6 +120,52 @@ public class BookInfoRepository {
 		return result;
 	}
 	
+	public List<BookInfoSearchResult> getTopRentinhBook() {
+		List<BookInfoSearchResult> result = new ArrayList<BookInfoSearchResult>();
+		List<BookInfo> data = new ArrayList<BookInfo>();
+		
+		try {
+			String sql = "SELECT  ISBN, COUNT(*) FROM RENTINGBOOK " +
+					"GROUP BY BOOKID " +
+					"order by COUNT(*) DESC " +
+					"LIMIT 4";
+			ResultSet rs = this.stmt.executeQuery(sql);
+			List<String> listBookID = new ArrayList<String>();
+			List<Integer> rentingCount = new ArrayList<Integer>();
+			while (rs.next()) {
+				listBookID.add(rs.getString(1));
+				rentingCount.add(rs.getInt(2));
+			}
+			for (int i = 0; i < listBookID.size(); i++) {
+				BookInfo temp = this.getBookInfoByISBN(listBookID.get(i));
+				data.add(temp);
+			}
+			
+			
+			// Convert to ViewModel
+			BookType bookType = new BookType();
+			for (int i = 0; i < data.size(); i++) {
+				AuthorInfo author = this.getAuthorByID(data.get(i).getAuthorID());
+				Publisher publisher = this.getPublisherByID(data.get(i).getPublisherID());
+				
+				BookInfoSearchResult temp =  new BookInfoSearchResult(
+						data.get(i).getISBN(),
+						data.get(i).getName(),
+						author.getName(),
+						publisher.getName(),
+						new VNDateTime(data.get(i).getReleaseDate()).getVNTime(),
+						bookType.getTypeNameByID(data.get(i).getType()),
+						data.get(i).getLocation(),
+						data.get(i).getPath(),
+						rentingCount.get(i));
+				result.add(temp);
+			}
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return result;
+	}
+	
 	/*AUTHOR CONTROL*/
 	public AuthorInfo getAuthorByName(String name) {
 		try {
@@ -123,7 +209,9 @@ public class BookInfoRepository {
 				AuthorInfo temp = new AuthorInfo(
 						rs.getInt(1),
 						rs.getString(2),
-						rs.getBoolean(3));
+						rs.getBoolean(3),
+						rs.getDate(4),
+						rs.getInt(5));
 				result.add(temp);
 			}
 			return result;
@@ -133,16 +221,27 @@ public class BookInfoRepository {
 		}
 	}
 	
-	public Message createNewAuthor(String newAuthor, int AccountID) {
+	public MessageData<AuthorDetailInfo> createNewAuthor(String newAuthor, int AccountID) {
 		try {
 			String createCommand = "INSERT INTO AUTHOR(NAME, ISDELETED, UPDATEDACCOUNT) "
 					+ "VALUES ('" + newAuthor + "', false, "
 					+ AccountID +")";
 			this.stmt.execute(createCommand);
-			return new Message(true, "Tạo thành công");
+			
+			ResultSet rs = this.stmt.executeQuery("Select * from author order by id desc limit 1");
+			AuthorInfo temp = new AuthorInfo();
+			while (rs.next()) {
+				temp = new AuthorInfo(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getBoolean(3),
+						rs.getDate(4),
+						rs.getInt(5));
+			}
+			return new MessageData(true, "Tạo thành công", new AuthorDetailInfo(temp, this));
 		}catch (Exception e) {
 			System.out.println(e.getStackTrace());
-			return new Message(false, "Tạo thất bại");
+			return new MessageData(false, "Tạo thất bại", null);
 		}
 	}
 	
@@ -221,6 +320,29 @@ public class BookInfoRepository {
 						rs.getInt(1),
 						rs.getInt(2),
 						rs.getBoolean(3));
+				return temp;
+			}
+		}catch (Exception e) {
+			System.out.println(e.getStackTrace());
+			return null;
+		}
+		return null;
+	}
+	
+	public BookInfo getBookInfoByISBN(String id) {
+		try {
+			ResultSet rs = this.stmt.executeQuery("select * from bookinformation where isbn like '%" + id + "%'");
+			while (rs.next()) {
+				BookInfo temp = new BookInfo(
+						rs.getString(1),
+						rs.getString(2),
+						rs.getInt(3),
+						rs.getInt(4),
+						rs.getDate(5),
+						rs.getInt(6),
+						rs.getString(7),
+						rs.getString(8),
+						rs.getBoolean(9));
 				return temp;
 			}
 		}catch (Exception e) {
