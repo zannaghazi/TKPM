@@ -1,12 +1,34 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import styles from '../static/styles.module.css'
 import BookTitleQueryModal from './Modal/Query/Index'
 import TableContainer from './TableContainer'
 import MyTablePagination from './MyTablePagination'
+import { connect } from 'react-redux';
+import config from '../../../asset/config.json'
 
 function Body(props) {
     const [show, setShow] = useState(true);
+    const [active, setActive] = useState(1);
+    const [visibleList, setVisibleList] = useState([]);
+
+    useEffect(() => {
+        let temp =[];
+        let limit = 0;
+        if((active-1) * config.pagination.limit + config.pagination.limit > props.list.length){
+            limit = props.list.length;
+        }
+        else{
+            limit = (active-1) * config.pagination.limit + config.pagination.limit;
+        }
+        
+		for(let i = (active-1) * config.pagination.limit; i<limit; i++){
+            temp.push(props.list[i]);
+        }
+        console.log("data", props.list);
+        setVisibleList(temp);
+	}, [props.list, active]);
+
     return (
         <div>
             <Container className={[styles.maxWidth, "mt-3"].join(" ")}>
@@ -15,14 +37,14 @@ function Body(props) {
                         <h3>Danh sách đầu sách</h3>
                     </Col>
                     <Col xs = {3} className="d-flex justify-content-end">
-                    <Button variant="success" className={styles.myButtonSearch} onClick={() => setShow(true)}><i className="fa fa-search"></i>&nbsp;Tìm kiếm khác</Button>
+                    <Button variant="success" className={styles.myButtonSearch} onClick={() => setShow(true)}><i className="fa fa-asterisk"></i>&nbsp;Thao tác khác</Button>
                     </Col>
                 </Row>
                 <Row className = "mt-3">
-                    <TableContainer />
+                    <TableContainer listBookTitle = {visibleList} />
                 </Row>
                 <Row className = "mt-1 d-flex justify-content-center">
-                    <MyTablePagination />
+                    <MyTablePagination listBookTitle = {props.list} active={active} setActive={setActive}/>
                 </Row>
             </Container>
             <BookTitleQueryModal show = {show} bindEventShow = {setShow}/>
@@ -30,4 +52,16 @@ function Body(props) {
     );
 }
 
-export default Body;
+const mapStateToProps = state => {
+	return {
+		list: state.book_titles,
+	}
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+	return {
+		
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Body);

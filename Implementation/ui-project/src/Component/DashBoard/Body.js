@@ -13,6 +13,11 @@ import NewAccount from './NewAccount/Body'
 import NewBookTitle from './NewBookTitle/Body'
 import NewBook from './NewBook/Body'
 import NewAuthor from './NewAuthor/Body'
+import EditBookTitle from './EditTitleBook/Body'
+import { connect } from 'react-redux';
+import * as actions from '../../actions/index';
+import config from '../../asset/config.json'
+
 
 import {
     BrowserRouter as Router,
@@ -24,6 +29,18 @@ import {
 } from "react-router-dom";
 
 function Body(props) {
+    useEffect(() => {
+        let url = config.severAPi.hostUrl + ":8081/book/get_all_author";
+        fetch(url, {
+            method: "get",
+            headers: { "Content-Type": "application/json" },
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log("author", data);
+                props.onSetListAuthor(data);
+            });
+    }, []);
 
     return (
         <div className={styles.maxHeigh}>
@@ -62,6 +79,9 @@ function Body(props) {
                             <Route path="/dashboard/new_author">
                                 <NewAuthor />
                             </Route>
+                            <Route path="/dashboard/edit_book_title">
+                                <EditBookTitle />
+                            </Route>
                             <Route path="/dashboard">
                                 <AccountManagement />
                             </Route>
@@ -73,4 +93,18 @@ function Body(props) {
     );
 }
 
-export default Body;
+const mapStateToProps = state => {
+	return {
+		
+	}
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+	return {
+		onSetListAuthor: (item) => {
+            dispatch(actions.setListAuthor(item));
+        }
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Body);

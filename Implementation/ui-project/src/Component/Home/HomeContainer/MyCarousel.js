@@ -1,48 +1,30 @@
-import React from 'react';
-import {Carousel} from 'react-bootstrap';
-import Carousel1 from '../../../asset/picture/srcTest/sach1.jpg'
-import Carousel2 from '../../../asset/picture/srcTest/sach2.jpg'
-import Carousel3 from '../../../asset/picture/srcTest/sach3.jpg'
+import React, { useEffect } from 'react';
+import { Carousel } from 'react-bootstrap';
 import styles from './static/styles.module.css'
+import config from '../../../asset/config.json'
+import { Link } from 'react-router-dom';
 
 function MyCarousel(props) {
-    return (
-        <Carousel>
-            <Carousel.Item>
+    const listItems = props.listData.map((element, index) =>
+        <Carousel.Item key={index}>
+            <Link to = '#'>
                 <img
-                    className={["d-block w-100",styles.myCarousel].join(" ")}
-                    src={Carousel1}
+                    className={["d-block w-100", styles.myCarousel].join(" ")}
+                    src={config.severAPi.hostUrl + ":8081" + element.path}
                     alt="First slide"
                 />
-                <Carousel.Caption>
-                    <h3>22/06/2020</h3>
-                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item>
-                <img
-                    className={["d-block w-100",styles.myCarousel].join(" ")}
-                    src={Carousel2}
-                    alt="Third slide"
-                />
+            </Link>
+            <Carousel.Caption>
+                <h3>{element.releaseDate}</h3>
+                <p>{element.author}</p>
+            </Carousel.Caption>
 
-                <Carousel.Caption>
-                    <h3>22/06/2020</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item>
-                <img
-                    className={["d-block w-100",styles.myCarousel].join(" ")}
-                    src={Carousel3}
-                    alt="Third slide"
-                />
+        </Carousel.Item>
+    );
 
-                <Carousel.Caption>
-                    <h3>22/06/2020</h3>
-                    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                </Carousel.Caption>
-            </Carousel.Item>
+    return (
+        <Carousel>
+            {listItems}
         </Carousel>
     );
 }

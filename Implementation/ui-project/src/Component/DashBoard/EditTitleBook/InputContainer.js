@@ -12,17 +12,13 @@ function InputContainer(props) {
         }
       }, []);
     
-    function handleChange(event){
-        props.byName(event.target.value);
-    }
-
     return (
         <Row>
             <Col xs={2} className={["d-flex justify-content-end align-items-center", styles.myLabel].join(" ")}>
                 {props.label}
                 </Col>
             <Col xs={6}>
-                <input type={type} className={styles.myInput} onChange={handleChange}/>
+                <input type={type} className={styles.myInput} />
             </Col>
         </Row>
     );

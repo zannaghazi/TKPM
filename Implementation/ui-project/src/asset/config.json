@@ -100,6 +100,18 @@
             "icon_class": "",
             "title": "Tạo tác giả",
             "is_display": false
+        },
+        {
+            "url": "/dashboard/edit_book_title",
+            "icon_class": "",
+            "title": "Sửa đầu sách",
+            "is_display": false
         }
-    ]
+    ],
+    "severAPi": {
+        "hostUrl": "http://192.168.1.4"
+    },
+    "pagination": {
+        "limit": 5
+    }
 }
