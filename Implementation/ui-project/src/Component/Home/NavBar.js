@@ -1,50 +1,59 @@
 import React from 'react';
-import { Navbar, Nav, NavDropdown} from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import styles from './static/styles.module.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import config from '../../asset/config.json';
+import * as actions from '../../actions/index';
+import { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import {NavLink} from 'react-router-dom'
 
 function NavBar(props) {
+    const [listTypeBook, setListTypeBook] = useState([]);
+    useEffect(() => {
+        let url = config.severAPi.hostUrl + ":8081/book/get_all_type";
+        fetch(url, {
+            method: "get",
+            headers: { "Content-Type": "application/json" },
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log("type", data);
+                let listItems = [];
+                for(let i =0; i<data.length; i++){
+                    listItems.push(<NavLink to={"/list_request?type=type&key="+data[i]} key={i} id="basic-nav-dropdown" className={[styles.myDropdown, i <(data.length - 1) ? styles.myBorderRight : ""].join(" ")}>
+                    {data[i]}
+                    </NavLink>)
+                }
+                setListTypeBook(listItems);
+            });
+    }, []);
+
     return (
         <Navbar bg="dark" expand="lg" variant="dark" className={styles.myFixed}>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className={[styles.myNav].join(" ")}>
-                    <Nav.Link href="#home" className={[styles.myDropdown, styles.myBorderRight, styles.mySpacing].join(" ")}><b>Trang chủ</b></Nav.Link>
-                    <NavDropdown title="Sách bộ môn" id="basic-nav-dropdown" className={[styles.myDropdown, styles.myBorderRight].join(" ")}>
-                        <NavDropdown.Item href="#action/3.1">Toán-Tin</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">Công nghệ thông tin</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.4">Điện tử viễn thông</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href="#action/3.3">Hóa học</NavDropdown.Item>
-                    </NavDropdown>
-                    <NavDropdown title="Sách tham khảo" id="basic-nav-dropdown" className={[styles.myDropdown, styles.myBorderRight].join(" ")}>
-                        <NavDropdown.Item href="#action/3.1">Sinh tồn</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">Khoa học viễn tưởng</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.3">Đời sống</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.4">Xã hội</NavDropdown.Item>
-                    </NavDropdown>
-                    <NavDropdown title="Truyện tranh" id="basic-nav-dropdown" className={[styles.myDropdown, styles.myBorderRight].join(" ")}>
-                        <NavDropdown.Item href="#action/3.1">Trinh thám</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">Kinh dị</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.3">Truyện cười</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.4">Cổ tích dân gian</NavDropdown.Item>
-                    </NavDropdown>
-                    <NavDropdown title="Báo chí" id="basic-nav-dropdown" className={[styles.myDropdown, styles.myBorderRight].join(" ")}>
-                        <NavDropdown.Item href="#action/3.1">Pháp luật</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">Kinh tế</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.3">Văn hóa-Xã hội</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.4">Du lịch</NavDropdown.Item>
-                    </NavDropdown>
-                    <NavDropdown title="Tiểu thuyết" id="basic-nav-dropdown" className={styles.myDropdown}>
-                        <NavDropdown.Item href="#action/3.1">Ngôn tình</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">Trinh thám</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.3">Tâm lý xã hội</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.4">Kinh dị</NavDropdown.Item>
-                    </NavDropdown>
+                <Nav className={[styles.myNav, "d-flex align-items-center"].join(" ")}>
+                    <NavLink to="/" className={[ styles.myBorderRight, styles.mySpacing, styles.myHome].join(" ")}><b>Trang chủ</b></NavLink>
+                    {listTypeBook}
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
     );
 }
 
-export default NavBar;
+const mapStateToProps = state => {
+    return {
+        list: state.list_new_book_titles
+    }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onSetListTypeBook: (listTypeBook) => {
+            dispatch(actions.setListTypeBook(listTypeBook));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

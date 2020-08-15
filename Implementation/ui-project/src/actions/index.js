@@ -48,3 +48,10 @@ export const setHotNewBookTitle = (listHotBookTitle) =>{
         listHotBookTitle,
     }
 }
+
+export const setListTypeBook = (listTypeBook) =>{
+    return {
+        type: types.SET_LIST_TYPE_BOOK,
+        listTypeBook,
+    }
+}

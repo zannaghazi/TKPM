@@ -48,9 +48,10 @@ function Body(props) {
                         <Row>
                             <TableContainer listAuthor = {visibleList} />
                         </Row>
-                        <Row className="mt-1 d-flex justify-content-center">
+                        {props.list.length > 0 ? <Row className="mt-1 d-flex justify-content-center">
                             <MyTablePagination listAuthor = {props.list} active={active} setActive={setActive}/>
-                        </Row>
+                        </Row>: <div>Không có dữ liệu</div>}
+                        
                     </Col>
                 </Row>
             </Container>
