@@ -62,3 +62,10 @@ export const setUserLogin = (user) =>{
         user,
     }
 }
+
+export const editAuthor = (author) =>{
+    return {
+        type: types.EDIT_AUTHOR,
+        author,
+    }
+}

@@ -7,7 +7,12 @@ var myReducer = (state = initialState, action) => {
             state = action.listAuthor;
             return [...state];
         case types.ADD_AUTHOR:
-                return [...state, action.author];
+            return [...state, action.author];
+        case types.EDIT_AUTHOR:
+            let foundIndex = state.findIndex(x => x.id == action.author.id);
+            let temp = [...state];
+            temp[foundIndex] = action.author;
+            return [...temp];
         default:
             return state;
 

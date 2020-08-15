@@ -14,6 +14,7 @@ import NewBookTitle from './NewBookTitle/Body'
 import NewBook from './NewBook/Body'
 import NewAuthor from './NewAuthor/Body'
 import EditBookTitle from './EditTitleBook/Body'
+import EditAuthor from './EditAuthor/Body'
 import { connect } from 'react-redux';
 import * as actions from '../../actions/index';
 import config from '../../asset/config.json'
@@ -94,8 +95,10 @@ function Body(props) {
                             <Route path="/dashboard/new_author">
                                 <NewAuthor />
                             </Route>
-                            <Route path="/dashboard/edit_book_title">
-                                <EditBookTitle />
+                            <Route path="/dashboard/edit_author/:id">
+                                <EditAuthor />
+                            </Route>
+                            <Route path="/dashboard/edit_book_title/:id" component={EditBookTitle}>
                             </Route>
                             <Route path="/dashboard">
                                 <AccountManagement />

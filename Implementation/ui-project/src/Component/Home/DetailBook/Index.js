@@ -5,9 +5,6 @@ import Image4 from '../../../asset/picture/srcTest/sach4.jpg';
 import Info from './Info'
 
 function Index(props) {
-    useEffect(() => {
-        console.log("1234", props.match.params.id);
-    });
     return (
         <Container>
             <Row>

@@ -13,8 +13,7 @@ function TableContainer(props) {
         if (!data) {
             return;
         }
-        props.onSetBookTitleEdit(data);
-        history.push("/dashboard/edit_book_title");
+        history.push("/dashboard/edit_author/"+data.id);
     }
 
     const listItems = props.listAuthor.map((element, index) =>

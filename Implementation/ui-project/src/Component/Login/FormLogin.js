@@ -22,8 +22,6 @@ function FormLogin(props) {
                 console.log("login",data);
                 if(data.token){
                     localStorage.quanlythuvien_accesstoken = data.token;
-                    delete data.token;
-                    props.onSetUserLogin(data);
                     history.push("/");
                 }
                 else{
