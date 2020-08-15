@@ -49,7 +49,7 @@ public class BookAdminService {
 	@RequestMapping("/ping")
 	public String Hello(@RequestHeader("x-access-token") String token) {
 		System.out.println(token);
-		//throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Login token incorected!");
+		//throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Login token incorrect!");
 		return "Hello";
 	}
 	
@@ -147,15 +147,16 @@ public class BookAdminService {
 	
 	@CrossOrigin
 	@RequestMapping(value = "/upload_book_image", method = RequestMethod.POST, consumes = {"multipart/form-data"})
-	public Message uploadImage(@RequestParam MultipartFile file) {
+	public MessageData<String> uploadImage(@RequestParam MultipartFile file) {
+		String fileName = "";
 		if(file.isEmpty()) {
-			return new Message(true, "Hình ảnh không hợp lệ");
+			return new MessageData(true, "Hình ảnh không hợp lệ", "fail");
 		}
 		
 		try {
 			File myFile = new File("data/config.txt");
 			Scanner reader = new Scanner(myFile);
-			String fileName = reader.nextLine();
+			fileName = reader.nextLine();
 			reader.close();
 			int fileNameInt = Integer.parseInt(fileName);
 			fileName += ".jpg";
@@ -169,17 +170,23 @@ public class BookAdminService {
 			System.out.println(e.getStackTrace());
 		}
 		
-		return new Message(true, "Upload hình ảnh thành công");
+		return new MessageData(true, "Upload hình ảnh thành công", "/book/get_image/" + fileName);
+	}
+	
+	@RequestMapping("/add_new_book_info")
+	public Message addNewBook(@RequestHeader("x-acces-token") String token) {
+		if (!repo.VerifyToken(token)) {
+			System.out.print(repo.VerifyToken(token));
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
+		}
+		
+		return new Message(true, "Tạo thành công!");
 	}
 	
 	/*TYPE CONTROL*/
 	@CrossOrigin
 	@RequestMapping("/get_all_type")
-	public List<String> getAllType(@RequestHeader("x-access-token") String token) {
-		if (!repo.VerifyToken(token)) {
-			System.out.print(repo.VerifyToken(token));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorected!");
-		}
+	public List<String> getAllType() {
 		BookType booktype = new BookType();
 		return booktype.getListType();
 	}
@@ -189,7 +196,7 @@ public class BookAdminService {
 	@RequestMapping("get_all_author")
 	public List<AuthorDetailInfo> getAllAuthor(@RequestHeader("x-access-token") String token) {
 		if (!repo.VerifyToken(token)) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorected!");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
 		}
 		List<AuthorInfo> data = repo.getListAuthor();
 		List<AuthorDetailInfo> result = new ArrayList<AuthorDetailInfo>();
@@ -201,13 +208,19 @@ public class BookAdminService {
 	
 	@CrossOrigin
 	@RequestMapping("add_author")
-	public MessageData<AuthorDetailInfo> AddNewAuthor(@RequestBody AddAuthorRequest request) {
+	public MessageData<AuthorDetailInfo> AddNewAuthor(@RequestHeader("x-access-token") String token, @RequestBody AddAuthorRequest request) {
+		if (!repo.VerifyToken(token)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
+		}
 		return repo.createNewAuthor(request.name, request.currentUserID);
 	}
 	
 	@CrossOrigin
 	@RequestMapping("get_all_publisher")
-	public List<Publisher> getAllPubliser() {
+	public List<Publisher> getAllPubliser(@RequestHeader("x-access-token") String token) {
+		if (!repo.VerifyToken(token)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
+		}
 		List<Publisher> result = repo.getAllPublisher();
 		return result;
 	}
@@ -215,7 +228,10 @@ public class BookAdminService {
 	/*PUBLISHER CONTROL*/
 	@CrossOrigin
 	@RequestMapping("add_publisher")
-	public Message AddNewPublisher(@RequestBody AddPublisherRequest request) {
+	public Message AddNewPublisher(@RequestHeader("x-access-token") String token, @RequestBody AddPublisherRequest request) {
+		if (!repo.VerifyToken(token)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
+		}
 		return repo.createNewPublisher(request.name, request.currentUserID);
 	}
 	

@@ -8,6 +8,7 @@ import java.util.Random;
 
 import com.TKPM.systemadministratorservice.model.Account;
 import com.TKPM.systemadministratorservice.viewmodel.AccountBasicInfo;
+import com.TKPM.systemadministratorservice.viewmodel.Message;
 
 public class SystemRepository {
 	private Connection conn = null;
@@ -23,6 +24,21 @@ public class SystemRepository {
 			this.stmt = conn.createStatement();
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
+		}
+	}
+	
+	public boolean VerifyToken(String token) {
+		try {
+			ResultSet rs = this.stmt.executeQuery("select * from SESSIONTOKEN where isDeleted=false and token like '"
+					+ token + "';");
+			if (!rs.isBeforeFirst()) {
+				return false;
+			}else {
+				return true;
+			}
+		}catch (Exception e) {
+			System.out.println(e.getStackTrace());
+			return false;
 		}
 	}
 	
@@ -89,5 +105,18 @@ public class SystemRepository {
 		}
 		
 		return result;
+	}
+	
+	public Message Logout(String token) {
+		try {
+			String sql = "update sessiontoken set isDeleted = true where token like '"
+					+ token + "'";
+			this.stmt.execute(sql);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new Message(false, "Đăng xuất thất bại");
+		}
+		
+		return new Message(true, "Đăng xuất thành công");
 	}
 }

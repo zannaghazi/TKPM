@@ -1,7 +1,5 @@
 package com.TKPM.bookadministratorservice.viewmodel;
 
-import java.util.Date;
-
 public class BookInfoSearchResult {
 	public String ISBN;
 	public String name;
