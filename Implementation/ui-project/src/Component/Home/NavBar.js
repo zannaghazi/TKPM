@@ -14,7 +14,7 @@ function NavBar(props) {
         let url = config.severAPi.hostUrl + ":8081/book/get_all_type";
         fetch(url, {
             method: "get",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
         })
             .then(res => res.json())
             .then(data => {

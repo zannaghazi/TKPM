@@ -7,7 +7,7 @@ import BookManagement from './BookManagement/Body'
 import PublishManagement from './PublishManagement/Body'
 import AuthorManagement from './AuthorManagement/Body'
 import BookTitleManagement from './TitleBookManagement/Body'
-import {Container, Row, Col} from 'react-bootstrap'
+import { Container, Row, Col } from 'react-bootstrap'
 import AccountManagement from './AccountManagement/Body'
 import NewAccount from './NewAccount/Body'
 import NewBookTitle from './NewBookTitle/Body'
@@ -30,27 +30,42 @@ import {
 
 function Body(props) {
     useEffect(() => {
-        let url = config.severAPi.hostUrl + ":8081/book/get_all_author";
-        fetch(url, {
-            method: "get",
-            headers: { "Content-Type": "application/json" },
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log("author", data);
-                props.onSetListAuthor(data);
-            });
+        async function fetchAPI() {
+            let urlAuthor = config.severAPi.hostUrl + ":8081/book/get_all_author";
+            await fetch(urlAuthor, {
+                method: "get",
+                headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("author", data);
+                    props.onSetListAuthor(data);
+                });
+
+            let urlUserLogin = config.severAPi.hostUrl + ":8083/system/get_current_user";
+            await fetch(urlUserLogin, {
+                method: "get",
+                headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("UserLogin", data);
+                    props.onSetUserLogin(data);
+                });
+        }
+
+        fetchAPI();
     }, []);
 
     return (
         <div className={styles.maxHeigh}>
             <Header />
             <Container className={[styles.myContainer].join(" ")}>
-                <Row className = {[styles.maxHeigh, styles.myRow].join(" ")}>
+                <Row className={[styles.maxHeigh, styles.myRow].join(" ")}>
                     <Col className={styles.myCol} sm={2}>
                         <SideBar />
                     </Col>
-                    <Col className={styles.myCol} sm = {10}>
+                    <Col className={styles.myCol} sm={10}>
                         <Switch>
                             <Route exact path="/dashboard/user_management">
                                 <UserManagement />
@@ -94,17 +109,20 @@ function Body(props) {
 }
 
 const mapStateToProps = state => {
-	return {
-		
-	}
+    return {
+
+    }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
-	return {
-		onSetListAuthor: (item) => {
+    return {
+        onSetListAuthor: (item) => {
             dispatch(actions.setListAuthor(item));
+        },
+        onSetUserLogin: (user) => {
+            dispatch(actions.setUserLogin(user));
         }
-	}
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Body);

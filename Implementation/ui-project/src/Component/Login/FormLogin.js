@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './static/styles.module.css'
 import { useHistory } from "react-router-dom";
+import config from '../../asset/config.json'
 
 function FormLogin(props) {
     const [userName, setUserName] = useState("");
@@ -9,14 +10,26 @@ function FormLogin(props) {
     const history = useHistory();
 
     function handleSubmit(event){
+        let url= config.severAPi.hostUrl + ":8083/system/login";
         event.preventDefault();
-        if(userName === "nthoang1996" && passWord === "123456"){
-            localStorage.librarymanagement_token = "123456789qwertyuiopasdfghjklzxcvbnm0147852369zaqwsxcderfvbgtyhnmjuik";
-            history.push("/");
-        }
-        else{
-            setError("Tài khoản hoặc mật khẩu không chính xác");
-        }
+        fetch(url, {
+            method: "post",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({username: userName, password: passWord})
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log("login",data);
+                if(data.token){
+                    localStorage.quanlythuvien_accesstoken = data.token;
+                    delete data.token;
+                    props.onSetUserLogin(data);
+                    history.push("/");
+                }
+                else{
+                    setError("Sai thông tin đăng nhập !")
+                }
+            });
     }
 
     function userNameChange(event){
@@ -47,7 +60,7 @@ function FormLogin(props) {
                 value = {passWord}
                 onChange = {passwordChange}
             />
-            <div v-if="err != ''" className= {styles.myErrMessage}>{ error }</div>
+            <div className= {styles.myErrMessage}>{ error }</div>
             <input type="submit" className="fadeIn fourth" value="Đăng nhập" />
         </form>
     );
