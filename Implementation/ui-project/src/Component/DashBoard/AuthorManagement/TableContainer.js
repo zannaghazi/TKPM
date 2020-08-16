@@ -13,16 +13,15 @@ function TableContainer(props) {
         if (!data) {
             return;
         }
-        props.onSetBookTitleEdit(data);
-        history.push("/dashboard/edit_book_title");
+        history.push("/dashboard/edit_author/"+data.id);
     }
 
     const listItems = props.listAuthor.map((element, index) =>
         <tr key={index}>
             <td>{element.id}</td>
             <td>{element.name}</td>
-            <td></td>
-            <td></td>
+            <td>{element.updatedDate}</td>
+            <td>{element.updatedAccount}</td>
             <td>
                 <Button variant="primary" className={styles.myButtonDetail} onClick={(event) => editItem(event, element)}><i className="fa fa-edit"></i></Button>
                 <Button variant="danger" className={[styles.myButtonDetail, "ml-2"].join(" ")}><i className="fa fa-trash"></i></Button>

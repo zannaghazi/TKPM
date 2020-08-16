@@ -7,16 +7,19 @@ import BookManagement from './BookManagement/Body'
 import PublishManagement from './PublishManagement/Body'
 import AuthorManagement from './AuthorManagement/Body'
 import BookTitleManagement from './TitleBookManagement/Body'
-import {Container, Row, Col} from 'react-bootstrap'
+import { Container, Row, Col } from 'react-bootstrap'
 import AccountManagement from './AccountManagement/Body'
 import NewAccount from './NewAccount/Body'
 import NewBookTitle from './NewBookTitle/Body'
 import NewBook from './NewBook/Body'
 import NewAuthor from './NewAuthor/Body'
 import EditBookTitle from './EditTitleBook/Body'
+import EditAuthor from './EditAuthor/Body'
 import { connect } from 'react-redux';
 import * as actions from '../../actions/index';
 import config from '../../asset/config.json'
+import NewPublisher from './NewPublisher/Body'
+import EditPublisher from './EditPublisher/Body'
 
 
 import {
@@ -30,27 +33,53 @@ import {
 
 function Body(props) {
     useEffect(() => {
-        let url = config.severAPi.hostUrl + ":8081/book/get_all_author";
-        fetch(url, {
-            method: "get",
-            headers: { "Content-Type": "application/json" },
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log("author", data);
-                props.onSetListAuthor(data);
-            });
+        async function fetchAPI() {
+            let urlAuthor = config.severAPi.hostUrl + ":8081/book/get_all_author";
+            await fetch(urlAuthor, {
+                method: "get",
+                headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("author", data);
+                    props.onSetListAuthor(data);
+                });
+
+            let urlUserLogin = config.severAPi.hostUrl + ":8083/system/get_current_user";
+            await fetch(urlUserLogin, {
+                method: "get",
+                headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("UserLogin", data);
+                    props.onSetUserLogin(data);
+                });
+
+                let urlPublisher = config.severAPi.hostUrl + ":8081/book/get_all_publisher";
+                await fetch(urlPublisher, {
+                    method: "get",
+                    headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log("publisher", data);
+                        props.onSetListPublisher(data);
+                    });
+        }
+
+        fetchAPI();
     }, []);
 
     return (
         <div className={styles.maxHeigh}>
             <Header />
             <Container className={[styles.myContainer].join(" ")}>
-                <Row className = {[styles.maxHeigh, styles.myRow].join(" ")}>
+                <Row className={[styles.maxHeigh, styles.myRow].join(" ")}>
                     <Col className={styles.myCol} sm={2}>
                         <SideBar />
                     </Col>
-                    <Col className={styles.myCol} sm = {10}>
+                    <Col className={styles.myCol} sm={10}>
                         <Switch>
                             <Route exact path="/dashboard/user_management">
                                 <UserManagement />
@@ -79,8 +108,16 @@ function Body(props) {
                             <Route path="/dashboard/new_author">
                                 <NewAuthor />
                             </Route>
-                            <Route path="/dashboard/edit_book_title">
-                                <EditBookTitle />
+                            <Route path="/dashboard/new_publisher">
+                                <NewPublisher />
+                            </Route>
+                            <Route path="/dashboard/edit_author/:id">
+                                <EditAuthor />
+                            </Route>
+                            <Route path="/dashboard/edit_publisher/:id">
+                                <EditPublisher />
+                            </Route>
+                            <Route path="/dashboard/edit_book_title/:id" component={EditBookTitle}>
                             </Route>
                             <Route path="/dashboard">
                                 <AccountManagement />
@@ -94,17 +131,23 @@ function Body(props) {
 }
 
 const mapStateToProps = state => {
-	return {
-		
-	}
+    return {
+
+    }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
-	return {
-		onSetListAuthor: (item) => {
+    return {
+        onSetListAuthor: (item) => {
             dispatch(actions.setListAuthor(item));
-        }
-	}
+        },
+        onSetUserLogin: (user) => {
+            dispatch(actions.setUserLogin(user));
+        },
+        onSetListPublisher: (item) => {
+            dispatch(actions.setListPublisher(item));
+        },
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Body);

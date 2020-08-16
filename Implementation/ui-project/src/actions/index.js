@@ -28,10 +28,10 @@ export const setListAuthor = (listAuthor) =>{
     }
 }
 
-export const addAuthor = (item) =>{
+export const addNewAuthor = (author) =>{
     return {
-        type: types.SET_LIST_AUTHOR,
-        item,
+        type: types.ADD_AUTHOR,
+        author,
     }
 }
 
@@ -46,5 +46,40 @@ export const setHotNewBookTitle = (listHotBookTitle) =>{
     return {
         type: types.SET_LIST_HOT_BOOK_TITLE,
         listHotBookTitle,
+    }
+}
+
+export const setListTypeBook = (listTypeBook) =>{
+    return {
+        type: types.SET_LIST_TYPE_BOOK,
+        listTypeBook,
+    }
+}
+
+export const setUserLogin = (user) =>{
+    return {
+        type: types.SET_USER_LOGIN,
+        user,
+    }
+}
+
+export const editAuthor = (author) =>{
+    return {
+        type: types.EDIT_AUTHOR,
+        author,
+    }
+}
+
+export const setListPublisher = (list)=>{
+    return {
+        type: types.SET_LIST_PUBLISHER,
+        list,
+    }
+}
+
+export const addNewPublisher = (pulisher) =>{
+    return {
+        type: types.ADD_PUBLISHER,
+        pulisher,
     }
 }

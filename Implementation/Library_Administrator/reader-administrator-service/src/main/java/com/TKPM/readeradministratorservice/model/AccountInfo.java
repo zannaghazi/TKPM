@@ -2,7 +2,7 @@ package com.TKPM.readeradministratorservice.model;
 
 import java.util.Date;
 
-public class ReaderInfo {
+public class AccountInfo {
 	private int ID;
 	private String fullName;
 	private String address;
@@ -13,10 +13,14 @@ public class ReaderInfo {
 	private int role;
 	private String username;
 	private String password;
-	
-	public ReaderInfo(int iD, String fullName, String address, Boolean gender, Date birthday, Boolean isDeleted,
-			Boolean isReader, int role, String username, String password) {
-		super();
+	private Date updatedDate;
+	private int updatedAccountID;
+
+	public AccountInfo() {
+	}
+
+	public AccountInfo(int iD, String fullName, String address, Boolean gender, Date birthday, Boolean isDeleted,
+			Boolean isReader, int role, String username, String password, Date updatedDate, int updatedAccountID) {
 		ID = iD;
 		this.fullName = fullName;
 		this.address = address;
@@ -27,6 +31,8 @@ public class ReaderInfo {
 		this.role = role;
 		this.username = username;
 		this.password = password;
+		this.updatedDate = updatedDate;
+		this.updatedAccountID = updatedAccountID;
 	}
 
 	public int getID() {
@@ -108,5 +114,21 @@ public class ReaderInfo {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
+	}
+
+	public int getUpdatedAccountID() {
+		return updatedAccountID;
+	}
+
+	public void setUpdatedAccountID(int updatedAccountID) {
+		this.updatedAccountID = updatedAccountID;
+	}
+
 }

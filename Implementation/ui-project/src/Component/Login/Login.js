@@ -15,7 +15,7 @@ function Login(props) {
                     </div>
                     <FormLogin />
                     <div id="formFooter">
-                        <a className="underlineHover my-login-link" href="#">Quên mật khẩu</a>
+                        
                     </div>
                 </div>
             </div>

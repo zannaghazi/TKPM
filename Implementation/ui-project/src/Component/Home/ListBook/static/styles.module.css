@@ -201,3 +201,22 @@
 .black {
     color: black;
 }
+
+.myPaginationItem {
+    border: 1px solid #BBD0D8;
+    border-radius: 5px;
+    margin: 1px;
+}
+
+.myActive {
+    background-color: #87CEE9;
+}
+
+.normalPagination {
+    background-color: #fff;
+}
+
+.myDisabled {
+    pointer-events: none;
+    cursor: default;
+}

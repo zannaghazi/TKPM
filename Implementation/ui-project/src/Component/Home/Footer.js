@@ -27,7 +27,7 @@ function Footer(props) {
 
     return (
         <MDBFooter color="elegant-color-dark" className={["font-small pt-4 mt-4"].join(" ")}>
-            <MDBContainer fluid className={["text-center text-md-left", styles.myNav].join(" ")}>
+            <MDBContainer fluid className={["text-center text-md-left", styles.myNav, styles.myFooterContainer].join(" ")}>
                 <MDBRow>
                     <MDBCol md="6">
                         <h5 className="title">Zannaghazi Library</h5>

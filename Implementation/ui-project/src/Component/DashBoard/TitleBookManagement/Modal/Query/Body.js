@@ -9,7 +9,7 @@ import * as actions from '../../../../../actions/index';
 
 function Body(props) {
     const history = useHistory();
-    const [type, setType] = useState(0);
+    const [type, setType] = useState("0");
     const [query, setQuery] = useState("");
 
     function search(event) {
@@ -41,7 +41,7 @@ function Body(props) {
         let url = config.severAPi.hostUrl + ":8081/book/search";
         fetch(url, {
             method: "post",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
             body: JSON.stringify(body)
         })
             .then(res => res.json())

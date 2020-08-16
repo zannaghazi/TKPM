@@ -1,35 +1,41 @@
 import React from 'react';
-import {Table} from 'react-bootstrap';
+import {Table, Button} from 'react-bootstrap';
+import styles from '../static/styles.module.css'
+import { useHistory } from "react-router-dom";
 
 function TableContainer(props) {
+    const history = useHistory();
+    
+    function editItem(event, data) {
+        console.log("mydata", data);
+        if (!data) {
+            return;
+        }
+        history.push("/dashboard/edit_publisher/"+data.id);
+    }
+
+    const listItems = props.listPublisher.map((element, index) =>
+        <tr key={index}>
+            <td>{element.id}</td>
+            <td>{element.name}</td>
+            <td>
+                <Button variant="primary" className={styles.myButtonDetail} onClick={(event) => editItem(event, element)}><i className="fa fa-edit"></i></Button>
+                <Button variant="danger" className={[styles.myButtonDetail, "ml-2"].join(" ")}><i className="fa fa-trash"></i></Button>
+            </td>
+        </tr>
+    );
+
     return (
         <Table striped bordered hover>
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Username</th>
+                    <th width={'10%'}>#</th>
+                    <th width={'70%'}>Tên</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td colSpan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                </tr>
+                {listItems}
             </tbody>
         </Table>
     );

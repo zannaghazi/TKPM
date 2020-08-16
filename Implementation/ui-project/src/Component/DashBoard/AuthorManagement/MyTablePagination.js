@@ -60,9 +60,9 @@ function MyTablePagination(props) {
 	return (
 		<nav aria-label="Page navigation example">
 			<ul className="pagination">
-				<li className={[styles.myPaginationItem, "page-item"].join(" ")}><a className={["page-link", isDisablePrev ? styles.myDisabled : ""].join(" ")} href="#" onClick={handlePrev}>Previous</a></li>
+				<li className={[styles.myPaginationItem, "page-item"].join(" ")}><a className={["page-link", isDisablePrev ? styles.myDisabled : ""].join(" ")} href="#" onClick={handlePrev}>Trước</a></li>
 				{items}
-				<li className={[styles.myPaginationItem, "page-item"].join(" ")}><a className={["page-link", isDisableNext ? styles.myDisabled : ""].join(" ")} href="#" onClick={handleNext}>Next</a></li>
+				<li className={[styles.myPaginationItem, "page-item"].join(" ")}><a className={["page-link", isDisableNext ? styles.myDisabled : ""].join(" ")} href="#" onClick={handleNext}>Sau</a></li>
 			</ul>
 		</nav>
 	);

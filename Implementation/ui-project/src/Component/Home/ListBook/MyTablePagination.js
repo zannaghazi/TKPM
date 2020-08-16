@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import config from '../../../asset/config.json'
-import styles from '../static/styles.module.css'
+import styles from './static/styles.module.css'
 
 function MyTablePagination(props) {
 	const [items, setItems] = useState([]);
@@ -8,13 +8,13 @@ function MyTablePagination(props) {
 	const [isDisableNext, setIsDisableNext] = useState(false);
 
 	useEffect(() => {
-		console.log("list", props.listBookTitle);
+		console.log("listData", props.listBookTitle);
 		let amount = 0;
-		if (props.listBookTitle.length % config.pagination.limit == 0) {
-			amount = props.listBookTitle.length / config.pagination.limit;
+		if (props.listBookTitle.length % 8 == 0) {
+			amount = props.listBookTitle.length / 8;
 		}
 		else {
-			amount = props.listBookTitle.length / config.pagination.limit + 1;
+			amount = props.listBookTitle.length / 8 + 1;
 		}
 		console.log("ammount", amount);
 		let temp = [];

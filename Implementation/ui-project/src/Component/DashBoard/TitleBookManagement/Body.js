@@ -43,9 +43,10 @@ function Body(props) {
                 <Row className = "mt-3">
                     <TableContainer listBookTitle = {visibleList} />
                 </Row>
-                <Row className = "mt-1 d-flex justify-content-center">
+                {props.list.length > 0 ? <Row className = "mt-1 d-flex justify-content-center">
                     <MyTablePagination listBookTitle = {props.list} active={active} setActive={setActive}/>
-                </Row>
+                </Row>: <div>Không có dữ liệu</div>}
+                
             </Container>
             <BookTitleQueryModal show = {show} bindEventShow = {setShow}/>
         </div>

@@ -6,11 +6,25 @@ import config from '../../asset/config.json'
 function SideBar(props) {
     const [pageTitle, setPageTitle] = useState("");
     useEffect(() => {
-        setPageTitle(config.dashboard.find(x => x.url === window.location.pathname).title);
+        if(config.dashboard.find(x => x.url === window.location.pathname)){
+            setPageTitle(config.dashboard.find(x => x.url === window.location.pathname).title);
+        }
+        else{
+            const filteredItems = config.dashboard.filter(item => item.url !== '/dashboard')
+            setPageTitle(filteredItems.find(x => window.location.pathname.includes(x.url)).title);
+        }
+        
     }, []);
 
     function resetPageTitle(path) {
-        setPageTitle(config.dashboard.find(x => x.url === path).title);
+        if(config.dashboard.find(x => x.url === path)){
+            setPageTitle(config.dashboard.find(x => x.url === path).title);
+        }
+        else{
+            const filteredItems = config.dashboard.filter(item => item.url !== '/dashboard')
+            setPageTitle(filteredItems.find(x => path.includes(x.url)).title);
+        }
+        
     }
 
     function renderButton() {

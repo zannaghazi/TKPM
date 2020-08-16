@@ -3,11 +3,12 @@ import 'font-awesome/css/font-awesome.min.css';
 import { Container, Col, Row, Dropdown } from 'react-bootstrap'
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux';
 
 function LoginButton(props) {
     const [reload, setReload] = useState(false);
     function renderDropdown() {
-        if (!localStorage.librarymanagement_token || localStorage.librarymanagement_token === "") {
+        if (!localStorage.quanlythuvien_accesstoken || localStorage.quanlythuvien_accesstoken === "") {
             return (
                 <Col lg={9}>
                     <Link to="/Login" className={styles.normalFont}><b>Đăng nhập</b></Link><br /><span className={styles.smallFont}>hoặc đăng ký mới</span>
@@ -17,9 +18,9 @@ function LoginButton(props) {
             return (
                 <Col lg={9}>
                     <div className={styles.myDropdownHome}>
-                        <span>Hi, <b>Hoàng NT</b>!</span> &nbsp;<i className="fa fa-caret-down"></i>
+                        <span>Hi, <b>{props.userLogin.fullname}</b>!</span> &nbsp;<i className="fa fa-caret-down"></i>
                         <div className={styles.myDropdownContent}>
-                        <a className={styles.black} href = "#" onClick = {SignOut}>Quản lý</a><br/>
+                        <Link className={styles.black} to="/dashboard" >Quản lý</Link><br/>
                         <a className={styles.black} href = "#" onClick = {SignOut}>Đăng xuất</a>
                         </div>
                     </div>
@@ -29,7 +30,7 @@ function LoginButton(props) {
     }
 
     function SignOut(event){
-        localStorage.librarymanagement_token = "";
+        localStorage.quanlythuvien_accesstoken = "";
         setReload(true);
     }
     return (
@@ -46,4 +47,16 @@ function LoginButton(props) {
     );
 }
 
-export default LoginButton;
+const mapStateToProps = state => {
+	return {
+		userLogin: state.user_login
+	}
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+	return {
+		
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginButton);
