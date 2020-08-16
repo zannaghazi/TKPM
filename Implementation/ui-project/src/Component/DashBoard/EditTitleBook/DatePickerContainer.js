@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import DatePicker from "react-datepicker";
 import { Row, Col } from 'react-bootstrap';
 import "react-datepicker/dist/react-datepicker.css";
@@ -7,8 +7,16 @@ import styles from '../static/styles.module.css';
 function DatePickerContainer(props) {
     const [dob, setDob] = useState(new Date());
 
+    useEffect(() => {
+        if(props.value){
+            setDob(Date.parse(props.value))
+        }
+    }, [props.value]);
+
     function handleChange(event) {
-        setDob(event.target.value);
+        console.log("dob in datepicker", event)
+        setDob(event);
+        props.byData(event.getDate()+ "-"+(event.getMonth()+1)+"-"+event.getFullYear());
     };
 
     return (
@@ -21,6 +29,7 @@ function DatePickerContainer(props) {
                     selected={dob}
                     onChange={handleChange}
                     className={styles.myInput}
+                    dateFormat='dd/MM/yyyy'
                 />
             </Col>
         </Row>

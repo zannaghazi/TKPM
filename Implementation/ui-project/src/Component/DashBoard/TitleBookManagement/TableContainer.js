@@ -14,7 +14,7 @@ function TableContainer(props) {
             return;
         }
         props.onSetBookTitleEdit(data);
-        history.push("/dashboard/edit_book_title");
+        history.push("/dashboard/edit_book_title/"+ data.ISBN);
     }
 
     const listItems = props.listBookTitle.map((element, index) =>

@@ -128,7 +128,7 @@ function Body(props) {
                             <Route path="/dashboard/edit_publisher/:id">
                                 <EditPublisher />
                             </Route>
-                            <Route path="/dashboard/edit_book_title/:id" component={EditBookTitle}>
+                            <Route path="/dashboard/edit_book_title/:isbn" component={EditBookTitle}>
                             </Route>
                             <Route path="/dashboard">
                                 <AccountManagement />

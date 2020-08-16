@@ -21,7 +21,7 @@ function NavBar(props) {
                 console.log("type", data);
                 let listItems = [];
                 for(let i =0; i<data.length; i++){
-                    listItems.push(<NavLink to={"/list_request?type=type&key="+data[i]} key={i} id="basic-nav-dropdown" className={[styles.myDropdown, i <(data.length - 1) ? styles.myBorderRight : ""].join(" ")}>
+                    listItems.push(<NavLink to={"/list_request?type=type&key="+data[i].name} key={i} id="basic-nav-dropdown" className={[styles.myDropdown, i <(data.length - 1) ? styles.myBorderRight : ""].join(" ")}>
                     {data[i].name}
                     </NavLink>)
                 }
