@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import styles from './static/styles.module.css';
-import Image4 from '../../../asset/picture/srcTest/sach4.jpg';
-import Info from './Info'
+import MyContainer from './MyContainer'
 
 function Index(props) {
     return (
@@ -11,12 +10,7 @@ function Index(props) {
                 <div className={styles.myTitle}><span className={styles.myText}>Chi tiết sách</span></div>
             </Row>
             <Row>
-                <Col sm={3}>
-                    <img src={Image4} alt="img" className={["d-block w-100",styles.myCarousel].join(" ")} />
-                </Col>
-                <Col sm={9}>
-                    <Info />
-                </Col>
+                <MyContainer />
             </Row>
         </Container>
     );

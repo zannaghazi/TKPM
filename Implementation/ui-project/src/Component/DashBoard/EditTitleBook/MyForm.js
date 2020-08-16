@@ -22,7 +22,7 @@ function Form(props) {
     const [image, setImage] = useState(null);
 
     useEffect(() => {
-        let url = config.severAPi.hostUrl + ":8081/book/get_book_by_isbn/" + params.isbn;
+        let url = config.severAPi.hostUrl + ":8081/book/get_book_info_by_isbn/" + params.isbn;
         fetch(url, {
             method: "get",
             headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },

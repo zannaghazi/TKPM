@@ -7,9 +7,15 @@ import * as actions from '../../../actions/index';
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import config from '../../../asset/config.json'
+import { useHistory } from "react-router-dom";
 
 function NewFeed(props) {
     const [carouselList, setCarouseList] = useState([]);
+    const history = useHistory();
+
+    function detailBook(item){
+        history.push("/book/"+ item.ISBN);
+    }
 
     const listNormal = props.list.slice(3).map((element, index) =>
         <div className="col-sm-4" key ={index}>
@@ -20,7 +26,7 @@ function NewFeed(props) {
                     <Card.Text>
                         {element.author}
                     </Card.Text>
-                    <Button variant="primary">Xem chi tiết</Button>
+                    <Button variant="primary" onClick={() => detailBook(element)}>Xem chi tiết</Button>
                 </Card.Body>
             </Card>
         </div>
