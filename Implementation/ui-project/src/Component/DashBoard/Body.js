@@ -18,6 +18,8 @@ import EditAuthor from './EditAuthor/Body'
 import { connect } from 'react-redux';
 import * as actions from '../../actions/index';
 import config from '../../asset/config.json'
+import NewPublisher from './NewPublisher/Body'
+import EditPublisher from './EditPublisher/Body'
 
 
 import {
@@ -53,6 +55,17 @@ function Body(props) {
                     console.log("UserLogin", data);
                     props.onSetUserLogin(data);
                 });
+
+                let urlPublisher = config.severAPi.hostUrl + ":8081/book/get_all_publisher";
+                await fetch(urlPublisher, {
+                    method: "get",
+                    headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log("publisher", data);
+                        props.onSetListPublisher(data);
+                    });
         }
 
         fetchAPI();
@@ -95,8 +108,14 @@ function Body(props) {
                             <Route path="/dashboard/new_author">
                                 <NewAuthor />
                             </Route>
+                            <Route path="/dashboard/new_publisher">
+                                <NewPublisher />
+                            </Route>
                             <Route path="/dashboard/edit_author/:id">
                                 <EditAuthor />
+                            </Route>
+                            <Route path="/dashboard/edit_publisher/:id">
+                                <EditPublisher />
                             </Route>
                             <Route path="/dashboard/edit_book_title/:id" component={EditBookTitle}>
                             </Route>
@@ -124,7 +143,10 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         onSetUserLogin: (user) => {
             dispatch(actions.setUserLogin(user));
-        }
+        },
+        onSetListPublisher: (item) => {
+            dispatch(actions.setListPublisher(item));
+        },
     }
 }
 

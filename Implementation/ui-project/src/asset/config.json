@@ -112,6 +112,18 @@
             "icon_class": "",
             "title": "Sửa tác giả",
             "is_display": false
+        },
+        {
+            "url": "/dashboard/new_publisher",
+            "icon_class": "",
+            "title": "Thêm nhà xuất bản",
+            "is_display": false
+        },
+        {
+            "url": "/dashboard/edit_publisher",
+            "icon_class": "",
+            "title": "Sửa tác giả",
+            "is_display": false
         }
     ],
     "severAPi": {

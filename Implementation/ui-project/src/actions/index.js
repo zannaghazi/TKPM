@@ -69,3 +69,17 @@ export const editAuthor = (author) =>{
         author,
     }
 }
+
+export const setListPublisher = (list)=>{
+    return {
+        type: types.SET_LIST_PUBLISHER,
+        list,
+    }
+}
+
+export const addNewPublisher = (pulisher) =>{
+    return {
+        type: types.ADD_PUBLISHER,
+        pulisher,
+    }
+}
