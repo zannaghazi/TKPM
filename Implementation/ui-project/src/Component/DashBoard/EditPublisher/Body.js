@@ -8,7 +8,7 @@ function Index(props) {
         <Container className={[styles.maxWidth, "mt-3"].join(" ")}>
             <Row className={styles.myMarginBottom}>
                 <Col xs={9}>
-                    <h3>Sửa tác giả</h3>
+                    <h3>Sửa nhà xuất bản</h3>
                 </Col>
             </Row>
             <Row className="mt-5">

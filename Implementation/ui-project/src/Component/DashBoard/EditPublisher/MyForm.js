@@ -31,19 +31,19 @@ function Form(props) {
 
     function editAuthor() {
         console.log("userLogin", props.userLogin);
-        // let url = config.severAPi.hostUrl + ":8081/book/update_author";
-        // fetch(url, {
-        //     method: "post",
-        //     headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
-        //     body: JSON.stringify({id: author.id, name: name, currentUserID: props.userLogin.id})
-        // })
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         console.log(data);
-        //         props.onEditAuthor(data.data);
-        //         alert("Cập nhật tác giả mơi thành công");
-        //         history.push('/dashboard/author_management');
-        //     });
+        let url = config.severAPi.hostUrl + ":8081/book/update_publisher";
+        fetch(url, {
+            method: "post",
+            headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
+            body: JSON.stringify({id: publisher.id, name: name, currentUserID: props.userLogin.id})
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                props.onEditPublisher(data.data);
+                alert("Cập nhật nhà xuất bản thành công");
+                history.push('/dashboard/publish_management');
+            });
     }
 
     return (
@@ -64,8 +64,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        onEditAuthor: (author) => {
-            dispatch(actions.editAuthor(author));
+        onEditPublisher: (publishers) => {
+            dispatch(actions.editPublisher(publishers));
         }
     }
 }

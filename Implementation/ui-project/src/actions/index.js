@@ -83,3 +83,10 @@ export const addNewPublisher = (pulisher) =>{
         pulisher,
     }
 }
+
+export const editPublisher = (publisher) =>{
+    return {
+        type: types.EDIT_PUBLISHER,
+        publisher,
+    }
+}

@@ -45,7 +45,7 @@ function Body(props) {
                     </Col>
                 </Row>
                 <Row className="mt-3">
-                    <Col xs={6}>
+                    <Col xs={10}>
                         <TableContainer listPublisher={visibleList} />
                         {props.list.length > 0 ? <Row className="mt-1 d-flex justify-content-center">
                             <MyTablePagination listPublisher={props.list} active={active} setActive={setActive} />
