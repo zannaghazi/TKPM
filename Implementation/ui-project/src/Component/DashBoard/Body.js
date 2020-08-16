@@ -56,16 +56,27 @@ function Body(props) {
                     props.onSetUserLogin(data);
                 });
 
-                let urlPublisher = config.severAPi.hostUrl + ":8081/book/get_all_publisher";
-                await fetch(urlPublisher, {
-                    method: "get",
-                    headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        console.log("publisher", data);
-                        props.onSetListPublisher(data);
-                    });
+            let urlPublisher = config.severAPi.hostUrl + ":8081/book/get_all_publisher";
+            await fetch(urlPublisher, {
+                method: "get",
+                headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("publisher", data);
+                    props.onSetListPublisher(data);
+                });
+
+            let urlTypeBooks = config.severAPi.hostUrl + ":8081/book/get_all_type";
+            await fetch(urlTypeBooks, {
+                method: "get",
+                headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("type", data);
+                    props.onSetListTypeBook(data);
+                });
         }
 
         fetchAPI();
@@ -146,6 +157,9 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         onSetListPublisher: (item) => {
             dispatch(actions.setListPublisher(item));
+        },
+        onSetListTypeBook: (listTypeBook) => {
+            dispatch(actions.setListTypeBook(listTypeBook));
         },
     }
 }

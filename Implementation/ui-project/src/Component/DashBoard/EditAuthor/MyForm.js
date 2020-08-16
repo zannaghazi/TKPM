@@ -41,7 +41,7 @@ function Form(props) {
             .then(data => {
                 console.log(data);
                 props.onEditAuthor(data.data);
-                alert("Cập nhật tác giả mơi thành công");
+                alert("Cập nhật tác giả thành công");
                 history.push('/dashboard/author_management');
             });
     }

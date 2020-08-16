@@ -22,9 +22,10 @@ function NavBar(props) {
                 let listItems = [];
                 for(let i =0; i<data.length; i++){
                     listItems.push(<NavLink to={"/list_request?type=type&key="+data[i]} key={i} id="basic-nav-dropdown" className={[styles.myDropdown, i <(data.length - 1) ? styles.myBorderRight : ""].join(" ")}>
-                    {data[i]}
+                    {data[i].name}
                     </NavLink>)
                 }
+                props.onSetListTypeBook(data);
                 setListTypeBook(listItems);
             });
     }, []);

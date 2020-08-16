@@ -8,7 +8,9 @@ function DatePickerContainer(props) {
     const [dob, setDob] = useState(new Date());
 
     function handleChange(event) {
-        setDob(event.target.value);
+        console.log("dob in datepicker", event)
+        setDob(event);
+        props.byData(event.getDate()+ "-"+(event.getMonth()+1)+"-"+event.getFullYear());
     };
 
     return (
@@ -21,6 +23,7 @@ function DatePickerContainer(props) {
                     selected={dob}
                     onChange={handleChange}
                     className={styles.myInput}
+                    dateFormat='dd/MM/yyyy'
                 />
             </Col>
         </Row>
