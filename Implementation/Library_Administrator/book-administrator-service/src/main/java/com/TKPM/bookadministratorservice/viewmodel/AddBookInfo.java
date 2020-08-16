@@ -8,9 +8,11 @@ public class AddBookInfo {
 	public String releaseDate;
 	public int type;
 	public String location;
+	public int amount;
+	public String image;
 	
 	public AddBookInfo(String iSBN, String name, int author, int publisher, String releaseDate, int type,
-			String location) {
+			String location, int amount, String image) {
 		super();
 		ISBN = iSBN;
 		this.name = name;
@@ -19,5 +21,7 @@ public class AddBookInfo {
 		this.releaseDate = releaseDate;
 		this.type = type;
 		this.location = location;
+		this.amount = amount;
+		this.image = image;
 	}
 }

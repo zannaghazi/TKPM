@@ -32,11 +32,14 @@ import org.springframework.web.server.ResponseStatusException;
 import com.TKPM.bookadministratorservice.model.*;
 import com.TKPM.bookadministratorservice.repository.BookInfoRepository;
 import com.TKPM.bookadministratorservice.viewmodel.AddAuthorRequest;
+import com.TKPM.bookadministratorservice.viewmodel.AddBookInfo;
 import com.TKPM.bookadministratorservice.viewmodel.AddPublisherRequest;
 import com.TKPM.bookadministratorservice.viewmodel.AuthorDetailInfo;
 import com.TKPM.bookadministratorservice.viewmodel.BookInfoSearchResult;
 import com.TKPM.bookadministratorservice.viewmodel.Message;
 import com.TKPM.bookadministratorservice.viewmodel.MessageData;
+import com.TKPM.bookadministratorservice.viewmodel.PublisherDetailInfo;
+import com.TKPM.bookadministratorservice.viewmodel.UpdateAuthorRequest;
 import com.TKPM.bookadministratorservice.viewmodel.VNDateTime;
 
 
@@ -173,15 +176,16 @@ public class BookAdminService {
 		return new MessageData(true, "Upload hình ảnh thành công", "/book/get_image/" + fileName);
 	}
 	
+	@CrossOrigin
 	@RequestMapping("/add_new_book_info")
-	public Message addNewBook(@RequestHeader("x-acces-token") String token) {
+	public MessageData<AddBookInfo> addNewBook(@RequestHeader("x-access-token") String token, @RequestBody AddBookInfo data) {
 		if (!repo.VerifyToken(token)) {
 			System.out.print(repo.VerifyToken(token));
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
 		}
-		
-		return new Message(true, "Tạo thành công!");
+		return repo.addNewBookInfo(data);
 	}
+	
 	
 	/*TYPE CONTROL*/
 	@CrossOrigin
@@ -216,23 +220,47 @@ public class BookAdminService {
 	}
 	
 	@CrossOrigin
-	@RequestMapping("get_all_publisher")
-	public List<Publisher> getAllPubliser(@RequestHeader("x-access-token") String token) {
+	@RequestMapping("update_author")
+	public MessageData<AuthorDetailInfo> UpdateAuthor(@RequestHeader("x-access-token") String token, @RequestBody UpdateAuthorRequest request) {
 		if (!repo.VerifyToken(token)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
 		}
-		List<Publisher> result = repo.getAllPublisher();
-		return result;
+		return repo.updateAuthor(request.id, request.name, request.currentUserID);
 	}
 	
 	/*PUBLISHER CONTROL*/
 	@CrossOrigin
+	@RequestMapping("get_all_publisher")
+	public List<PublisherDetailInfo> getAllPubliser(@RequestHeader("x-access-token") String token) {
+		if (!repo.VerifyToken(token)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
+		}
+		List<Publisher> data = repo.getAllPublisher();
+		List<PublisherDetailInfo> result = new ArrayList<PublisherDetailInfo>();
+		
+		for (int i = 0; i < data.size(); i++) {
+			PublisherDetailInfo temp = new PublisherDetailInfo(data.get(i), repo);
+			result.add(temp);
+		}
+		
+		return result;
+	}
+	
+	@CrossOrigin
 	@RequestMapping("add_publisher")
-	public Message AddNewPublisher(@RequestHeader("x-access-token") String token, @RequestBody AddPublisherRequest request) {
+	public MessageData<PublisherDetailInfo> AddNewPublisher(@RequestHeader("x-access-token") String token, @RequestBody AddPublisherRequest request) {
 		if (!repo.VerifyToken(token)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
 		}
 		return repo.createNewPublisher(request.name, request.currentUserID);
 	}
 	
+	@CrossOrigin
+	@RequestMapping("update_publisher")
+	public MessageData<PublisherDetailInfo> UpdatePublisher(@RequestHeader("x-access-token") String token, @RequestBody UpdateAuthorRequest request) {
+		if (!repo.VerifyToken(token)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
+		}
+		return repo.updatePublisher(request.id, request.name, request.currentUserID);
+	}
 }

@@ -119,4 +119,57 @@ public class SystemRepository {
 		
 		return new Message(true, "Đăng xuất thành công");
 	}
+	
+	public Account getAccountByID(int id) {
+		Account temp = null;
+		
+		try {
+			ResultSet rs = this.stmt.executeQuery("select * from account where isDeleted = false and id =" + id);
+			if (!rs.isBeforeFirst()) {
+				return temp;
+			}
+			if (rs.next()) {
+				temp = new Account(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getString(3),
+						rs.getBoolean(4),
+						rs.getDate(5),
+						rs.getBoolean(6),
+						rs.getBoolean(7),
+						rs.getInt(8),
+						rs.getString(9),
+						rs.getString(10));
+				return temp;
+			}
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return temp;
+	}
+	
+	public AccountBasicInfo GetCurrentUser(String token) {
+		AccountBasicInfo result = new AccountBasicInfo();
+		
+		try {
+			ResultSet rs = this.stmt.executeQuery("select * from sessiontoken where isDeleted = false and token like '"
+					+ token + "'");
+			int accountID = -1;
+			if (rs.next()) {
+				accountID = rs.getInt(2);
+			}
+			rs.close();
+			System.out.println(accountID);
+			Account temp = this.getAccountByID(accountID);
+			if (temp == null) {
+				return null;
+			}
+			return new AccountBasicInfo(temp, token);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return result;
+	}
 }

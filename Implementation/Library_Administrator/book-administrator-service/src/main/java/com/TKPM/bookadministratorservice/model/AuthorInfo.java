@@ -3,6 +3,12 @@ package com.TKPM.bookadministratorservice.model;
 import java.util.Date;
 
 public class AuthorInfo {
+	@Override
+	public String toString() {
+		return "AuthorInfo [id=" + id + ", name=" + name + ", isDeleted=" + isDeleted + ", updatedDate=" + updatedDate
+				+ ", updatedAccount=" + updatedAccount + "]";
+	}
+
 	private int id;
 	private String name;
 	private Boolean isDeleted;

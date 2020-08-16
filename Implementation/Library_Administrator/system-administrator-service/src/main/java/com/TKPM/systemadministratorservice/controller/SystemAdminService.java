@@ -47,4 +47,10 @@ public class SystemAdminService {
 		
 		return new Message(true, "Thêm tài khoản thành công");
 	}
+	
+	@CrossOrigin
+	@RequestMapping("/get_current_user")
+	public AccountBasicInfo GetCurrentUser(@RequestHeader("x-access-token") String token) {
+		return repo.GetCurrentUser(token);
+	}
 }
