@@ -3,6 +3,8 @@ package com.TKPM.bookadministratorservice.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.TKPM.bookadministratorservice.viewmodel.BookTypeDetail;
+
 public class BookType {
 	public BookType() {
 		
@@ -40,13 +42,14 @@ public class BookType {
 			return "Không có";
 		}
 	}
-	public List<String> getListType() {
-		List<String> result = new ArrayList<String>();
-		result.add("Khoa học công nghệ – Kinh tế");
-		result.add("Văn hóa xã hội – Lịch sử");
-		result.add("Văn học nghệ thuật");
-		result.add("Giáo trình");
-		result.add("Truyện, tiểu thuyết");
+	
+	public List<BookTypeDetail> getListType() {
+		List<BookTypeDetail> result = new ArrayList<BookTypeDetail>();
+		result.add(new BookTypeDetail(1, "Khoa học công nghệ – Kinh tế"));
+		result.add(new BookTypeDetail(2, "Văn hóa xã hội – Lịch sử"));
+		result.add(new BookTypeDetail(3, "Văn học nghệ thuật"));
+		result.add(new BookTypeDetail(4, "Giáo trình"));
+		result.add(new BookTypeDetail(5, "Truyện, tiểu thuyết"));
 		
 		return result;
 	}

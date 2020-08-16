@@ -3,7 +3,9 @@ package com.TKPM.bookadministratorservice.controller;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 import java.nio.file.Files;
@@ -16,7 +18,10 @@ import java.util.Scanner;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.TKPM.bookadministratorservice.model.*;
 import com.TKPM.bookadministratorservice.repository.BookInfoRepository;
@@ -36,6 +42,7 @@ import com.TKPM.bookadministratorservice.viewmodel.AddBookInfo;
 import com.TKPM.bookadministratorservice.viewmodel.AddPublisherRequest;
 import com.TKPM.bookadministratorservice.viewmodel.AuthorDetailInfo;
 import com.TKPM.bookadministratorservice.viewmodel.BookInfoSearchResult;
+import com.TKPM.bookadministratorservice.viewmodel.BookTypeDetail;
 import com.TKPM.bookadministratorservice.viewmodel.Message;
 import com.TKPM.bookadministratorservice.viewmodel.MessageData;
 import com.TKPM.bookadministratorservice.viewmodel.PublisherDetailInfo;
@@ -45,8 +52,7 @@ import com.TKPM.bookadministratorservice.viewmodel.VNDateTime;
 
 @RestController
 @RequestMapping("/book")
-public class BookAdminService {
-
+public class BookAdminService {	
 	private BookInfoRepository repo = new BookInfoRepository();
         
 	@RequestMapping("/ping")
@@ -149,31 +155,34 @@ public class BookAdminService {
 	}
 	
 	@CrossOrigin
-	@RequestMapping(value = "/upload_book_image", method = RequestMethod.POST, consumes = {"multipart/form-data"})
-	public MessageData<String> uploadImage(@RequestParam MultipartFile file) {
-		String fileName = "";
-		if(file.isEmpty()) {
-			return new MessageData(true, "Hình ảnh không hợp lệ", "fail");
-		}
+	@RequestMapping(value="/upload_book_image", method=RequestMethod.POST, consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
+	public MessageData<String> UploadFile(@RequestParam("file") MultipartFile file) throws IOException{
 		
+		String fileName = file.getOriginalFilename();
+		String nameTail = fileName.substring(fileName.lastIndexOf("."));
 		try {
 			File myFile = new File("data/config.txt");
 			Scanner reader = new Scanner(myFile);
 			fileName = reader.nextLine();
 			reader.close();
 			int fileNameInt = Integer.parseInt(fileName);
-			fileName += ".jpg";
-			var is = file.getInputStream();
-			Files.copy(is, Paths.get("data/" + fileName), StandardCopyOption.REPLACE_EXISTING);
+			fileName += nameTail;
 			
 			FileWriter writer = new FileWriter("data/config.txt");
-			writer.write(fileNameInt + 1);
+			int nextFileName = fileNameInt + 1;
+			System.out.println(nextFileName);
+			writer.write(String.valueOf(nextFileName));
 			writer.close();
-		}catch(Exception e) {
-			System.out.println(e.getStackTrace());
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
-		
-		return new MessageData(true, "Upload hình ảnh thành công", "/book/get_image/" + fileName);
+				
+		File newFile = new File("data/" + fileName);
+		newFile.createNewFile();
+		FileOutputStream out = new FileOutputStream(newFile);
+		out.write(file.getBytes());
+		out.close();
+		return new MessageData<String>(true, "Thành công", "/book/get_image/" + fileName);
 	}
 	
 	@CrossOrigin
@@ -190,7 +199,7 @@ public class BookAdminService {
 	/*TYPE CONTROL*/
 	@CrossOrigin
 	@RequestMapping("/get_all_type")
-	public List<String> getAllType() {
+	public List<BookTypeDetail> getAllType() {
 		BookType booktype = new BookType();
 		return booktype.getListType();
 	}

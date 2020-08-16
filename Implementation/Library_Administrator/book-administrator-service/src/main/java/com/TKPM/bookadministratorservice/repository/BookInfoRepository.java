@@ -16,7 +16,6 @@ import com.TKPM.bookadministratorservice.model.SearchRequest;
 import com.TKPM.bookadministratorservice.viewmodel.AddBookInfo;
 import com.TKPM.bookadministratorservice.viewmodel.AuthorDetailInfo;
 import com.TKPM.bookadministratorservice.viewmodel.BookInfoSearchResult;
-import com.TKPM.bookadministratorservice.viewmodel.Message;
 import com.TKPM.bookadministratorservice.viewmodel.MessageData;
 import com.TKPM.bookadministratorservice.viewmodel.PublisherDetailInfo;
 import com.TKPM.bookadministratorservice.viewmodel.VNDateTime;
@@ -41,7 +40,7 @@ public class BookInfoRepository {
 	/*Verify token*/
 	public boolean VerifyToken(String token) {
 		try {
-			ResultSet rs = this.stmt.executeQuery("select * from SESSIONTOKEN where isDeleted=false and token like '"
+			ResultSet rs = this.stmt.executeQuery("select * from SESSIONTOKEN where isDeleted=false and token like BINARY '"
 					+ token + "';");
 			if (!rs.isBeforeFirst()) {
 				return false;
@@ -213,7 +212,7 @@ public class BookInfoRepository {
 	/*AUTHOR CONTROL*/
 	public AuthorInfo getAuthorByName(String name) {
 		try {
-			ResultSet rs = this.stmt.executeQuery("select * from author where name like '%" + name + "%'");
+			ResultSet rs = this.stmt.executeQuery("select * from author where name like BINARY '%" + name + "%'");
 			while (rs.next()) {
 				AuthorInfo temp = new AuthorInfo(
 						rs.getInt(1),
@@ -310,7 +309,7 @@ public class BookInfoRepository {
 	/*PUBLISHER CONTROL*/
 	public Publisher getPublisherByName(String name) {
 		try {
-			ResultSet rs = this.stmt.executeQuery("select * from publisher where name like '%" + name + "%'");
+			ResultSet rs = this.stmt.executeQuery("select * from publisher where name like BINARY '%" + name + "%'");
 			while (rs.next()) {
 				Publisher temp = new Publisher(
 						rs.getInt(1),
@@ -428,7 +427,7 @@ public class BookInfoRepository {
 	
 	public BookInfo getBookInfoByISBN(String id) {
 		try {
-			ResultSet rs = this.stmt.executeQuery("select * from bookinformation where isbn like '%" + id + "%'");
+			ResultSet rs = this.stmt.executeQuery("select * from bookinformation where isbn like BINARY '%" + id + "%'");
 			while (rs.next()) {
 				BookInfo temp = new BookInfo(
 						rs.getString(1),
@@ -455,7 +454,7 @@ public class BookInfoRepository {
 		String queryString = "select* from bookinformation where isDeleted=false";
 		switch(request.type) {
 		case "name":
-			queryString += " and name like '%" + request.key +"%'";
+			queryString += " and name like BINARY '%" + request.key +"%'";
 			break;
 		case "author":
 			AuthorInfo author = getAuthorByName(request.key);
@@ -465,14 +464,14 @@ public class BookInfoRepository {
 			queryString += " and author = " + author.getId();
 			break;
 		case "ISBN":
-			queryString += " and isbn like '%" + request.key +"%'";
+			queryString += " and isbn like BINARY '%" + request.key +"%'";
 			break;
 		case "ID":
 			Book book = getBookByID(Integer.parseInt(request.key));
 			if (book == null) {
 				return result;
 			}
-			queryString += " and isbn like '%" + book.getISBN() + "%'";
+			queryString += " and isbn like BINARY '%" + book.getISBN() + "%'";
 			break;
 		case "publisher":
 			Publisher publisher = getPublisherByName(request.key);
