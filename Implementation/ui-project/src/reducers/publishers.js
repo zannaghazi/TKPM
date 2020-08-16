@@ -9,9 +9,9 @@ var myReducer = (state = initialState, action) => {
         case types.ADD_PUBLISHER:
             return [...state, action.pulisher];
         case types.EDIT_PUBLISHER:
-            let foundIndex = state.findIndex(x => x.id == action.author.id);
+            let foundIndex = state.findIndex(x => x.id == action.publisher.id);
             let temp = [...state];
-            temp[foundIndex] = action.author;
+            temp[foundIndex] = action.publisher;
             return [...temp];
         default:
             return state;
