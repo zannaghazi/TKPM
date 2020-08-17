@@ -132,3 +132,10 @@ export const deleteAccount = (item) => {
         item
     }
 }
+
+export const setListReader = (listReader) => {
+    return {
+        type: types.SET_LIST_READER,
+        listReader
+    }
+}
