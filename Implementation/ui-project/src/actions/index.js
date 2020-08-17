@@ -97,3 +97,24 @@ export const setListBook = (listBook) =>{
         listBook,
     }
 }
+
+export const deleteBook = (item) => {
+    return {
+        type: types.DELETE_BOOK,
+        item
+    }
+}
+
+export const deleteAuthor = (item) => {
+    return {
+        type: types.DELETE_AUTHOR,
+        item
+    }
+}
+
+export const deletePublisher = (item) => {
+    return {
+        type: types.DELETE_PUBLISHER,
+        item
+    }
+}

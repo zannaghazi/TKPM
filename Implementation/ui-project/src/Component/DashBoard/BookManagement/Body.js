@@ -41,7 +41,7 @@ function Body(props) {
                     </Col>
                 </Row>
                 <Row className="mt-3">
-                    <Col xs={10}>
+                    <Col xs={5}>
                         <Row>
                             <TableContainer listBook={visibleList} />
                         </Row>
@@ -64,7 +64,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-
+        
     }
 }
 

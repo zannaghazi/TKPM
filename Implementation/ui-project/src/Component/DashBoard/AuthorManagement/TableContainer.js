@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { connect } from 'react-redux';
 import * as actions from '../../../actions/index';
 import styles from '../static/styles.module.css'
+import config from '../../../asset/config.json'
 
 function TableContainer(props) {
     const history = useHistory();
@@ -16,6 +17,24 @@ function TableContainer(props) {
         history.push("/dashboard/edit_author/" + data.id);
     }
 
+    function deleteAuthor(data){
+        let url = config.severAPi.hostUrl + ":8081/book/delete_author/" + data.id;
+        fetch(url, {
+            method: "get",
+            headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
+        })
+            .then(res => res.json())
+            .then(dataReceive => {
+                if(dataReceive.result){
+                    alert("Xóa tác giả thành công!")
+                    props.onDeleteAuthor(data);
+                }
+                else{
+                    alert("Đã có lỗi xảy ra, vui lòng thử lại");
+                }
+            });
+    }
+
     const listItems = props.listAuthor.map((element, index) => {
         if (element.id > 0) {
             return (<tr key={index}>
@@ -25,7 +44,7 @@ function TableContainer(props) {
                 <td>{element.updatedAccount}</td>
                 <td>
                     <Button variant="primary" className={styles.myButtonDetail} onClick={(event) => editItem(event, element)}><i className="fa fa-edit"></i></Button>
-                    <Button variant="danger" className={[styles.myButtonDetail, "ml-2"].join(" ")}><i className="fa fa-trash"></i></Button>
+                    <Button variant="danger" className={[styles.myButtonDetail, "ml-2"].join(" ")} onClick={() => deleteAuthor(element)}><i className="fa fa-trash"></i></Button>
                 </td>
             </tr>)
         }
@@ -51,4 +70,18 @@ function TableContainer(props) {
     );
 }
 
-export default TableContainer;
+const mapStateToProps = state => {
+    return {
+        
+    }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onDeleteAuthor: (item) => {
+            dispatch(actions.deletePublisher(item));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TableContainer);
