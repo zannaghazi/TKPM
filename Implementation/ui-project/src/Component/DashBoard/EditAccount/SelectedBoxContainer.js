@@ -5,6 +5,13 @@ import {Row, Col} from 'react-bootstrap'
 
 function SeletedBoxContainer(props) {
     const [options, setOptions]= useState([]);
+    const [value, setvalue] = useState("");
+
+    useEffect(() => {
+        if(props.value){
+            setvalue(props.value);
+        }  
+    }, [props.value]);
 
     useEffect(() => {
         console.log("My List", props.data)
@@ -30,7 +37,9 @@ function SeletedBoxContainer(props) {
                 {props.label}
             </Col>
             <Col xs={6} className = "pl-3">
-                <Select className={styles.myAuthorSelect} options={options} onChange={handleChange}/>
+                <Select className={styles.myAuthorSelect} options={options} onChange={handleChange}
+                    value={options.filter(option => option.value ===value)}
+                />
             </Col>
         </Row>
     );

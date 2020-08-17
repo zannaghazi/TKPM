@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Row, Col } from 'react-bootstrap';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -7,6 +7,18 @@ import styles from '../static/styles.module.css';
 
 function RadioContainer(props) {
     const [value, setValue] = React.useState("1");
+
+    useEffect(() => {
+        if(props.value !== null){
+            if(props.value == true){
+                setValue("2");
+            }
+            else{
+                setValue("1");
+            }
+        }
+        
+      }, [props.value]);
 
     const handleChange = (event) => {
         console.log(event.target.value);

@@ -20,6 +20,9 @@ import * as actions from '../../actions/index';
 import config from '../../asset/config.json'
 import NewPublisher from './NewPublisher/Body'
 import EditPublisher from './EditPublisher/Body'
+import Report from './Report/Body'
+import SystemManagement from './SystemManagement/Body'
+import EditAccount from './EditAccount/Body'
 
 
 import {
@@ -67,16 +70,27 @@ function Body(props) {
                     props.onSetListPublisher(data);
                 });
 
-            let urlTypeBooks = config.severAPi.hostUrl + ":8081/book/get_all_type";
-            await fetch(urlTypeBooks, {
+            let urlRole = config.severAPi.hostUrl + ":8083/system/get_all_role";
+            await fetch(urlRole, {
                 method: "get",
                 headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
             })
                 .then(res => res.json())
                 .then(data => {
                     console.log("type", data);
-                    props.onSetListTypeBook(data);
+                    props.onSetListRole(data);
                 });
+
+                let urlTypeBooks = config.severAPi.hostUrl + ":8081/book/get_all_type";
+                await fetch(urlTypeBooks, {
+                    method: "get",
+                    headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log("type", data);
+                        props.onSetListTypeBook(data);
+                    });
         }
 
         fetchAPI();
@@ -130,6 +144,14 @@ function Body(props) {
                             </Route>
                             <Route path="/dashboard/edit_book_title/:isbn" component={EditBookTitle}>
                             </Route>
+                            <Route path="/dashboard/edit_account/:id" component={EditAccount}>
+                            </Route>
+                            <Route path="/dashboard/report">
+                                <Report />
+                            </Route>
+                            <Route path="/dashboard/system_management">
+                                <SystemManagement />
+                            </Route>
                             <Route path="/dashboard">
                                 <AccountManagement />
                             </Route>
@@ -161,6 +183,9 @@ const mapDispatchToProps = (dispatch, props) => {
         onSetListTypeBook: (listTypeBook) => {
             dispatch(actions.setListTypeBook(listTypeBook));
         },
+        onSetListRole: (listRole) => {
+            dispatch(actions.setListRole(listRole));
+        }
     }
 }
 

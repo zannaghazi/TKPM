@@ -164,3 +164,9 @@
     pointer-events: none;
     cursor: default;
 }
+
+.myInputReport {
+    width: 50px !important;
+    display: inline-block !important;
+    height: 20px;
+}

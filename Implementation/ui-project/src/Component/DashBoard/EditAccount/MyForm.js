@@ -7,21 +7,28 @@ import SelectedBoxContainer from './SelectedBoxContainer'
 import ButtonContainer from './ButtonContainer';
 import config from '../../../asset/config.json'
 import { connect } from 'react-redux';
-
-const defaultValue = {
-    fullName: "",
-    address: "",
-    gender: false,
-    birthDay: (new Date()).getFullYear() + "-" + ((new Date()).getMonth() + 1) + "-" + (new Date()).getDate(),
-    username: "",
-    password: "",
-    role: 4,
-};
+import { useHistory } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 function Form(props) {
     const [account, setAccount] = useState([]);
     const [roles, setRoles] = useState([]);
-    const [data, setData] = useState(defaultValue);
+    const [data, setData] = useState({});
+    const history = useHistory();
+    const params = useParams();
+
+    useEffect(() => {
+        let url = config.severAPi.hostUrl + ":8083/system/get_account_by_id/" + params.id;
+        fetch(url, {
+            method: "get",
+            headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
+        })
+            .then(res => res.json())
+            .then(dataReceive => {
+                console.log("111111111111111", dataReceive)
+                setData(dataReceive);
+            });
+    }, []);
 
     useEffect(() => {
         console.log("props in new account", props);
@@ -83,13 +90,13 @@ function Form(props) {
         setData(temp);
     }
 
-    function create() {
+    function edit() {
         if (data.fullName == "" || data.address == "" || data.birthDay == "" || data.username == "" || data.role == -1) {
             alert("Dữ liệu nhập vào không hợp lệ");
             return;
         }
 
-        let url = config.severAPi.hostUrl + ":8083/system/add_new_account";
+        let url = config.severAPi.hostUrl + ":8083/system/update_account";
         fetch(url, {
             method: "post",
             headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
@@ -98,7 +105,7 @@ function Form(props) {
             .then(res => res.json())
             .then(data => {
                 if (data.result) {
-                    alert("Tạo tài khoản thành công!");
+                    alert("Cập nhật tài khoản thành công!");
                 }
                 else {
                     alert("Đã có lỗi xảy ra. Vui lòng kiểm tra lại!")
@@ -109,14 +116,13 @@ function Form(props) {
 
     return (
         <Container>
-            <InputConTainer label="Tên:" byData={changeFullName} />
-            <InputConTainer label="Tên tài khoản:" byData={changeUsername} />
-            <InputConTainer label="Mật khẩu:" is_password={true} byData={changePassword} />
-            <InputConTainer label="Địa chỉ:" byData={changeAddress} />
-            <DatePickerContainer label="Ngày sinh:" byData={changeBirthDay} />
-            <RadioContainer label="Giới tính:" byData={changeGender} />
-            <SelectedBoxContainer label="Chức vụ:" byData={changeRole} data={roles} />
-            <ButtonContainer bindEventCreate={create} />
+            <InputConTainer label="Tên:" byData={changeFullName} value={data.fullName}/>
+            <InputConTainer label="Tên tài khoản:" byData={changeUsername} value={data.username}/>
+            <InputConTainer label="Địa chỉ:" byData={changeAddress} value={data.address}/>
+            <DatePickerContainer label="Ngày sinh:" byData={changeBirthDay} value={data.birthDay}/>
+            <RadioContainer label="Giới tính:" byData={changeGender} value={data.gender}/>
+            <SelectedBoxContainer label="Chức vụ:" byData={changeRole} data={roles} value={data.role}/>
+            <ButtonContainer bindEventEdit={edit} />
         </Container>
     );
 }

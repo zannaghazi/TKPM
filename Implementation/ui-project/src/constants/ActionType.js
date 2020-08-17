@@ -15,3 +15,5 @@ export const SET_LIST_BOOK = "SET_LIST_BOOK";
 export const DELETE_BOOK = "DELETE_BOOK";
 export const DELETE_AUTHOR = "DELETE_AUTHOR";
 export const DELETE_PUBLISHER = "DELETE_PUBLISHER";
+export const SET_LIST_ROLE = "SET_LIST_ROLE"
+export const DELETE_ACCOUNT = "DELETE_ACCOUNT";

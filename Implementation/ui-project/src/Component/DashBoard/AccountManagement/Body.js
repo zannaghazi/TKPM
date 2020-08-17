@@ -1,12 +1,34 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import styles from '../static/styles.module.css'
 import UserQueryModal from './Modal/Query/Index'
 import TableContainer from './TableContainer'
 import MyTablePagination from './MyTablePagination'
+import config from '../../../asset/config.json'
+import { connect } from 'react-redux';
 
 function Body(props) {
     const [show, setShow] = useState(true);
+    const [active, setActive] = useState(1);
+    const [visibleList, setVisibleList] = useState([]);
+
+    useEffect(() => {
+        let temp =[];
+        let limit = 0;
+        if((active-1) * config.pagination.limit + config.pagination.limit > props.list.length){
+            limit = props.list.length;
+        }
+        else{
+            limit = (active-1) * config.pagination.limit + config.pagination.limit;
+        }
+        
+		for(let i = (active-1) * config.pagination.limit; i<limit; i++){
+            temp.push(props.list[i]);
+        }
+        console.log("data", props.list);
+        setVisibleList(temp);
+	}, [props.list, active]);
+
     return (
         <div>
             <Container className={[styles.maxWidth, "mt-3"].join(" ")}>
@@ -19,15 +41,27 @@ function Body(props) {
                     </Col>
                 </Row>
                 <Row className = "mt-3">
-                    <TableContainer />
+                    <TableContainer listAccount = {visibleList}/>
                 </Row>
-                <Row className = "mt-1 d-flex justify-content-center">
-                    <MyTablePagination />
-                </Row>
+                {props.list.length > 0 ? <Row className = "mt-1 d-flex justify-content-center">
+                    <MyTablePagination listAccount = {props.list} active={active} setActive={setActive}/>
+                </Row>: <div>Không có dữ liệu</div>}
             </Container>
             <UserQueryModal show = {show} bindEventShow = {setShow}/>
         </div>
     );
 }
 
-export default Body;
+const mapStateToProps = state => {
+	return {
+		list: state.accounts,
+	}
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+	return {
+		
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Body);

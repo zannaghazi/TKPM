@@ -118,3 +118,17 @@ export const deletePublisher = (item) => {
         item
     }
 }
+
+export const setListRole = (listRole) =>{
+    return {
+        type: types.SET_LIST_ROLE,
+        listRole,
+    }
+}
+
+export const deleteAccount = (item) => {
+    return {
+        type: types.DELETE_ACCOUNT,
+        item
+    }
+}

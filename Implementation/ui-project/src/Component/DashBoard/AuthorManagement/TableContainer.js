@@ -79,7 +79,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch, props) => {
     return {
         onDeleteAuthor: (item) => {
-            dispatch(actions.deletePublisher(item));
+            dispatch(actions.deleteAuthor(item));
         }
     }
 }
