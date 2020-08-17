@@ -44,8 +44,11 @@ public class ReaderAdminService {
 	}
 
 	@CrossOrigin
-	@GetMapping("/get_list_reader")
-	public List<AccountInfo> GetAllReader() {
+	@RequestMapping("/get_list_reader")
+	public List<AccountInfo> GetAllReader(@RequestHeader("x-access-token") String token) {
+		if (!repo.VerifyToken(token)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
+		}
 		List<AccountInfo> result = repo.GetAllReader();
 		return result;
 	}
@@ -58,11 +61,10 @@ public class ReaderAdminService {
 
 	/*READER COMTROL*/
 	@CrossOrigin
-	@GetMapping(path = "/search", produces = "application/json")
+	@RequestMapping(path = "/search", produces = "application/json")
 	public MessageData<List<ReaderInfoSearchResult>> GetSearchReader(
 			@RequestHeader("x-access-token") String token,
 			@RequestBody SearchRequest request) {
-
 		// Verify access token
 		if (!repo.VerifyToken(token)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
@@ -70,7 +72,7 @@ public class ReaderAdminService {
 		
 		try {
 			// Check user
-			AccountInfo currentUser = repo.GetAccountByID(request.loginUserID);
+			AccountInfo currentUser = repo.GetAccountByID(request.currentUserID);
 			if (currentUser == null) {
 				return new MessageData<List<ReaderInfoSearchResult>>(
 						false, 
@@ -102,7 +104,8 @@ public class ReaderAdminService {
 						lstSearchResult.get(i).getBookName(),
 						bookType.getTypeNameByID(Integer.valueOf(lstSearchResult.get(i).getType())),
 						author.getName(),
-						publisher.getName());
+						publisher.getName(),
+						lstSearchResult.get(i).getID());
 				data.add(temp);
 			}
 			
@@ -119,11 +122,10 @@ public class ReaderAdminService {
 
 	/*ACCOUNT COMTROL*/
 	@CrossOrigin
-	@PostMapping("/create")
+	@RequestMapping("/create")
 	public MessageData<AccountDetailInfo> CreateAccount(
 			@RequestHeader(name = "x-access-token", required = true) String token,
 			@RequestBody CreateRequest request) {
-		
 		// Verify access token
 		if (!repo.VerifyToken(token)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
@@ -131,13 +133,14 @@ public class ReaderAdminService {
 		
 		try {
 			// Check user
-			AccountInfo currentUser = repo.GetAccountByID(request.logintUserID);
+			AccountInfo currentUser = repo.GetAccountByID(request.currentUserID);
 			if (currentUser == null) {
 				return new MessageData<AccountDetailInfo>(
 						false, 
 						"Vui lòng đăng nhập với tài khoản nhân viên thư viện",
 						null);
 			}
+			
 			int accRole = 0; // role of account
 			Boolean isCrtCard = false; // can create library card or not
 			if (currentUser.getRole() == 2) {
@@ -162,7 +165,7 @@ public class ReaderAdminService {
 						"Tạo tài khoản thất bại", 
 						null);
 			}
-
+			System.out.println(acc.toString());
 			// Create Library card for reader
 			LibraryCardInfo libCard = new LibraryCardInfo();
 			if (isCrtCard) {
@@ -185,6 +188,7 @@ public class ReaderAdminService {
 
 			return result;
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			throw new ResponseStatusException(
 					HttpStatus.BAD_REQUEST, 
 					"A problem has occur. Please contact the administrator!"
@@ -193,7 +197,7 @@ public class ReaderAdminService {
 	}
 	
 	@CrossOrigin
-	@PostMapping("/reset_password")
+	@RequestMapping("/reset_password")
 	public MessageData<String> ResetPassword(
 			@RequestHeader(name = "x-access-token", required = true) String token,
 			@RequestBody RsPwdDelAccRequest request){
@@ -241,7 +245,7 @@ public class ReaderAdminService {
 	}
 
 	@CrossOrigin
-	@PostMapping("/delete_account")
+	@RequestMapping("/delete_account")
 	public Message DeleteAccount(
 			@RequestHeader(name = "x-access-token", required = true) String token,
 			@RequestBody RsPwdDelAccRequest request){
@@ -285,7 +289,7 @@ public class ReaderAdminService {
 	}
 
 	@CrossOrigin
-	@PostMapping("/extend_libcard")
+	@RequestMapping("/extend_libcard")
 	public Message ExtendLibraryCard(
 			@RequestHeader(name = "x-access-token", required = true) String token,
 			@RequestBody ExtendLibCardRequest request){
@@ -329,7 +333,7 @@ public class ReaderAdminService {
 	}
 
 	@CrossOrigin
-	@PostMapping("/change_account_info")
+	@RequestMapping("/change_account_info")
 	public MessageData<AccountInfo> ChangeAccountInfo(
 			@RequestHeader(name = "x-access-token", required = true) String token,
 			@RequestBody ChangeInfoRequest request) {

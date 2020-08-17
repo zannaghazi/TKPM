@@ -1,6 +1,7 @@
 package com.TKPM.readeradministratorservice.viewmodel;
 
 public class ReaderInfoSearchResult {
+	private int ID;
 	private String fullName;
 	private String gender;
 	private String ISBN;
@@ -10,7 +11,7 @@ public class ReaderInfoSearchResult {
 	private String publisher;
 
 	public ReaderInfoSearchResult(String fullName, String gender, String iSBN, String bookName, String type, String author,
-			String publisher) {
+			String publisher, int ID) {
 		super();
 		this.fullName = fullName;
 		this.gender = gender;
@@ -19,6 +20,15 @@ public class ReaderInfoSearchResult {
 		this.type = type;
 		this.author = author;
 		this.publisher = publisher;
+		this.ID = ID;
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
 	}
 
 	public String getFullName() {

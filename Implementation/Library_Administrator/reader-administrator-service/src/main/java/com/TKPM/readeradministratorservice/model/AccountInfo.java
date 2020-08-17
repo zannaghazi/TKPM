@@ -4,6 +4,14 @@ import java.util.Date;
 
 public class AccountInfo {
 	private int ID;
+	@Override
+	public String toString() {
+		return "AccountInfo [ID=" + ID + ", fullName=" + fullName + ", address=" + address + ", gender=" + gender
+				+ ", birthday=" + birthday + ", isDeleted=" + isDeleted + ", isReader=" + isReader + ", role=" + role
+				+ ", username=" + username + ", password=" + password + ", updatedDate=" + updatedDate
+				+ ", updatedAccountID=" + updatedAccountID + "]";
+	}
+
 	private String fullName;
 	private String address;
 	private Boolean gender;

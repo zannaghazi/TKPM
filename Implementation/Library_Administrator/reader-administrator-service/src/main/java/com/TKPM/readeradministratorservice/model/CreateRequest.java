@@ -2,12 +2,14 @@ package com.TKPM.readeradministratorservice.model;
 
 import java.util.Date;
 
+import com.TKPM.readeradministratorservice.viewmodel.VNDateTime;
+
 public class CreateRequest {
 	public String fullName;
 	public String address;
 	public int gender;
-	public Date birthday;
+	public VNDateTime birthday;
 	public Boolean isReader;
 	public String userName;
-	public int logintUserID;
+	public int currentUserID;
 }

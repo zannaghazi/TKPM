@@ -2,8 +2,6 @@ package com.TKPM.bookadministratorservice.model;
 
 import java.util.Date;
 
-import com.TKPM.bookadministratorservice.repository.BookInfoRepository;
-
 public class BookInfo {
 	private String ISBN;
 	private String name;
@@ -14,13 +12,11 @@ public class BookInfo {
 	private String location;
 	private String path;
 	private Boolean isDeleted;
-	
-	private BookInfoRepository repository;
 
-	public BookInfo(String iSBN, String name, int authorID, int publisherID, Date releaseDate, int type,
+	public BookInfo(String ISBN, String name, int authorID, int publisherID, Date releaseDate, int type,
 			String location, String path, Boolean isDeleted) {
 		super();
-		ISBN = iSBN;
+		this.ISBN = ISBN;
 		this.name = name;
 		this.authorID = authorID;
 		this.publisherID = publisherID;
@@ -69,14 +65,6 @@ public class BookInfo {
 
 	public void setIsDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;
-	}
-
-	public BookInfoRepository getRepository() {
-		return repository;
-	}
-
-	public void setRepository(BookInfoRepository repository) {
-		this.repository = repository;
 	}
 
 	public String getISBN() {

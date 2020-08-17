@@ -8,9 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -18,10 +15,8 @@ import java.util.Scanner;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,21 +28,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import com.TKPM.bookadministratorservice.model.*;
 import com.TKPM.bookadministratorservice.repository.BookInfoRepository;
 import com.TKPM.bookadministratorservice.viewmodel.AddAuthorRequest;
 import com.TKPM.bookadministratorservice.viewmodel.AddBookInfo;
+import com.TKPM.bookadministratorservice.viewmodel.AddBookRequest;
 import com.TKPM.bookadministratorservice.viewmodel.AddPublisherRequest;
 import com.TKPM.bookadministratorservice.viewmodel.AuthorDetailInfo;
+import com.TKPM.bookadministratorservice.viewmodel.BookDetail;
+import com.TKPM.bookadministratorservice.viewmodel.BookInfoDetail;
 import com.TKPM.bookadministratorservice.viewmodel.BookInfoSearchResult;
 import com.TKPM.bookadministratorservice.viewmodel.BookTypeDetail;
 import com.TKPM.bookadministratorservice.viewmodel.Message;
 import com.TKPM.bookadministratorservice.viewmodel.MessageData;
 import com.TKPM.bookadministratorservice.viewmodel.PublisherDetailInfo;
+import com.TKPM.bookadministratorservice.viewmodel.RentingRequest;
+import com.TKPM.bookadministratorservice.viewmodel.ReportRequest;
+import com.TKPM.bookadministratorservice.viewmodel.ReportResponse;
 import com.TKPM.bookadministratorservice.viewmodel.UpdateAuthorRequest;
 import com.TKPM.bookadministratorservice.viewmodel.VNDateTime;
+import com.TKPM.bookadministratorservice.viewmodel.UpdateBookInfo;
 
 
 @RestController
@@ -62,7 +62,7 @@ public class BookAdminService {
 		return "Hello";
 	}
 	
-	/*BOOK CONTROL*/
+	/*BOOK INFO CONTROL*/
 	@CrossOrigin
 	@RequestMapping("/get_all_book") 
 	public List<BookInfo> GetListBookInformation() {
@@ -71,14 +71,31 @@ public class BookAdminService {
 	}
 	
 	@CrossOrigin
-	@RequestMapping("/info/{bookId}")
-	public BookInfo GetBookInformation(@PathVariable("bookId")String BookID) {
-		return null;
+	@RequestMapping("/get_book_info_by_isbn/{bookId}")
+	public BookInfoDetail GetBookInformation(@PathVariable("bookId")String ISBN) {
+		BookInfo temp = repo.getBookInfoByISBN(ISBN);
+		BookType bookType = new BookType();
+		
+		AuthorInfo author = repo.getAuthorByID(temp.getAuthorID());
+		Publisher publisher = repo.getPublisherByID(temp.getPublisherID());
+		String typeName = bookType.getTypeNameByID(temp.getType());
+		
+		return new BookInfoDetail(
+				temp,
+				author.getName(), 
+				publisher.getName(),
+				typeName);
+	}
+	
+	@CrossOrigin
+	@RequestMapping("/get_book_by_isbn/{ISBN}")
+	public List<BookDetail> GetBook(@PathVariable("ISBN")String ISBN) {
+		return repo.getListBookByISBN(ISBN);
 	}
 	
 	@CrossOrigin
 	@RequestMapping("/search")
-	public List<BookInfoSearchResult> GetSearchedBook(@RequestBody SearchRequest request) {
+	public List<BookInfoSearchResult> GetSearchedBookInfo(@RequestBody SearchRequest request) {
 		List<BookInfoSearchResult> result = new ArrayList<BookInfoSearchResult>();
 		List<BookInfo> data = repo.getSearchedBook(request);
 		BookType bookType = new BookType();
@@ -182,7 +199,17 @@ public class BookAdminService {
 		FileOutputStream out = new FileOutputStream(newFile);
 		out.write(file.getBytes());
 		out.close();
-		return new MessageData<String>(true, "Thành công", "/book/get_image/" + fileName);
+		return new MessageData<String>(true, "Thành công", "data/" + fileName);
+	}
+	
+	@CrossOrigin
+	@RequestMapping("update_book_info")
+	public Message UpdateBookInfo(@RequestHeader("x-access-token") String token, @RequestBody UpdateBookInfo data) {
+		if (!repo.VerifyToken(token)) {
+			System.out.print(repo.VerifyToken(token));
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
+		}
+		return repo.updateBookInfo(data);
 	}
 	
 	@CrossOrigin
@@ -193,6 +220,38 @@ public class BookAdminService {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
 		}
 		return repo.addNewBookInfo(data);
+	}
+	
+	/*BOOK CONTROL*/
+	@CrossOrigin
+	@RequestMapping("search_book")
+	public List<BookDetail> SearchBook(@RequestHeader("x-access-token") String token, @RequestBody SearchRequest request) {
+		if (!repo.VerifyToken(token)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
+		}
+		return repo.searchBook(request.type, request.key);
+	}
+	
+	@CrossOrigin
+	@RequestMapping("add_book")
+	public Message AddBook(@RequestHeader("x-access-token") String token, @RequestBody AddBookRequest request) {
+		if (!repo.VerifyToken(token)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
+		}
+		if (repo.AddNewBook(request.ISBN, request.amount)) {
+			return new Message(true, "Thêm sách thành công!");
+		}else {
+			return new Message(false, "Thêm sách thất bại!");
+		}
+	}
+	
+	@CrossOrigin
+	@RequestMapping("delete_book/{ID}")
+	public Message DeleteBook(@RequestHeader("x-access-token") String token, @PathVariable("ID") String ID) {
+		if (!repo.VerifyToken(token)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
+		}
+		return repo.DeleteBook(Integer.parseInt(ID));
 	}
 	
 	
@@ -225,6 +284,9 @@ public class BookAdminService {
 		if (!repo.VerifyToken(token)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
 		}
+		if (request.currentUserID == 0) {
+			request.currentUserID = repo.getAccountIDByToken(token);
+		}
 		return repo.createNewAuthor(request.name, request.currentUserID);
 	}
 	
@@ -234,7 +296,20 @@ public class BookAdminService {
 		if (!repo.VerifyToken(token)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
 		}
+		if (request.currentUserID == 0) {
+			request.currentUserID = repo.getAccountIDByToken(token);
+		}
 		return repo.updateAuthor(request.id, request.name, request.currentUserID);
+	}
+	
+	@CrossOrigin
+	@RequestMapping("delete_author/{ID}")
+	public Message DeleteAuthor(@RequestHeader("x-access-token") String token, @PathVariable("ID") String ID)
+	{
+		if (!repo.VerifyToken(token)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
+		}
+		return repo.deleteAuthor(Integer.parseInt(ID));
 	}
 	
 	/*PUBLISHER CONTROL*/
@@ -261,7 +336,20 @@ public class BookAdminService {
 		if (!repo.VerifyToken(token)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
 		}
+		if (request.currentUserID == 0) {
+			request.currentUserID = repo.getAccountIDByToken(token);
+		}
 		return repo.createNewPublisher(request.name, request.currentUserID);
+	}
+	
+	@CrossOrigin
+	@RequestMapping("delete_publisher/{ID}")
+	public Message DeletePublisher(@RequestHeader("x-access-token") String token, @PathVariable("ID") String ID)
+	{
+		if (!repo.VerifyToken(token)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
+		}
+		return repo.deletePublisher(Integer.parseInt(ID));
 	}
 	
 	@CrossOrigin
@@ -270,6 +358,26 @@ public class BookAdminService {
 		if (!repo.VerifyToken(token)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
 		}
+		if (request.currentUserID == 0) {
+			request.currentUserID = repo.getAccountIDByToken(token);
+		}
 		return repo.updatePublisher(request.id, request.name, request.currentUserID);
+	}
+	
+	/*REPORT CONTROL*/
+	@CrossOrigin
+	@RequestMapping("/report")
+	public ReportResponse<BookDetail> GetBookReport(@RequestHeader("x-access-token") String token, @RequestBody ReportRequest request) {
+		if (!repo.VerifyToken(token)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
+		}
+		return repo.getBookReport(request.type, request.time);
+	}
+	
+	/*SLIP CONTROL*/
+	@CrossOrigin
+	@RequestMapping("/create_renting_slip")
+	public MessageData<RentingSlip> CreateRentingSlip(@RequestHeader("x-access-token") String token, @RequestBody RentingRequest request) {
+		return repo.CreateRentingSlip(request.accountID, request.bookID);
 	}
 }

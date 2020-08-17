@@ -40,7 +40,7 @@ public class ReaderInfoRepository {
 	/*Verify token*/
 	public boolean VerifyToken(String token) {
 		try {
-			ResultSet rs = this.stmt.executeQuery("select * from SESSIONTOKEN where isDeleted=false and token like '"
+			ResultSet rs = this.stmt.executeQuery("select * from SESSIONTOKEN where isDeleted=false and token like binary '"
 					+ token + "';");
 			if (!rs.isBeforeFirst()) {
 				return false;
@@ -165,7 +165,7 @@ public class ReaderInfoRepository {
 		ArrayList<ReaderInfoSearchResult> result = new ArrayList<ReaderInfoSearchResult>();
 		try {
 			
-			String sql = "select distinct ac.FULLNAME, ac.GENDER, bi.ISBN, bi.NAME, bi.TYPE, bi.AUTHOR, bi.PUBLISHER " +
+			String sql = "select distinct ac.FULLNAME, ac.GENDER, bi.ISBN, bi.NAME, bi.TYPE, bi.AUTHOR, bi.PUBLISHER, ac.ID " +
 					"from account ac " + 
 					"left join rentingslip rs on rs.ACCOUNTID = ac.ID " + 
 					"left join rentingbook rb on rb.SLIPID = rs.ID " + 
@@ -173,13 +173,18 @@ public class ReaderInfoRepository {
 					"where ";
 			switch(request.type) {
 				case "name":
-					sql += " bi.NAME like '%" + request.key + "%'";
+					sql += " bi.NAME like BINARY'%" + request.key + "%'";
 					break;
 				case "ISBN":
-					sql += " bi.ISBN like '%" + request.key +"%'";
+					sql += " bi.ISBN like binary '" + request.key +"'";
+					break;
+				case "ID":
+					sql = "select distinct ac.FULLNAME, ac.GENDER, null, null, null, null, null" + 
+							"from account ac " + 
+							"left join librarycard lc on ac.ID = lc.ACCOUNTID\r\n" + 
+							"where lc.ID = 1;";
 					break;
 			}
-			
 			ResultSet rs = this.stmt.executeQuery(sql);
 			while (rs.next()) {
 				ReaderInfoSearchResult temp = new ReaderInfoSearchResult(
@@ -189,8 +194,8 @@ public class ReaderInfoRepository {
 						rs.getString(4),
 						rs.getString(5),
 						rs.getString(6),
-						rs.getString(7)
-						);
+						rs.getString(7),
+						rs.getInt(8));
 				result.add(temp);
 			}
 			return result;
@@ -210,13 +215,13 @@ public class ReaderInfoRepository {
 			strSql += "'"+ request.fullName + "', ";
 			strSql += "'"+ request.address + "', ";
 			strSql += " "+ request.gender + ", ";
-			strSql += "'"+ dateFormat.format(request.birthday) + "', ";
+			strSql += "'"+ dateFormat.format(request.birthday.date) + "', ";
 			strSql += " "+ "0" + ", ";
 			strSql += " "+ (request.isReader ? "1" : "0") + ", ";
 			strSql += " "+ accRole + ", ";
 			strSql += "'"+ request.userName + "', ";
 			strSql += "'"+ Integer.toString(123456) + "', ";
-			strSql += " "+ request.logintUserID + " ";
+			strSql += " "+ request.currentUserID + " ";
 			strSql += ")";
 			// Create User
 			this.stmt.execute(strSql);
@@ -258,6 +263,8 @@ public class ReaderInfoRepository {
 			strSql += " "+ "0" + ", ";
 			strSql += " "+ data.getUpdatedAccountID() + " ";
 			strSql += ")";
+			
+			System.out.println(strSql);
 			// Create LibraryCard
 			this.stmt.execute(strSql);
 			
