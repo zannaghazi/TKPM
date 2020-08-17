@@ -165,37 +165,32 @@ public class ReaderInfoRepository {
 		ArrayList<ReaderInfoSearchResult> result = new ArrayList<ReaderInfoSearchResult>();
 		try {
 			
-			String sql = "select distinct ac.FULLNAME, ac.GENDER, bi.ISBN, bi.NAME, bi.TYPE, bi.AUTHOR, bi.PUBLISHER, ac.ID " +
+			String sql = "select distinct ac.ID, ac.FULLNAME, lc.ID, lc.CREATEDDATE, lc.DURATION " +
 					"from account ac " + 
 					"left join rentingslip rs on rs.ACCOUNTID = ac.ID " + 
 					"left join rentingbook rb on rb.SLIPID = rs.ID " + 
 					"left join bookinformation bi on bi.ISBN = rb.ISBN and rb.STATUS = 1 " + 
+					"left join librarycard lc on ac.ID = lc.ACCOUNTID " + 
 					"where ";
-			switch(request.type) {
-				case "name":
+			switch(request.type.toUpperCase()) {
+				case "NAME":
 					sql += " bi.NAME like BINARY'%" + request.key + "%'";
 					break;
 				case "ISBN":
 					sql += " bi.ISBN like binary '" + request.key +"'";
 					break;
 				case "ID":
-					sql = "select distinct ac.FULLNAME, ac.GENDER, null, null, null, null, null" + 
-							"from account ac " + 
-							"left join librarycard lc on ac.ID = lc.ACCOUNTID\r\n" + 
-							"where lc.ID = 1;";
+					sql += "lc.ID = " + request.key;
 					break;
 			}
 			ResultSet rs = this.stmt.executeQuery(sql);
 			while (rs.next()) {
 				ReaderInfoSearchResult temp = new ReaderInfoSearchResult(
-						rs.getString(1),
+						rs.getInt(1),
 						rs.getString(2),
-						rs.getString(3),
-						rs.getString(4),
-						rs.getString(5),
-						rs.getString(6),
-						rs.getString(7),
-						rs.getInt(8));
+						rs.getInt(3),
+						rs.getDate(4),
+						rs.getInt(5));
 				result.add(temp);
 			}
 			return result;

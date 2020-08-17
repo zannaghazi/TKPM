@@ -1,67 +1,80 @@
 package com.TKPM.readeradministratorservice.viewmodel;
 
+import java.util.Date;
+
+import org.apache.commons.lang.time.DateUtils;
+
 public class ReaderInfoSearchResult {
-	private int ID;
+	private int accountID;
 	private String fullName;
-	private String gender;
-	private String ISBN;
-	private String bookName;
-	private String type;
-	private String author;
-	private String publisher;
+	private int libraryCardID;
+	private Date createdDate;
+	private int duration;
+	private String expiredDate;
 
-	public ReaderInfoSearchResult(String fullName, String gender, String iSBN, String bookName, String type, String author,
-			String publisher, int ID) {
-		super();
+	public ReaderInfoSearchResult(int accountID, String fullName, int libraryCardID, Date createdDate, int duration) {
+		this.accountID = accountID;
 		this.fullName = fullName;
-		this.gender = gender;
-		ISBN = iSBN;
-		this.bookName = bookName;
-		this.type = type;
-		this.author = author;
-		this.publisher = publisher;
-		this.ID = ID;
+		this.libraryCardID = libraryCardID;
+		this.createdDate = createdDate;
+		this.duration = duration;
+		Date date = DateUtils.addMonths(this.createdDate, this.duration);
+		this.expiredDate = new VNDateTime(date).getVNTime();
 	}
 
-	public int getID() {
-		return ID;
+	public int getAccountID() {
+		return accountID;
 	}
 
-	public void setID(int iD) {
-		ID = iD;
+	public void setAccountID(int accountID) {
+		this.accountID = accountID;
 	}
 
 	public String getFullName() {
 		return fullName;
 	}
 
-	public String getGender() {
-		return gender;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
-	public String getISBN() {
-		return ISBN;
+	public int getLibraryCardID() {
+		return libraryCardID;
 	}
 
-	public String getBookName() {
-		return bookName;
+	public void setLibraryCardID(int libraryCardID) {
+		this.libraryCardID = libraryCardID;
 	}
 
-	public String getType() {
-		return type;
+	public Date getCreatedDate() {
+		return createdDate;
 	}
 
-	public String getAuthor() {
-		return author;
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
-	public String getPublisher() {
-		return publisher;
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+	public String getExpiredDate() {
+		return expiredDate;
+	}
+
+	public void setExpiredDate(String expiredDate) {
+		this.expiredDate = expiredDate;
 	}
 
 	@Override
 	public String toString() {
-		return "ReaderInfoSearchResult [fullName=" + fullName + ", gender=" + gender + ", ISBN=" + ISBN + ", bookName="
-				+ bookName + ", type=" + type + ", author=" + author + ", publisher=" + publisher + "]";
+		return "ReaderInfoSearchResult [accountID=" + accountID + ", fullName=" + fullName + ", libraryCardID="
+				+ libraryCardID + ", createdDate=" + createdDate + ", duration=" + duration + ", expiredDate="
+				+ expiredDate + "]";
 	}
+
 }

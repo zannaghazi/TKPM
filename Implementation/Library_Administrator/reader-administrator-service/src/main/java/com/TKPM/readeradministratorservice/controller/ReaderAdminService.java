@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,13 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.TKPM.readeradministratorservice.model.AccountInfo;
-import com.TKPM.readeradministratorservice.model.AuthorInfo;
-import com.TKPM.readeradministratorservice.model.BookType;
 import com.TKPM.readeradministratorservice.model.ChangeInfoRequest;
 import com.TKPM.readeradministratorservice.model.CreateRequest;
 import com.TKPM.readeradministratorservice.model.ExtendLibCardRequest;
 import com.TKPM.readeradministratorservice.model.LibraryCardInfo;
-import com.TKPM.readeradministratorservice.model.Publisher;
 import com.TKPM.readeradministratorservice.model.RsPwdDelAccRequest;
 import com.TKPM.readeradministratorservice.model.SearchRequest;
 import com.TKPM.readeradministratorservice.repository.ReaderInfoRepository;
@@ -89,25 +85,7 @@ public class ReaderAdminService {
 			}
 			
 			// Search Reader by condition
-			List<ReaderInfoSearchResult> data = new ArrayList<ReaderInfoSearchResult>();
-			List<ReaderInfoSearchResult> lstSearchResult = repo.GetSearchedReader(request);
-			BookType bookType = new BookType();
-			
-			for (int i = 0; i < lstSearchResult.size(); i++) {
-				AuthorInfo author = repo.GetAuthorByID(Integer.valueOf(lstSearchResult.get(i).getAuthor()));
-				Publisher publisher = repo.GetPublisherByID(Integer.valueOf(lstSearchResult.get(i).getPublisher()));
-				
-				ReaderInfoSearchResult temp =  new ReaderInfoSearchResult(
-						lstSearchResult.get(i).getFullName(),
-						Integer.valueOf(lstSearchResult.get(i).getGender()) == 0 ? "Nữ" : "Nam",
-						lstSearchResult.get(i).getISBN(),
-						lstSearchResult.get(i).getBookName(),
-						bookType.getTypeNameByID(Integer.valueOf(lstSearchResult.get(i).getType())),
-						author.getName(),
-						publisher.getName(),
-						lstSearchResult.get(i).getID());
-				data.add(temp);
-			}
+			List<ReaderInfoSearchResult> data = repo.GetSearchedReader(request);
 			
 			MessageData<List<ReaderInfoSearchResult>> result = new MessageData<List<ReaderInfoSearchResult>>(true, null, data);
 			
