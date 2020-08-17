@@ -24,3 +24,13 @@
 .myCardContainer {
     height: 500px;
 }
+
+.fullWidth {
+    width: 100%;
+}
+
+.myScroll {
+    overflow: auto;
+    max-height: 250px !important;
+    min-width: 400px !important;
+}

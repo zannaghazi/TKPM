@@ -39,7 +39,7 @@ function Body(props) {
                     <HomeContainer />
                 </Route>
                 <Route path="/list_request" children={ListRequestBook} />
-                <Route path="/book/:id" component={BookDetail} />
+                <Route path="/book/:isbn" component={BookDetail} />
             </Switch>
             <hr className={styles.myHrTag} />
         </div>

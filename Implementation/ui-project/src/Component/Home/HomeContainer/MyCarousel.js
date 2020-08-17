@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 function MyCarousel(props) {
     const listItems = props.listData.map((element, index) =>
         <Carousel.Item key={index}>
-            <Link to = '#'>
+            <Link to = {'/book/'+element.ISBN}>
                 <img
                     className={["d-block w-100", styles.myCarousel].join(" ")}
                     src={config.severAPi.hostUrl + ":8081" + element.path}

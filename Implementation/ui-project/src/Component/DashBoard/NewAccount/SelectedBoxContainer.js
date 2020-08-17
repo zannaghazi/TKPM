@@ -1,48 +1,36 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styles from '../static/styles.module.css';
-import { Container, Row, Col } from 'react-bootstrap';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
+import Select from 'react-select'
+import {Row, Col} from 'react-bootstrap'
 
 function SeletedBoxContainer(props) {
-    const [open, setOpen] = React.useState(false);
-    const [role, setRole] = React.useState(1);
-    const handleOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
+    const [options, setOptions]= useState([]);
 
-    const handleChange = (event) => {
-        setRole(event.target.value);
-    };
+    useEffect(() => {
+        console.log("My List", props.data)
+        if(props.data){
+            let temp = props.data.map(obj => {
+                let rObj = {};
+                rObj["value"]=obj.ID;
+                rObj["label"]=obj.name;
+                return rObj;
+            })
+
+            setOptions(temp);
+        }
+    }, [props.data]);
+
+    function handleChange(event){
+        props.byData(event.value);
+    }
 
     return (
-        <Row>
+        <Row className = "mt-1">
             <Col xs={2} className={["d-flex justify-content-end align-items-center", styles.myLabel].join(" ")}>
                 {props.label}
             </Col>
-            <Col xs={6}>
-                <FormControl>
-                    <Select
-                        labelId="demo-controlled-open-select-label"
-                        id="demo-controlled-open-select"
-                        open={open}
-                        onClose={handleClose}
-                        onOpen={handleOpen}
-                        value={role}
-                        onChange={handleChange}
-                    >
-                        <MenuItem value={1}>Thủ thư</MenuItem>
-                        <MenuItem value={2}>Độc giả</MenuItem>
-                        <MenuItem value={3}>Admin</MenuItem>
-                    </Select>
-                </FormControl>
+            <Col xs={6} className = "pl-3">
+                <Select className={styles.myAuthorSelect} options={options} onChange={handleChange}/>
             </Col>
         </Row>
     );

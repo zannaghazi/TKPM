@@ -6,6 +6,12 @@ var myReducer = (state = initialState, action) => {
         case types.SET_LIST_ACCOUNT:
             state = action.listAccount;
             return [...state];
+
+        case types.DELETE_ACCOUNT:
+            const filteredItems = state.filter(function (item) {
+                return item !== action.item
+            })
+            return [...filteredItems];
         default:
             return state;
 

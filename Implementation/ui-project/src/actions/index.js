@@ -90,3 +90,52 @@ export const editPublisher = (publisher) =>{
         publisher,
     }
 }
+
+export const setListBook = (listBook) =>{
+    return {
+        type: types.SET_LIST_BOOK,
+        listBook,
+    }
+}
+
+export const deleteBook = (item) => {
+    return {
+        type: types.DELETE_BOOK,
+        item
+    }
+}
+
+export const deleteAuthor = (item) => {
+    return {
+        type: types.DELETE_AUTHOR,
+        item
+    }
+}
+
+export const deletePublisher = (item) => {
+    return {
+        type: types.DELETE_PUBLISHER,
+        item
+    }
+}
+
+export const setListRole = (listRole) =>{
+    return {
+        type: types.SET_LIST_ROLE,
+        listRole,
+    }
+}
+
+export const deleteAccount = (item) => {
+    return {
+        type: types.DELETE_ACCOUNT,
+        item
+    }
+}
+
+export const setListReader = (listReader) => {
+    return {
+        type: types.SET_LIST_READER,
+        listReader
+    }
+}

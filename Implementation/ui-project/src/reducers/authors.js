@@ -13,6 +13,11 @@ var myReducer = (state = initialState, action) => {
             let temp = [...state];
             temp[foundIndex] = action.author;
             return [...temp];
+        case types.DELETE_AUTHOR:
+            const filteredItems = state.filter(function (item) {
+                return item !== action.item
+            })
+            return [...filteredItems];
         default:
             return state;
 

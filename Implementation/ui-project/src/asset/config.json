@@ -66,13 +66,13 @@
             "is_display": true
         },
         {
-            "url": "#",
+            "url": "/dashboard/system_management",
             "icon_class": "fa fa-arrows-alt",
             "title": "Quản lý mượn trả",
             "is_display": true
         },
         {
-            "url": "#",
+            "url": "/dashboard/report",
             "icon_class": "fa fa-file",
             "title": "Lập báo cáo",
             "is_display": true
@@ -122,7 +122,13 @@
         {
             "url": "/dashboard/edit_publisher",
             "icon_class": "",
-            "title": "Sửa tác giả",
+            "title": "Sửa nhà xuất bản",
+            "is_display": false
+        },
+        {
+            "url": "/dashboard/edit_account",
+            "icon_class": "",
+            "title": "Sửa tài khoản",
             "is_display": false
         }
     ],

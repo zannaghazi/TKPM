@@ -14,7 +14,7 @@ function TableContainer(props) {
             return;
         }
         props.onSetBookTitleEdit(data);
-        history.push("/dashboard/edit_book_title");
+        history.push("/dashboard/edit_book_title/"+ data.ISBN);
     }
 
     const listItems = props.listBookTitle.map((element, index) =>
@@ -28,7 +28,6 @@ function TableContainer(props) {
             <td>{element.type}</td>
             <td>
                 <Button variant="primary" className={styles.myButtonDetail} onClick={(event) => editItem(event, element)}><i className="fa fa-edit"></i></Button>
-                <Button variant="danger" className={[styles.myButtonDetail, "ml-2"].join(" ")}><i className="fa fa-trash"></i></Button>
             </td>
         </tr>
     );
@@ -44,7 +43,7 @@ function TableContainer(props) {
                     <th width={'15%'}>Nhà phát hành</th>
                     <th width={'10%'}>Ngày phát hành</th>
                     <th width={'15%'}>Thể loại</th>
-                    <th width={'8%'}>
+                    <th width={'5%'}>
                     </th>
                 </tr>
             </thead>

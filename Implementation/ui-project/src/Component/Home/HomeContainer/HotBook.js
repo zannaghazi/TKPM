@@ -1,14 +1,16 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './static/styles.module.css'
-import Image4 from '../../../asset/picture/srcTest/sach4.jpg'
-import Image5 from '../../../asset/picture/srcTest/sach5.jpg'
-import Image6 from '../../../asset/picture/srcTest/sach6.jpg'
 import { Card, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import config from '../../../asset/config.json'
+import { useHistory } from "react-router-dom";
 
 function HotBook(props) {
+    const history = useHistory();
+    function detailBook(item){
+        history.push("/book/"+ item.ISBN);
+    }
 
     const listHotBook = props.list.map((element, index) =>
         <div className="col-sm-3" key={index}>
@@ -19,7 +21,7 @@ function HotBook(props) {
                     <Card.Text>
                         {element.author}.
             </Card.Text>
-                    <Button variant="primary">Xem chi tiết</Button>
+                    <Button variant="primary" onClick={() => detailBook(element)}>Xem chi tiết</Button>
                 </Card.Body>
                 <div className={styles.mySpaner}>{element.rentingCount} lượt</div>
             </Card>
