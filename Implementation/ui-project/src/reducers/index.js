@@ -8,6 +8,7 @@ import list_hot_book_titles from './list_hot_book_titles'
 import type_books from './type_books'
 import user_login from './user_login'
 import publishers from './publishers'
+import books from './books'
 
 const myReducer = combineReducers({
     accounts,
@@ -18,7 +19,8 @@ const myReducer = combineReducers({
     list_hot_book_titles,
     type_books,
     user_login,
-    publishers
+    publishers,
+    books
 });
 
 export default myReducer;

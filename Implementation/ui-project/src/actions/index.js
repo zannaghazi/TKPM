@@ -90,3 +90,10 @@ export const editPublisher = (publisher) =>{
         publisher,
     }
 }
+
+export const setListBook = (listBook) =>{
+    return {
+        type: types.SET_LIST_BOOK,
+        listBook,
+    }
+}

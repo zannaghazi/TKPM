@@ -1,17 +1,38 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import InputConTainer from './InputContainer'
-import DatePickerContainer from './DatePickerContainer'
-import RadioContainer from './RadioContainer'
-import SelectedBoxContainer from './SelectedBoxContainer'
 import ButtonContainer from './ButtonContainer';
+import { useState } from 'react';
+import config from '../../../asset/config.json'
+import { useHistory } from "react-router-dom";
 
 function Form(props) {
+    const [ISBN, setISBN] = useState("");
+    const [amount, setAmount] = useState(0);
+    const history = useHistory();
+
+    function createBook() {
+        console.log(ISBN, amount);
+        let url = config.severAPi.hostUrl + ":8081/book/add_author";
+        // fetch(url, {
+        //     method: "post",
+        //     headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
+        //     body: JSON.stringify({name: name, currentUserID: props.userLogin.id})
+        // })
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         console.log(data);
+        //         props.onAddNewAuthor(data.data);
+        //         alert("Thêm sách mơi thành công");
+        //         history.push('/dashboard/book_management');
+        //     });
+    }
+
     return (
         <Container>
-            <InputConTainer label="Tên đầu sách:"/>
-            <InputConTainer label="Số lượng:"/>
-            <ButtonContainer />
+            <InputConTainer label="ISBN:" byData={setISBN}/>
+            <InputConTainer label="Số lượng:" byData={setAmount}/>
+            <ButtonContainer byEventCreate={createBook} />
         </Container>
     );
 }

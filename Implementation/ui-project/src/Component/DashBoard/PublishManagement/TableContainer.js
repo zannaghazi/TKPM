@@ -14,18 +14,20 @@ function TableContainer(props) {
         history.push("/dashboard/edit_publisher/" + data.id);
     }
 
-    const listItems = props.listPublisher.map((element, index) =>
-        <tr key={index}>
-            <td>{element.id}</td>
-            <td>{element.name}</td>
-            <td>{element.updatedDate}</td>
-            <td>{element.updatedAccount}</td>
-            <td>
-                <Button variant="primary" className={styles.myButtonDetail} onClick={(event) => editItem(event, element)}><i className="fa fa-edit"></i></Button>
-                <Button variant="danger" className={[styles.myButtonDetail, "ml-2"].join(" ")}><i className="fa fa-trash"></i></Button>
-            </td>
-        </tr>
-    );
+    const listItems = props.listPublisher.map((element, index) => {
+        if (element.id > 0) {
+            return (<tr key={index}>
+                <td>{element.id}</td>
+                <td>{element.name}</td>
+                <td>{element.updatedDate}</td>
+                <td>{element.updatedAccount}</td>
+                <td>
+                    <Button variant="primary" className={styles.myButtonDetail} onClick={(event) => editItem(event, element)}><i className="fa fa-edit"></i></Button>
+                    <Button variant="danger" className={[styles.myButtonDetail, "ml-2"].join(" ")}><i className="fa fa-trash"></i></Button>
+                </td>
+            </tr>)
+        }
+    });
 
     return (
         <Table striped bordered hover>

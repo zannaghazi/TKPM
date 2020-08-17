@@ -11,6 +11,10 @@ function InputContainer(props) {
             setType("number")
         }
       }, []);
+
+      function handleChange(event){
+        props.byData(event.target.value);
+    }
     
     return (
         <Row>
@@ -18,7 +22,7 @@ function InputContainer(props) {
                 {props.label}
                 </Col>
             <Col xs={6}>
-                <input type={type} className={styles.myInput} />
+                <input type={type} className={styles.myInput} onChange={handleChange}/>
             </Col>
         </Row>
     );

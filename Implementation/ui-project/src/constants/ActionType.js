@@ -11,3 +11,4 @@ export const EDIT_AUTHOR = 'EDIT_AUTHOR';
 export const SET_LIST_PUBLISHER = 'SET_LIST_PUBLISHER';
 export const ADD_PUBLISHER = 'ADD_PUBLISHER';
 export const EDIT_PUBLISHER = 'EDIT_PUBLISHER';
+export const SET_LIST_BOOK = "SET_LIST_BOOK";
