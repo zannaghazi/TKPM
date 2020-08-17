@@ -8,17 +8,17 @@ public class ReaderInfoSearchResult {
 	private int accountID;
 	private String fullName;
 	private int libraryCardID;
-	private Date createdDate;
+	private Date updatedDate;
 	private int duration;
 	private String expiredDate;
 
-	public ReaderInfoSearchResult(int accountID, String fullName, int libraryCardID, Date createdDate, int duration) {
+	public ReaderInfoSearchResult(int accountID, String fullName, int libraryCardID, Date updatedDate, int duration) {
 		this.accountID = accountID;
 		this.fullName = fullName;
 		this.libraryCardID = libraryCardID;
-		this.createdDate = createdDate;
+		this.updatedDate = updatedDate;
 		this.duration = duration;
-		Date date = DateUtils.addMonths(this.createdDate, this.duration);
+		Date date = DateUtils.addMonths(this.updatedDate, this.duration);
 		this.expiredDate = new VNDateTime(date).getVNTime();
 	}
 
@@ -46,12 +46,12 @@ public class ReaderInfoSearchResult {
 		this.libraryCardID = libraryCardID;
 	}
 
-	public Date getCreatedDate() {
-		return createdDate;
+	public Date getUpdatedDate() {
+		return updatedDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
 	}
 
 	public int getDuration() {
@@ -73,7 +73,7 @@ public class ReaderInfoSearchResult {
 	@Override
 	public String toString() {
 		return "ReaderInfoSearchResult [accountID=" + accountID + ", fullName=" + fullName + ", libraryCardID="
-				+ libraryCardID + ", createdDate=" + createdDate + ", duration=" + duration + ", expiredDate="
+				+ libraryCardID + ", createdDate=" + updatedDate + ", duration=" + duration + ", expiredDate="
 				+ expiredDate + "]";
 	}
 

@@ -165,7 +165,7 @@ public class ReaderInfoRepository {
 		ArrayList<ReaderInfoSearchResult> result = new ArrayList<ReaderInfoSearchResult>();
 		try {
 			
-			String sql = "select distinct ac.ID, ac.FULLNAME, lc.ID, lc.CREATEDDATE, lc.DURATION " +
+			String sql = "select distinct ac.ID, ac.FULLNAME, lc.ID, lc.UPDATEDDATE, lc.DURATION " +
 					"from account ac " + 
 					"left join rentingslip rs on rs.ACCOUNTID = ac.ID " + 
 					"left join rentingbook rb on rb.SLIPID = rs.ID " + 
