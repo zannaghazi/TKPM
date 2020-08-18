@@ -34,34 +34,37 @@ function ListBookRequest(props) {
             .then(data => {
                 setListData(data);
                 console.log(data);
-                let temp =[];
+                let temp = [];
                 let limit = 0;
-                if((active-1) * 8 + 8 > data.length){
+                if ((active - 1) * 8 + 8 > data.length) {
                     limit = data.length;
                 }
-                else{
-                    limit = (active-1) * 8 + 8;
+                else {
+                    limit = (active - 1) * 8 + 8;
                 }
                 console.log("limit", limit);
-                for(let i = (active-1) * 8; i<limit; i++){
+                for (let i = (active - 1) * 8; i < limit; i++) {
                     temp.push(data[i]);
                 }
                 console.log("data", temp);
                 let cutIndex = 0;
-                if(temp.length >= 4){
+                if (temp.length >= 4) {
                     cutIndex = 4;
                 }
-                else{
+                else {
                     cutIndex = temp.length;
                 }
                 const listItems = temp.slice(0, 4).map((element, index) =>
                     <div className="col-sm-3" key={index}>
-                        <Card style={{ width: '18rem' }}>
+                        <Card style={{ width: '18rem' }} className={styles.containerHeight}>
                             <Card.Img variant="top" src={config.severAPi.hostUrl + ":8081" + element.path} className={styles.myImage} />
                             <Card.Body>
-                                <Card.Title>{element.releaseDate}</Card.Title>
+                                <Card.Title>{element.name}</Card.Title>
                                 <Card.Text>
                                     {element.author}
+                                </Card.Text>
+                                <Card.Text>
+                                    {element.releaseDate}
                                 </Card.Text>
                                 <Button variant="primary">Xem chi tiết</Button>
                             </Card.Body>
@@ -72,14 +75,17 @@ function ListBookRequest(props) {
                 let listItems2 = [];
                 if (temp.length > 4) {
                     listItems2 = temp.slice(4).map((element, index) =>
-                        <div className="col-sm-3" key={index}>
-                            <Card style={{ width: '18rem' }}>
+                        <div className="col-sm-3" key={index} >
+                            <Card style={{ width: '18rem' }} className={styles.containerHeight}>
                                 <Card.Img variant="top" src={config.severAPi.hostUrl + ":8081" + element.path} className={styles.myImage} />
                                 <Card.Body>
-                                    <Card.Title>{element.releaseDate}</Card.Title>
+                                    <Card.Title>{element.name}</Card.Title>
                                     <Card.Text>
                                         {element.author}
                                     </Card.Text>
+                                    <Card.Text>
+                                    {element.releaseDate}
+                                </Card.Text>
                                     <Button variant="primary">Xem chi tiết</Button>
                                 </Card.Body>
                             </Card>
@@ -96,11 +102,11 @@ function ListBookRequest(props) {
             <div className="row">
                 {item1}
             </div>
-            {item2.length > 0? <div className="row mt-5">{item2}</div>: null}
-            {listData.length > 0 ?<div className="d-flex justify-content-center mt-3">
-                <MyTablePagination active ={active} listBookTitle={listData} setActive={setActive}/>
+            {item2.length > 0 ? <div className="row mt-5">{item2}</div> : null}
+            {listData.length > 0 ? <div className="d-flex justify-content-center mt-3">
+                <MyTablePagination active={active} listBookTitle={listData} setActive={setActive} />
             </div> : <div>Không có dữ liệu</div>}
-            
+
         </div>
     );
 }
