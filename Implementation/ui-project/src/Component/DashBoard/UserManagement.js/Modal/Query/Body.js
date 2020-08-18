@@ -17,7 +17,7 @@ function Body(props) {
                 break;
             case '1': typeSearch = "ISBN"
                 break;
-            case '2': typeSearch = "ISBN"
+            case '2': typeSearch = "ID"
                 break;
             default: typeSearch = "name";
                 break;

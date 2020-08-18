@@ -38,7 +38,7 @@ function MyTablePagination(props) {
 		}
 		setItems(temp);
 		console.log(temp);
-	}, [props.listBookTitle, props.active]);
+	}, [props.listAccount, props.active]);
 
 	function handlePaging(event, number){
 		event.preventDefault()

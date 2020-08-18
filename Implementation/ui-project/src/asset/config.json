@@ -130,6 +130,12 @@
             "icon_class": "",
             "title": "Sửa tài khoản",
             "is_display": false
+        },
+        {
+            "url": "/dashboard/new_renting_book_bill",
+            "icon_class": "",
+            "title": "Tạo phiếu mượn sách",
+            "is_display": false
         }
     ],
     "severAPi": {

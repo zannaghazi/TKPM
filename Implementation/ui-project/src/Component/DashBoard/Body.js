@@ -23,6 +23,7 @@ import EditPublisher from './EditPublisher/Body'
 import Report from './Report/Body'
 import SystemManagement from './SystemManagement/Body'
 import EditAccount from './EditAccount/Body'
+import NewRentingBooKBill from './NewRentingBookBill/Body'
 
 
 import {
@@ -81,16 +82,26 @@ function Body(props) {
                     props.onSetListRole(data);
                 });
 
-                let urlTypeBooks = config.severAPi.hostUrl + ":8081/book/get_all_type";
-                await fetch(urlTypeBooks, {
-                    method: "get",
-                    headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        console.log("type", data);
-                        props.onSetListTypeBook(data);
-                    });
+            let urlTypeBooks = config.severAPi.hostUrl + ":8081/book/get_all_type";
+            await fetch(urlTypeBooks, {
+                method: "get",
+                headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("type", data);
+                    props.onSetListTypeBook(data);
+                });
+
+            let urlSystem = config.severAPi.hostUrl + ":8083/system/get_all_system_const";
+            fetch(urlSystem, {
+                method: "get",
+                headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    props.onSetSystem(data);
+                });
         }
 
         fetchAPI();
@@ -146,6 +157,8 @@ function Body(props) {
                             </Route>
                             <Route path="/dashboard/edit_account/:id" component={EditAccount}>
                             </Route>
+                            <Route path="/dashboard/new_renting_book_bill/:id" component={NewRentingBooKBill}>
+                            </Route>
                             <Route path="/dashboard/report">
                                 <Report />
                             </Route>
@@ -185,6 +198,9 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         onSetListRole: (listRole) => {
             dispatch(actions.setListRole(listRole));
+        },
+        onSetSystem: (system) => {
+            dispatch(actions.setSystem(system));
         }
     }
 }
