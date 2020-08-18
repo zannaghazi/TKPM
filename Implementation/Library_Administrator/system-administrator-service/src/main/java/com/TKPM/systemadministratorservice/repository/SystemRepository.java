@@ -126,11 +126,11 @@ public class SystemRepository {
 			if (rs.next()) {
 				duration = Integer.parseInt(rs.getString(3));
 			}
-			sql = "insert into LIBRARYCARD(duration, accountid, UPDATEDACCOUNT) "
+			sql = "insert into LIBRARYCARD(duration, accountid, UPDATEDACCOUNT, isDeleted) "
 					+ "values ("
 					+ duration + ", "
 					+ accountID +", "
-					+ currentUserID +")";
+					+ currentUserID +", false)";
 			this.stmt.execute(sql);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());

@@ -39,12 +39,15 @@ import com.TKPM.bookadministratorservice.viewmodel.BookDetail;
 import com.TKPM.bookadministratorservice.viewmodel.BookInfoDetail;
 import com.TKPM.bookadministratorservice.viewmodel.BookInfoSearchResult;
 import com.TKPM.bookadministratorservice.viewmodel.BookTypeDetail;
+import com.TKPM.bookadministratorservice.viewmodel.BookWithBookInfo;
 import com.TKPM.bookadministratorservice.viewmodel.Message;
 import com.TKPM.bookadministratorservice.viewmodel.MessageData;
 import com.TKPM.bookadministratorservice.viewmodel.PublisherDetailInfo;
+import com.TKPM.bookadministratorservice.viewmodel.RentingBookInfo;
 import com.TKPM.bookadministratorservice.viewmodel.RentingRequest;
 import com.TKPM.bookadministratorservice.viewmodel.ReportRequest;
 import com.TKPM.bookadministratorservice.viewmodel.ReportResponse;
+import com.TKPM.bookadministratorservice.viewmodel.ReturnBookRequest;
 import com.TKPM.bookadministratorservice.viewmodel.UpdateAuthorRequest;
 import com.TKPM.bookadministratorservice.viewmodel.VNDateTime;
 import com.TKPM.bookadministratorservice.viewmodel.UpdateBookInfo;
@@ -367,7 +370,7 @@ public class BookAdminService {
 	/*REPORT CONTROL*/
 	@CrossOrigin
 	@RequestMapping("/report")
-	public ReportResponse<BookDetail> GetBookReport(@RequestHeader("x-access-token") String token, @RequestBody ReportRequest request) {
+	public ReportResponse<BookWithBookInfo> GetBookReport(@RequestHeader("x-access-token") String token, @RequestBody ReportRequest request) {
 		if (!repo.VerifyToken(token)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
 		}
@@ -378,6 +381,36 @@ public class BookAdminService {
 	@CrossOrigin
 	@RequestMapping("/create_renting_slip")
 	public MessageData<RentingSlip> CreateRentingSlip(@RequestHeader("x-access-token") String token, @RequestBody RentingRequest request) {
+		if (!repo.VerifyToken(token)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
+		}
 		return repo.CreateRentingSlip(request.accountID, request.bookID);
+	}
+	
+	@CrossOrigin
+	@RequestMapping("/get_renting_by_reader_id/{ID}")
+	public List<RentingBookInfo> GetRentingBook(@RequestHeader("x-access-token") String token, @PathVariable("ID") String accountID) {
+		if (!repo.VerifyToken(token)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
+		}
+		return repo.getRentingBook(Integer.parseInt(accountID));
+	}
+	
+	@CrossOrigin
+	@RequestMapping("/return_book")
+	public Message ReturnBook(@RequestHeader("x-access-token") String token, @RequestBody ReturnBookRequest request) {
+		if (!repo.VerifyToken(token)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
+		}
+		return repo.returnBook(request.rentingID, request.ID);
+	}
+	
+	@CrossOrigin
+	@RequestMapping("/repay_book")
+	public Message RepayBook(@RequestHeader("x-access-token") String token, @RequestBody ReturnBookRequest request) {
+		if (!repo.VerifyToken(token)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login token incorrect!");
+		}
+		return repo.repayBook(request.rentingID, request.ID);
 	}
 }

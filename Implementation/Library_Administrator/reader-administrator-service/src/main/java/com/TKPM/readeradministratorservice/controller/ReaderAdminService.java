@@ -76,7 +76,7 @@ public class ReaderAdminService {
 						new ArrayList<ReaderInfoSearchResult>()
 						);
 			}
-			if (currentUser.getRole() != 2) {
+			if (currentUser.getRole() != 2 && currentUser.getRole() != 1) {
 				return new MessageData<List<ReaderInfoSearchResult>>(
 						false, 
 						"Vui lòng đăng nhập với tài khoản người quản lý",
@@ -87,7 +87,7 @@ public class ReaderAdminService {
 			// Search Reader by condition
 			List<ReaderInfoSearchResult> data = repo.GetSearchedReader(request);
 			
-			MessageData<List<ReaderInfoSearchResult>> result = new MessageData<List<ReaderInfoSearchResult>>(true, null, data);
+			MessageData<List<ReaderInfoSearchResult>> result = new MessageData<List<ReaderInfoSearchResult>>(true, "Lấy kết quả thành công!", data);
 			
 			return result;
 		} catch (NumberFormatException e) {

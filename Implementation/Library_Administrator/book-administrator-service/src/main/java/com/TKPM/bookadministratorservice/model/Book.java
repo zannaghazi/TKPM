@@ -1,10 +1,13 @@
 package com.TKPM.bookadministratorservice.model;
 
+import java.util.Date;
+
 public class Book {
 	private int ID;
 	private String ISBN;
 	private Boolean isDeleted;
 	private int status;
+	private Date updatedDate;
 	
 	public Book(int iD, String iSBN, Boolean isDeleted) {
 		super();
@@ -20,6 +23,15 @@ public class Book {
 		ISBN = iSBN;
 		this.isDeleted = isDeleted;
 		this.status = status;
+	}
+	
+	public Book(int iD, String iSBN, Boolean isDeleted, int status, Date updatedDate) {
+		super();
+		ID = iD;
+		ISBN = iSBN;
+		this.isDeleted = isDeleted;
+		this.status = status;
+		this.updatedDate = updatedDate;
 	}
 	
 	public int getStatus() {

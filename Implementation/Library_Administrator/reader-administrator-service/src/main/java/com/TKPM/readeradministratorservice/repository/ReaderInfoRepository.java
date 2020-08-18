@@ -157,7 +157,7 @@ public class ReaderInfoRepository {
 			}
 			return result;
 		}catch (Exception e) {
-			return null;
+			return new ArrayList<AccountInfo>();
 		}
 	}
 
@@ -183,6 +183,7 @@ public class ReaderInfoRepository {
 					sql += "lc.ID = " + request.key;
 					break;
 			}
+			System.out.println(sql);
 			ResultSet rs = this.stmt.executeQuery(sql);
 			while (rs.next()) {
 				ReaderInfoSearchResult temp = new ReaderInfoSearchResult(
@@ -195,7 +196,7 @@ public class ReaderInfoRepository {
 			}
 			return result;
 		}catch (Exception e) {
-			return null;
+			return new ArrayList<ReaderInfoSearchResult>();
 		}
 	}
 

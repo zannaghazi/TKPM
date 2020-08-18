@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.time.DateUtils;
+
 import com.TKPM.bookadministratorservice.model.AuthorInfo;
 import com.TKPM.bookadministratorservice.model.Book;
 import com.TKPM.bookadministratorservice.model.BookInfo;
@@ -19,12 +21,15 @@ import com.TKPM.bookadministratorservice.viewmodel.AddBookInfo;
 import com.TKPM.bookadministratorservice.viewmodel.AuthorDetailInfo;
 import com.TKPM.bookadministratorservice.viewmodel.BookDetail;
 import com.TKPM.bookadministratorservice.viewmodel.BookInfoSearchResult;
+import com.TKPM.bookadministratorservice.viewmodel.BookWithBookInfo;
 import com.TKPM.bookadministratorservice.viewmodel.Message;
 import com.TKPM.bookadministratorservice.viewmodel.MessageData;
 import com.TKPM.bookadministratorservice.viewmodel.PublisherDetailInfo;
+import com.TKPM.bookadministratorservice.viewmodel.RentingBookInfo;
 import com.TKPM.bookadministratorservice.viewmodel.ReportResponse;
 import com.TKPM.bookadministratorservice.viewmodel.UpdateBookInfo;
 import com.TKPM.bookadministratorservice.viewmodel.VNDateTime;
+import com.mysql.cj.protocol.Resultset;
 
 public class BookInfoRepository {
 	private Connection conn = null;
@@ -520,7 +525,8 @@ public class BookInfoRepository {
 				Book temp = new Book(
 						rs.getInt(1),
 						rs.getString(2),
-						rs.getBoolean(3));
+						rs.getBoolean(3),
+						rs.getInt(4));
 				return temp;
 			}
 		}catch (Exception e) {
@@ -701,13 +707,30 @@ public class BookInfoRepository {
 		return result;
 	}
 	
-	public boolean isBookExist(int id) {
+	public boolean isBookReady(int id) {
 		try {
-			ResultSet rs = this.stmt.executeQuery("");
+			ResultSet rs = this.stmt.executeQuery("select * from book where status = 1 and id =" +id);
+			if (!rs.isBeforeFirst()) {
+				return false;
+			}
 			return true;
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 			return false;
+		}
+	}
+	
+	public String getISBNByID(int id) {
+		try {
+			ResultSet rs = this.stmt.executeQuery("select * from book where id =" +id);
+			String isbn = "";
+			if (rs.next()) {
+				isbn = rs.getString(2);
+			}
+			return isbn;
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "";
 		}
 	}
 	
@@ -748,64 +771,459 @@ public class BookInfoRepository {
 		return result;
 	}
 	
+
 	/*REPORT CONTROL*/
-	public List<BookDetail> getRentingReport(String time) {
-		List<BookDetail> data = new ArrayList<BookDetail>();
-		
-		String startDate = time + "-01";
-		String endDate = time + "-30";
-		
-		String sql = "SELECT * FROM RENTINGSLIP WHERE (CREATEDDATE BETWEEN '"
-				+ startDate + "' AND '"
-				+ endDate + "' )";
-		return data;
+	public List<BookWithBookInfo> findBookIDBySlip(int slipID, String mode) {
+		List<BookWithBookInfo> result = new ArrayList<BookWithBookInfo>();
+		List<Integer> bookIDs  = new ArrayList<Integer>();
+		List<Book> bookIDData = new ArrayList<Book>();
+		try {
+			String sql = "select * from rentingbook where status = "+mode+" and slipid =" +slipID;
+			System.out.println(sql);
+			ResultSet rs = this.stmt.executeQuery(sql);
+			
+			while (rs.next()) {
+				bookIDs.add(rs.getInt(4));
+			}
+			for (int i = 0; i < bookIDs.size(); i++) {
+				Book tempBook = this.getBookByID(bookIDs.get(i));
+				BookStatus status = new BookStatus();
+				BookInfo bookInfo = this.getBookInfoByISBN(tempBook.getISBN());
+				BookWithBookInfo temData = new BookWithBookInfo(
+						tempBook,
+						status.getStatusNameByID(tempBook.getStatus()),
+						bookInfo.getName());
+				
+				
+				if (!result.contains(temData)) {
+					result.add(temData);
+				}
+			}
+			
+			BookStatus status = new BookStatus();
+			for (int i = 0; i < bookIDData.size(); i++) {
+				BookInfo bookInfo = this.getBookInfoByISBN(bookIDData.get(i).getISBN());
+				result.add(new BookWithBookInfo(
+						bookIDData.get(i),
+						status.getStatusNameByID(bookIDData.get(i).getStatus()),
+						bookInfo.getName()));
+			}
+			return result;
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new ArrayList<BookWithBookInfo>();
+		}
 	}
 	
-	public ReportResponse<BookDetail> getBookReport(String type, String time) {
-		List<BookDetail> data = new ArrayList<BookDetail>();
-		
-		switch(type) {
-		case "rent":
-			data = this.getRentingReport(time);
-			break;
-		case "return":
-			break;
-		case "input":
-			break;
-		default:
-			return new ReportResponse<BookDetail>(data.size(), "Tạo báo cáo thất bại", data);
-		}
-		
-		ReportResponse<BookDetail> result = new ReportResponse<BookDetail>(data.size(), "Tạo báo cáo thành công", data);
+	public List<BookWithBookInfo> getRentingReport(String time, String type) {
+		List<BookWithBookInfo> result = new ArrayList<BookWithBookInfo>();
+		List<RentingSlip> slipData = new ArrayList<RentingSlip>();
+		try
+		{
+			String startDate = time + "-01";
+			String endDate = time + "-30";
+			
+			String sql = "SELECT * FROM RENTINGSLIP WHERE (CREATEDDATE BETWEEN '"
+					+ startDate + "' AND '"
+					+ endDate + "') AND ISDELETED = FALSE";
+			
+			ResultSet rs = this.stmt.executeQuery(sql);
+			while (rs.next()) {
+				RentingSlip temp = new RentingSlip(
+						rs.getInt(1),
+						rs.getInt(2),
+						rs.getDate(3),
+						rs.getBoolean(4));
+				slipData.add(temp);
+			}
+			for (int i = 0; i < slipData.size(); i++) {
+				List<BookWithBookInfo> tempData = this.findBookIDBySlip(
+						slipData.get(i).getID(),
+						type);
+				for (int j = 0; j < tempData.size(); j++) {
+					if (!result.contains(tempData.get(j))) {
+						result.add(tempData.get(j));
+					}
+				}
+			}
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}		
 		return result;
 	}
 	
+	public List<BookWithBookInfo> getInputReport(String time) {
+		List<BookWithBookInfo> result = new ArrayList<BookWithBookInfo>();
+		try {
+			String startDate = time + "-01";
+			String endDate = time + "-30";
+			
+			String sql = "SELECT * FROM BOOK WHERE (UPDATEDDATE BETWEEN '"
+					+ startDate + "' AND '"
+					+ endDate + "') AND ISDELETED = FALSE";
+			
+			List<Book> bookData = new ArrayList<Book>();
+			ResultSet rs = this.stmt.executeQuery(sql);
+			while (rs.next()) {
+				Book tempBook = new Book(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getBoolean(3),
+						rs.getInt(4),
+						rs.getDate(5));
+				bookData.add(tempBook);
+			}
+			BookStatus status = new BookStatus();
+			for (int i = 0; i < bookData.size(); i++) {
+				BookInfo bookInfo = this.getBookInfoByISBN(bookData.get(i).getISBN());
+				result.add(new BookWithBookInfo(
+						bookData.get(i),
+						status.getStatusNameByID(bookData.get(i).getStatus()),
+						bookInfo.getName()));
+			}
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}	
+		
+		return result;
+	}
+	
+	public List<BookWithBookInfo> getSelledReport(String time) {
+		List<BookWithBookInfo> result = new ArrayList<BookWithBookInfo>();
+		try {
+			String startDate = time + "-01";
+			String endDate = time + "-30";
+			
+			String sql = "SELECT * FROM BOOK WHERE (UPDATEDDATE BETWEEN '"
+					+ startDate + "' AND '"
+					+ endDate + "') AND ISDELETED = TRUE";
+			
+			List<Book> bookData = new ArrayList<Book>();
+			ResultSet rs = this.stmt.executeQuery(sql);
+			while (rs.next()) {
+				Book tempBook = new Book(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getBoolean(3),
+						rs.getInt(4),
+						rs.getDate(5));
+				bookData.add(tempBook);
+			}
+			BookStatus status = new BookStatus();
+			for (int i = 0; i < bookData.size(); i++) {
+				BookInfo bookInfo = this.getBookInfoByISBN(bookData.get(i).getISBN());
+				result.add(new BookWithBookInfo(
+						bookData.get(i),
+						status.getStatusNameByID(bookData.get(i).getStatus()),
+						bookInfo.getName()));
+			}
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}	
+		
+		return result;
+	}
+	
+	public ReportResponse<BookWithBookInfo> getBookReport(String type, String time) {
+		List<BookWithBookInfo> data = new ArrayList<BookWithBookInfo>();
+		
+		switch(type) {
+		case "rent":
+			data = this.getRentingReport(time, "1");
+			break;
+		case "return":
+			data = this.getRentingReport(time, "2");
+			break;
+		case "input":
+			data = this.getInputReport(time);
+			break;
+		case "selled":
+			data = this.getSelledReport(time);
+			break;
+		case "lost":
+			data = this.getRentingReport(time, "3");
+			break;
+		default:
+			return new ReportResponse<BookWithBookInfo>(data.size(), "Tạo báo cáo thất bại", data);
+		}
+		
+		ReportResponse<BookWithBookInfo> result = new ReportResponse<BookWithBookInfo>(data.size(), "Tạo báo cáo thành công", data);
+		return result;
+	}
+	
+	public int getMaxBookConst() {
+		try {
+			ResultSet rs = this.stmt.executeQuery("select * from SYSTEMCONSTANTS where name like binary'Sách mượn tối đa'");
+			int result = 3;
+			if (rs.next()) {
+				result = Integer.parseInt(rs.getString(3));
+			}
+			return result;
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return 3;
+		}
+	}
+	
 	/*SLIP CONTROL*/
-//	public RentingSlip getNewestRentingSlip() {
-//		try {
-//			ResultSet rs = this.stmt.executeQuery("Select * from RENTINGSLIP order by id desc limit 1");
-//			if (rs.next()) {
-//				
-//			}
-//		}catch (Exception e) {
-//			System.out.println(e.getMessage());
-//			return null;
-//		}
-//	}
+	public RentingSlip getNewestRentingSlip() {
+		try {
+			ResultSet rs = this.stmt.executeQuery("Select * from RENTINGSLIP order by id desc limit 1");
+			RentingSlip result = null;
+			if (rs.next()) {
+				result =  new RentingSlip(
+						rs.getInt(1),
+						rs.getInt(2),
+						rs.getDate(3),
+						rs.getBoolean(4)); 
+			}
+			return result;
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
+	public boolean isLibraryCardValid(int accountID) {
+		try {
+			ResultSet rs = this.stmt.executeQuery("select * from librarycard where accountid = "+accountID);
+			if (rs.next()) {
+				Date updatedDate = rs.getDate(6);
+				int duration = rs.getInt(3);
+				Date experiedDate = DateUtils.addMonths(updatedDate, duration);
+				Date now = new Date();
+				return (experiedDate.compareTo(now) >= 0);
+			}
+			return false;
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+	}
 	
 	public MessageData<RentingSlip> CreateRentingSlip(int accountID, List<Integer> bookID) {
 		try {
 			// Validate bookID
+			boolean isReady = true;
+			if (bookID.size() > getMaxBookConst()) {
+				isReady = false;
+			}
+			for (int i = 0; i < bookID.size(); i++) {
+				if (!this.isBookReady(bookID.get(i))) {
+					isReady = false;
+				}
+			}
+			if (!isReady) {
+				return new MessageData<RentingSlip>(false, "Sách không hợp lệ", null);
+			}
+			
+			//Validate number of book is renting
+			int totalRentedBook = 0;
+			String sql = "select * from rentingslip where isDeleted =false and accountid =" +accountID;
+			List<Integer> slipIDs = new ArrayList<Integer>();
+			ResultSet rs = this.stmt.executeQuery(sql);
+			while (rs.next()) {
+				slipIDs.add(rs.getInt(1));
+			}
+			for (int i = 0; i < slipIDs.size(); i++) {
+				sql = "select count(id) from rentingbook where slipid = " +slipIDs.get(i);
+				ResultSet rs1 = this.stmt.executeQuery(sql);
+				if (rs1.next()) {
+					totalRentedBook += rs1.getInt(1);
+				}
+			}
+			
+			if (totalRentedBook + bookID.size() >= getMaxBookConst()) {
+				return new MessageData<RentingSlip>(false, "Số lượng sách mượn vượt quá số sách quy định", null);
+			}
+			
+			
+			//Validate library card
+			if (!this.isLibraryCardValid(accountID)) {
+				return new MessageData<RentingSlip>(false, "Thẻ thư viện hết hạn", null);
+			}
+			
 			// Create slip
 			String sql1 = "insert into RENTINGSLIP(accountID, isDeleted) values (" + accountID + ", false)";
 			this.stmt.execute(sql1);
 			
+			RentingSlip newest = this.getNewestRentingSlip();
+			
 			// Create renting book
-			// Update book status
+			for (int i = 0; i < bookID.size(); i++) {
+				String ISBN = this.getISBNByID(bookID.get(i));
+				String sql2 = "insert into RENTINGBOOK(slipID, bookID, ISBN, status) "
+						+ "values ("
+						+ newest.getID() + ", "
+						+ bookID.get(i) +", '"
+						+ ISBN +"', 1)";
+				System.out.println(sql2);
+				this.stmt.execute(sql2);
+				
+				// Update book status
+				String sql3 = "update book set status = 2 where id = " + bookID.get(i);
+				this.stmt.execute(sql3);
+			}
+			
+			return new MessageData<RentingSlip>(false, "Tạo thành công!", newest);
+			
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		
 		return new MessageData<RentingSlip>(false, "Tạo thất bại!", null);
+	}
+	
+	public List<Integer> getBookIDBySlipID(int id) {
+		List<Integer> result = new ArrayList<Integer>();
+		try {
+			ResultSet rs = this.stmt.executeQuery("select * from rentingbook where status = 1 and slipid = " + id);
+			while(rs.next()) {
+				result.add(rs.getInt(4));
+			}
+			return result;
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return result;
+	}
+	
+	public int getSlipIDByRentingBookID(int id) {
+		int result = 0;
+		try {
+			ResultSet rs = this.stmt.executeQuery("select * from rentingbook where status = 1 and bookid = " + id);
+			if(rs.next()) {
+				result = rs.getInt(2);
+			}
+			return result;
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return 0;
+		}
+	}
+	
+	public List<RentingBookInfo> getRentingBook(int accountID) {
+		List<RentingBookInfo> result = new ArrayList<RentingBookInfo>();
+		try {
+			String sql = "select * from rentingslip where isDeleted =false and accountid =" +accountID;
+			List<Integer> slipIDs = new ArrayList<Integer>();
+			List<Integer> bookIDs = new ArrayList<Integer>();
+			ResultSet rs = this.stmt.executeQuery(sql);
+			while (rs.next()) {
+				slipIDs.add(rs.getInt(1));
+			}
+			for (int i = 0; i < slipIDs.size(); i++) {
+				List<Integer> temp = this.getBookIDBySlipID(slipIDs.get(i));
+				
+				for (int j = 0; j < temp.size(); j++) {
+					if (!bookIDs.contains(temp.get(j))) {
+						bookIDs.add(temp.get(j));
+					}
+				}
+			}
+			List<Book> listDataBook = new ArrayList<Book>();
+			for (int i = 0; i < bookIDs.size(); i++) {
+				String sql1 = "select * from book where isDeleted = false and id =" +bookIDs.get(i);
+				ResultSet rs1 = this.stmt.executeQuery(sql1);
+				if (rs1.next()) {
+					Book temp = new Book(
+							rs1.getInt(1),
+							rs1.getString(2),
+							rs1.getBoolean(3));
+					listDataBook.add(temp);
+				}
+			}
+			for (int j = 0; j < listDataBook.size(); j++) {
+				BookInfo temp1 = this.getBookInfoByISBN(listDataBook.get(j).getISBN());
+				RentingBookInfo data = new RentingBookInfo(
+						listDataBook.get(j),
+						temp1.getName(),
+						this.getSlipIDByRentingBookID(listDataBook.get(j).getID()));
+				result.add(data);
+			}
+			return result;
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return result;
+		}
+	}
+	
+	public Message returnBook(int rentingID, int bookID) {
+		try {
+			String sql = "update rentingbook set status = 2 where SLIPID = " 
+					+ rentingID + " and bookid = " + bookID;
+			this.stmt.execute(sql);
+			
+			sql = "update book set status = 1 where id = " +bookID;
+			this.stmt.execute(sql);
+			
+			sql = "select * from rentingbook where slipid = " +rentingID;
+			ResultSet rs = this.stmt.executeQuery(sql);
+			
+			boolean isDone = true;
+			while (rs.next()) {
+				int status = rs.getInt(5);
+				if (status == 1) {
+					isDone = false;
+				}
+			}
+			if (isDone) {
+				sql = "update RENTINGSLIP set isDeleted = true where id =" +rentingID;
+				this.stmt.execute(sql);
+			}
+			return new Message(true, "Trả sách thành công!");
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new Message(false, "Trả sách thất bại");
+		}
+	}
+	
+	public int getAccountIDBySlipID(int id) {
+		int result = 0;
+		try {
+			ResultSet rs = this.stmt.executeQuery("select * from rentingslip where id = " + id);
+			if(rs.next()) {
+				result = rs.getInt(2);
+			}
+			return result;
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return 0;
+		}
+	}
+	
+	public Message repayBook(int rentingID, int bookID) {
+		try {
+			String sql = "update rentingbook set status = 3 where SLIPID = " 
+					+ rentingID + " and bookid = " + bookID;
+			this.stmt.execute(sql);
+			
+			sql = "update book set status = 4 where id = " +bookID;
+			this.stmt.execute(sql);
+			
+			sql = "select * from rentingbook where slipid = " +rentingID;
+			ResultSet rs = this.stmt.executeQuery(sql);
+			
+			boolean isDone = true;
+			while (rs.next()) {
+				int status = rs.getInt(5);
+				if (status == 1) {
+					isDone = false;
+				}
+			}
+			if (isDone) {
+				sql = "update RENTINGSLIP set isDeleted = true where id =" +rentingID;
+				this.stmt.execute(sql);
+			}
+			
+			int accountID = this.getAccountIDBySlipID(rentingID);
+			sql = "insert into REPAYSLIP(accountID, isDeleted) "
+					+ "values ("+accountID+", false)";
+			this.stmt.execute(sql);
+			return new Message(true, "Đền sách thành công!");
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new Message(false, "Đền sách thất bại");
+		}
 	}
 }
