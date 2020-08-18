@@ -166,7 +166,21 @@
 }
 
 .myInputReport {
-    width: 50px !important;
     display: inline-block !important;
     height: 20px;
+}
+
+.myBorderLeft {
+    border-left: 3px double black;
+    overflow: auto;
+    height: 600px;
+}
+
+.widthNightyPercent {
+    width: 90%;
+}
+
+.mySelect {
+    display: inline-block;
+    padding: 5px 10px;
 }

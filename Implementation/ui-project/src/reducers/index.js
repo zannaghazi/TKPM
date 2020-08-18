@@ -11,6 +11,7 @@ import publishers from './publishers'
 import books from './books'
 import roles from './roles'
 import readers from './readers'
+import systems from './systems'
 
 const myReducer = combineReducers({
     accounts,
@@ -24,7 +25,8 @@ const myReducer = combineReducers({
     publishers,
     books,
     roles,
-    readers
+    readers,
+    systems
 });
 
 export default myReducer;

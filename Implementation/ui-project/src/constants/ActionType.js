@@ -18,3 +18,4 @@ export const DELETE_PUBLISHER = "DELETE_PUBLISHER";
 export const SET_LIST_ROLE = "SET_LIST_ROLE"
 export const DELETE_ACCOUNT = "DELETE_ACCOUNT";
 export const SET_LIST_READER = "SET_LIST_READER";
+export const SET_SYSTEM = "SET_SYSTEM";

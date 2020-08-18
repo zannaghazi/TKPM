@@ -4,6 +4,8 @@ import InputConTainer from './InputContainer'
 import ButtonContainer from './ButtonContainer';
 import { useState } from 'react';
 import config from '../../../asset/config.json'
+import { connect } from 'react-redux';
+import * as actions from '../../../actions/index';
 
 function Form(props) {
     const [defaultValue, setDefaultValue] = useState({});
@@ -12,20 +14,11 @@ function Form(props) {
     const [maxTime, setMaxTime] = useState(0);
 
     useEffect(() => {
-        let url = config.severAPi.hostUrl + ":8083/system/get_all_system_const";
-        fetch(url, {
-            method: "get",
-            headers: { "Content-Type": "application/json", "x-access-token": localStorage.quanlythuvien_accesstoken },
-        })
-            .then(res => res.json())
-            .then(dataReceive => {
-                console.log("123123123", dataReceive);
-                setDefaultValue(dataReceive);
-                setDurationTime(dataReceive.durationTime);
-                setMaxBook(dataReceive.maxBook);
-                setMaxTime(dataReceive.maxTime);
-            });
-    }, []);
+        setDefaultValue(props.systems);
+        setDurationTime(props.systems.durationTime);
+        setMaxBook(props.systems.maxBook);
+        setMaxTime(props.systems.maxTime);
+    }, [props.systems]);
 
     function update() {
         let body = {
@@ -61,9 +54,23 @@ function Form(props) {
             <InputConTainer label="Thời hạn chung của thẻ:" byData={setDurationTime} value={durationTime} />
             <InputConTainer label="Số sách mượn tối đa:" byData={setMaxBook} value={maxBook} />
             <InputConTainer label="Số ngày mượn tối đa:" byData={setMaxTime} value={maxTime} />
-            <ButtonContainer byEventUpdate={update} byEventCancel = {cancel} />
+            <ButtonContainer byEventUpdate={update} byEventCancel={cancel} />
         </Container>
     );
 }
 
-export default Form;
+const mapStateToProps = state => {
+    return {
+        systems: state.systems
+    }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onSetSystem: (system) => {
+            dispatch(actions.setSystem(system));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

@@ -139,3 +139,10 @@ export const setListReader = (listReader) => {
         listReader
     }
 }
+
+export const setSystem = (system) => {
+    return {
+        type: types.SET_SYSTEM,
+        system
+    }
+}

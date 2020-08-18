@@ -220,3 +220,7 @@
     pointer-events: none;
     cursor: default;
 }
+
+.containerHeight {
+    height: 562px;
+}

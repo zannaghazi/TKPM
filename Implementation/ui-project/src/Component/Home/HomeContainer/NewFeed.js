@@ -19,12 +19,15 @@ function NewFeed(props) {
 
     const listNormal = props.list.slice(3).map((element, index) =>
         <div className="col-sm-4" key ={index}>
-            <Card style={{ width: '18rem' }}>
+            <Card style={{ width: '18rem' }} className={styles.containerHeight}>
                 <Card.Img variant="top" src={config.severAPi.hostUrl + ":8081" + element.path} className={styles.myImage} />
                 <Card.Body>
-                    <Card.Title>{element.releaseDate}</Card.Title>
+                    <Card.Title> {element.name}</Card.Title>
                     <Card.Text>
                         {element.author}
+                    </Card.Text>
+                    <Card.Text>
+                        {element.releaseDate}
                     </Card.Text>
                     <Button variant="primary" onClick={() => detailBook(element)}>Xem chi tiết</Button>
                 </Card.Body>

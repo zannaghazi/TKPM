@@ -61,7 +61,7 @@
 }
 
 .myCarousel {
-    height: 500px;
+    height: 562px;
 }
 
 .myImage {
@@ -200,4 +200,8 @@
 
 .black {
     color: black;
+}
+
+.containerHeight {
+    height: 562px;
 }
